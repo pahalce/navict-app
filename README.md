@@ -4,6 +4,8 @@ This is Navict app.
 
 # develpment 環境を立ち上げる
 
+## .env ファイルを作る
+
 ```bash
 # at project root directory
 $ cd server
@@ -13,6 +15,15 @@ $ cp .env.examle .env
 $ cd ../../
 ```
 
+## PostgreSQL サーバーを立てる
+
+```bash
+# at project root directory
+$ docker-compose up db
+```
+
+## 依存モジュールをインストールする
+
 ```bash
 # at project root directory
 $ yarn install
@@ -21,10 +32,7 @@ $ yarn install
 $ cd ../
 ```
 
-```bash
-# at project root directory
-$ docker-compose up
-```
+## navict-server, navict-client を起動する
 
 ```bash
 # at project root directory
