@@ -34,8 +34,6 @@ $ psql -l # データベース一覧を取得
 
 ---
 
----
-
 # Tsuyoshi built initial environment.
 
 - create project\
