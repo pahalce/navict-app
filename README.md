@@ -6,7 +6,19 @@ This is Navict app.
 
 ```bash
 # at project root directory
+$ cd server
+$ cp .env.example .env
+$ cd prisma
+$ cp .env.examle .env
+$ cd ../../
+```
+
+```bash
+# at project root directory
 $ yarn install
+$ cd server
+$ yarn install
+$ cd ../
 ```
 
 ```bash
