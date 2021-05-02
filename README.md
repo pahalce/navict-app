@@ -2,21 +2,19 @@
 
 This is Navict app.
 
-# server を立ち上げる
+# develpment 環境を立ち上げる
 
 ```bash
 # at project root path
-$ docker-compose up -d
+$ docker-compose up
 ```
-
-# client を立ち上げる
 
 ```bash
 # at project root path
 $ yarn dev
 ```
 
-# データベースを操作したいとき
+# データベースを操作する
 
 ## GUI
 
@@ -33,6 +31,10 @@ $ npx prisma studio
 $ docker exec -i -t navict-app_db_1 /bin/bash
 $ psql -l # データベース一覧を取得
 ```
+
+---
+
+---
 
 # Tsuyoshi built initial environment.
 
@@ -56,7 +58,7 @@ $ psql -l # データベース一覧を取得
   - Branch name to deploy: main
   - Static hosting service: Vercel
   ```
-- postgres につながらなかったので、上記記事の docker-compose.yaml を修正\
+- postgres につながらなかったので、上記記事の `docker-compose.yaml` を修正\
   FIXME: POSTGRES_PASSWORD を env ファイルに移して環境ごとに変えられるようにする？
   ```yaml
   ...
@@ -67,6 +69,8 @@ $ psql -l # データベース一覧を取得
       POSTGRES_PASSWORD: 'P@ssw0rd'
       POSTGRES_DB: navict-app-db
   ```
+- install tailwind\
+  [Install Tailwind CSS with Next.js - Tailwind CSS](https://tailwindcss.com/docs/guides/nextjs)
 
 # frourio default description
 
