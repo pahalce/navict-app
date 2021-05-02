@@ -61,7 +61,23 @@ $ psql -l # データベース一覧を取得
 
 ## navict-client (@pahalce)
 
-TODO: 平書いてね。
+Vercelでデプロイする
+
+Vercelの無料プランではgithub organizationからのデプロイに対応していないため、レポジトリを個人にforkしてデプロイする
+
+
+ ### デプロイ設定
+
+[ホスト先URL](navict-app.vercel.app)
+PROJECT NAME: navict-client
+BUILD COMMAND: yarn build:client
+INSTALL COMMAND: yarn install --cwd server && yarn install
+
+### 環境変数
+```
+API_BASE_PATH=/api
+API_ORIGIN=https://navict-server.herokuapp.com
+```
 
 ## navict-server (@dubianhaozhi)
 
