@@ -1,6 +1,6 @@
 # navict-app
 
-This is Navict app.\
+This is Navict app.
 
 # develpment 環境を立ち上げる
 
