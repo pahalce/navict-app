@@ -6,6 +6,11 @@ This is Navict app.
 
 ```bash
 # at project root directory
+$ yarn install
+```
+
+```bash
+# at project root directory
 $ docker-compose up
 ```
 
