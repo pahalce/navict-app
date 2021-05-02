@@ -23,8 +23,3 @@ export {
   API_ORIGIN,
   API_UPLOAD_DIR
 }
-
-const SERVER_PORT = process.env.PORT ?? process.env.SERVER_PORT ?? '8080'
-const SERVER_IP = process.env.SERVER_IP ?? ''
-
-export { SERVER_PORT, SERVER_IP }

@@ -1,16 +1,16 @@
 # navict-app
 
-This is Navict app.
+This is Navict app.\
 
 # develpment 環境を立ち上げる
 
 ```bash
-# at project root path
+# at project root directory
 $ docker-compose up
 ```
 
 ```bash
-# at project root path
+# at project root directory
 $ yarn dev
 ```
 
@@ -19,7 +19,7 @@ $ yarn dev
 ## GUI
 
 ```bash
-# at project root path
+# at project root directory
 $ cd ./sercer/prisma
 $ npx prisma studio
 ```
@@ -27,14 +27,33 @@ $ npx prisma studio
 ## CUI
 
 ```bash
-# at project root path
+# at project root directory
 $ docker exec -i -t navict-app_db_1 /bin/bash
 $ psql -l # データベース一覧を取得
 ```
 
+# Deploy する
+
+## navict-client (@pahalce)
+
+TODO: 平書いてね。
+
+## navict-server (@dubianhaozhi)
+
+https://dashboard.heroku.com/apps/navict-server \
+main ブランチに merge された時に、heroku(上記)に自動デプロイされます。
+
+TODO: USER_ID と USER_PASS は必要ないのであとで削除する
+
+```bash
+# at project root directory
+$ heroku config:unset USER_ID
+$ heroku config:unset USER_PASS
+```
+
 ---
 
-# Log by dubianhaozhi for building the initial environment
+# Log by @dubianhaozhi for building the initial environment
 
 - create project\
   [最近話題の「frourio」を無料でサクッとデプロイする方法（Vercel + Heroku）](https://zenn.dev/jun1123/articles/deploy-frourio)
