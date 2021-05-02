@@ -32,7 +32,7 @@ $ yarn install
 $ cd ../
 ```
 
-## navict-server, navict-client を起動する
+## navict-app を起動する
 
 ```bash
 # at project root directory
