@@ -34,7 +34,7 @@ $ psql -l # データベース一覧を取得
 
 ---
 
-# Tsuyoshi built initial environment.
+# Log by dubianhaozhi for building the initial environment
 
 - create project\
   [最近話題の「frourio」を無料でサクッとデプロイする方法（Vercel + Heroku）](https://zenn.dev/jun1123/articles/deploy-frourio)
@@ -70,7 +70,7 @@ $ psql -l # データベース一覧を取得
 - install tailwind\
   [Install Tailwind CSS with Next.js - Tailwind CSS](https://tailwindcss.com/docs/guides/nextjs)
 
-# frourio default description
+# Frourio default description
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
