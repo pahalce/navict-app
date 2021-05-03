@@ -36,7 +36,7 @@ search tags by name
 ## roadmaps
 
 ```txt
-create roadmap
+create a roadmap
 ** POST   /roadmaps
 
 get a roadmap
@@ -45,10 +45,10 @@ get a roadmap
 get popular roadmaps
    GET    /roadmaps/popular
 
-search roadmaps
+search roadmaps by keyword
    GET    /roadmaps/search/_keyword@string
 
-update roadmap
+update a roadmap
 ** PUT    /roadmaps/_roadmapId@number
 
 change firstStepId
@@ -60,7 +60,7 @@ toggle isGoalSet
 toggle isDone
 ** PATCH  /roadmaps/_roadmapId@number/isDone
 
-delete roadmap
+delete a roadmap
 ** DELETE /roadmaps/_roadmapId@number
 ```
 
