@@ -4,6 +4,7 @@ export type UserInfo = {
   icon: string
 }
 
+// FIXME: ちゃんとする
 export type AuthHeader = {
   authorization: string
 }
