@@ -60,9 +60,6 @@ toggle isGoalSet
 toggle isDone
 ** PATCH  /roadmaps/_roadmapId@number/isDone
 
-patch a roadmap
-** PATCH  /roadmaps/_roadmapId@number
-
 delete roadmap
 ** DELETE /roadmaps/_roadmapId@number
 ```
@@ -89,14 +86,11 @@ get recommend steps
 update a step
 ** PUT    /steps/_stepId@number
 
-change a next step
+change a nextStepId
 ** PATCH  /steps/_stepId@number/_nextStepId@number
 
 toggle isDone
 ** PATCH  /steps/_stepId@number/isDone
-
-patch a step
-** PATCH  /steps/_stepId@number
 
 delete a step
 ** DELETE /steps/_stepId@number
