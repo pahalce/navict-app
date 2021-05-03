@@ -1,13 +1,13 @@
 import React, { useContext, useState, useEffect } from 'react'
+import { apiClient } from '~/utils/apiClient'
 import firebase from 'firebase/app'
 import { auth } from '$firebase/firebase'
 
 // TODO:Loginなどのメッセージをログじゃなくてちゃんと作る
 // TODO:loginを必要になったとき実装する
-type Username = string | null
+// TODO: console.log全部消す
 
 interface AuthContextInterface {
-  username: string | null
   signup: () => void
   logout: () => void
   isLoggedIn: boolean
@@ -24,7 +24,6 @@ interface Props {
 
 export const AuthProvider = ({ children }: Props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [username, setUsername] = useState<Username>(null)
   const [loading, setLoading] = useState(true)
 
   const signup = async () => {
@@ -47,24 +46,34 @@ export const AuthProvider = ({ children }: Props) => {
   }
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (!user) {
+        console.log(document.cookie)
+        console.log('no user')
         setLoading(false)
         return
       }
-      const username: Username = user.displayName
-      console.log(`hello ${username}`)
-      // The signed-in user info.
-      setUsername(username)
-      setIsLoggedIn(true)
-      setLoading(false)
-      console.log(user?.email, user?.displayName, user?.photoURL, user?.uid)
+
+      try {
+        // user signed-in
+        const idToken = await user.getIdToken(/* forceRefresh */ true)
+
+        // Send token to your backend via HTTPS
+        await apiClient.signin.post({
+          body: { accessToken: idToken }
+        })
+        const username = user.displayName
+        console.log(`hello ${username}`)
+        setIsLoggedIn(true)
+        setLoading(false)
+      } catch (error) {
+        console.log('error:useEffect:', error)
+      }
     })
     return unsubscribe
   }, [])
 
   const value: AuthContextInterface = {
-    username,
     signup,
     logout,
     isLoggedIn
