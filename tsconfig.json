@@ -6,7 +6,11 @@
     "paths": {
       "~/*": ["./*"],
       "$/*": ["./server/*"],
-      "$prisma/*": ["./server/node_modules/.prisma/*"]
+      "$prisma/*": ["./server/node_modules/.prisma/*"],
+      "$firebase/*": ["./firebase/*"],
+      "$contexts/*": ["./contexts/*"],
+      "$pages/*": ["./pages/*"],
+      "$components/*": ["./components/*"],
     },
     "allowJs": true,
     "skipLibCheck": true,
