@@ -4,6 +4,6 @@ import { searchTags } from '$/service/tags'
 export default defineController(() => ({
   get: async ({ params }) => ({
     status: 200,
-    body: await searchTags(params.keyword)
+    body: await searchTags(params.name)
   })
 }))

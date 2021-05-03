@@ -29,7 +29,7 @@ delete a user
 create a tag
  * POST /tags
 
-search tags
+search tags by name
    GET  /tags/search/_name@string
 ```
 

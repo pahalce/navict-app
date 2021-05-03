@@ -6,11 +6,11 @@ const prisma = new PrismaClient()
 export const createTag = (name: Tag['name']) =>
   prisma.tag.create({ data: { name } })
 
-export const searchTags = (keyword: string) =>
+export const searchTags = (name: string) =>
   prisma.tag.findMany({
     where: {
       name: {
-        contains: keyword
+        contains: name
       }
     }
   })
