@@ -7,10 +7,15 @@ import { auth } from '$firebase/firebase'
 // TODO:loginを必要になったとき実装する
 // TODO: console.log全部消す
 
+export type SigninMethod = 'google' | 'twitter'
 interface AuthContextInterface {
-  signup: () => void
+  signup: (method: Partial<SigninMethod>) => void
   logout: () => void
   isLoggedIn: boolean
+}
+
+interface Props {
+  children: React.ReactNode
 }
 
 const AuthContext = React.createContext<AuthContextInterface | null>(null)
@@ -18,18 +23,21 @@ export const useAuth = () => {
   return useContext(AuthContext)
 }
 
-interface Props {
-  children: React.ReactNode
-}
-
 export const AuthProvider = ({ children }: Props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [loading, setLoading] = useState(true)
 
-  const signup = async () => {
+  const signup = async (method: SigninMethod) => {
     try {
-      const provider = new firebase.auth.GoogleAuthProvider()
-      await firebase.auth().signInWithRedirect(provider)
+      if (method === 'google') {
+        const provider = new firebase.auth.GoogleAuthProvider()
+        await firebase.auth().signInWithRedirect(provider)
+      } else if (method === 'twitter') {
+        const provider = new firebase.auth.TwitterAuthProvider()
+        await firebase.auth().signInWithRedirect(provider)
+      } else {
+        throw Error('signin method not specified.')
+      }
     } catch (error) {
       console.log(error.message)
     }
@@ -48,7 +56,6 @@ export const AuthProvider = ({ children }: Props) => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (!user) {
-        console.log(document.cookie)
         console.log('no user')
         setLoading(false)
         return
@@ -59,9 +66,11 @@ export const AuthProvider = ({ children }: Props) => {
         const idToken = await user.getIdToken(/* forceRefresh */ true)
 
         // Send token to your backend via HTTPS
-        await apiClient.signin.post({
+        const res = await apiClient.signin.post({
           body: { accessToken: idToken }
         })
+        console.log('user:', user)
+        console.log('token:', res.body.token)
         const username = user.displayName
         console.log(`hello ${username}`)
         setIsLoggedIn(true)

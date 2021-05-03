@@ -34,7 +34,7 @@ export default defineController((fastify) => ({
       data: {
         firebaseUid: verifiedUser.uid,
         name: verifiedUser.displayName || '',
-        // email: verifiedUser.email,
+        email: verifiedUser.email,
         img: verifiedUser.photoURL
       }
     })
