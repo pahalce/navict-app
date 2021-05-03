@@ -20,7 +20,7 @@ export type Methods = {
         | 'websiteLink'
       >
     >
-    status: 204
+    resBody: User
   }
 
   // delete a user
