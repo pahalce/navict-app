@@ -46,7 +46,7 @@ model Roadmap {
   description     String?
   forkedRoadmapId Int?
   firstStepId     Int?
-	isGoalSet       Boolean  @default(false)
+  isGoalSet       Boolean  @default(false)
   isDone          Boolean  @default(false)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
