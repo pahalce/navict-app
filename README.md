@@ -15,6 +15,21 @@ $ cp .env.examle .env
 $ cd ../../
 ```
 
+## .env.local ファイルを作る
+
+firebase 用
+
+平にもらってください。
+
+```
+NEXT_PUBLIC_FB_APIKEY =
+NEXT_PUBLIC_FB_AUTHDOMAIN =
+NEXT_PUBLIC_FB_PROJECTID =
+NEXT_PUBLIC_FB_STORAGEBUCKET =
+NEXT_PUBLIC_FB_MESSAGINGSENDERID =
+NEXT_PUBLIC_FB_APPID =
+```
+
 ## PostgreSQL サーバーを立てる
 
 ```bash
@@ -61,19 +76,19 @@ $ psql -l # データベース一覧を取得
 
 ## navict-client (@pahalce)
 
-Vercelでデプロイする
+Vercel でデプロイする
 
-Vercelの無料プランではgithub organizationからのデプロイに対応していないため、レポジトリを個人にforkしてデプロイする
+Vercel の無料プランでは github organization からのデプロイに対応していないため、レポジトリを個人に fork してデプロイする
 
+### デプロイ設定
 
- ### デプロイ設定
-
-[ホスト先URL](navict-app.vercel.app)
+[ホスト先 URL](navict-app.vercel.app)
 PROJECT NAME: navict-client
 BUILD COMMAND: yarn build:client
 INSTALL COMMAND: yarn install --cwd server && yarn install
 
 ### 環境変数
+
 ```
 API_BASE_PATH=/api
 API_ORIGIN=https://navict-server.herokuapp.com
@@ -93,6 +108,12 @@ $ heroku config:unset USER_PASS
 ```
 
 ---
+
+# Log by @pahalce for firebase admin sdk
+
+## admin sdk の追加
+
+TODO: 平が書く
 
 # Log by @dubianhaozhi for building the initial environment
 
