@@ -68,7 +68,7 @@ $ yarn dev
 
 ```bash
 # at project root directory
-$ cd ./sercer/prisma
+$ cd ./server/prisma
 $ npx prisma studio
 ```
 
