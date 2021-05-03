@@ -8,8 +8,83 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// FIXME: タイミングを見て削除する。
 model Task {
   id    Int     @id @default(autoincrement())
   label String
   done  Boolean @default(false)
+}
+
+model User {
+  id          Int       @id @default(autoincrement())
+  name        String
+  email       String?   @unique
+  bio         String?
+  img         String?
+  twitterLink String?
+  githubLink  String?
+  websiteLink String?
+  googleUid   String?   @unique
+  twitterUid  String?   @unique
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  roadmaps    Roadmap[]
+  likes       Like[]
+}
+
+model Tag {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  roadmaps  Roadmap[]
+}
+
+model Roadmap {
+  id              Int      @id @default(autoincrement())
+  title           String
+  description     String?
+  forkedRoadmapId Int?
+  firstStepId     Int?
+  isGoalSet       Boolean  @default(false)
+  isDone          Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  userId          Int
+  user            User     @relation(fields: [userId], references: [id])
+  tags            Tag[]
+  steps           Step[]
+  likes           Like[]
+}
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  roadmapId Int
+  roadmap   Roadmap  @relation(fields: [roadmapId], references: [id])
+}
+
+model Step {
+  id         Int      @id @default(autoincrement())
+  memo       String?
+  nextStepId Int?
+  isDone     Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  roadmapId  Int
+  roadmap    Roadmap  @relation(fields: [roadmapId], references: [id])
+  libraryId  Int
+  library    Library  @relation(fields: [libraryId], references: [id])
+}
+
+model Library {
+  id        Int      @id @default(autoincrement())
+  title     String
+  link      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  steps     Step[]
 }
