@@ -88,6 +88,19 @@ Vercel でデプロイする
 
 Vercel の無料プランでは github organization からのデプロイに対応していないため、レポジトリを個人に fork してデプロイする
 
+```bash
+# 1.初期設定(一回やればok)
+# forkしたレポジトリのディレクトリに移動
+$ cd app-react/
+# fork元のリモートレポジトリを追加
+$ git remote add upstream https://github.com/Piko-Piko-Pon-Taro/navict-app.git
+
+# 2.デプロイのたびに実行
+$ git fetch upstream
+$ git merge upstream/master
+# あとはVercelでforkしたレポジトリをデプロイするだけ
+```
+
 ### デプロイ設定
 
 [ホスト先 URL](navict-app.vercel.app)
