@@ -15,6 +15,14 @@ $ cp .env.examle .env
 $ cd ../../
 ```
 
+その後、firebase-admin 用の環境変数を server/直下に追加
+
+```bash
+FIREBASE_PROJECT_ID =
+FIREBASE_CLIENT_EMAIL =
+FIREBASE_PRIVATE_KEY =
+```
+
 ## .env.local ファイルを作る
 
 firebase 用

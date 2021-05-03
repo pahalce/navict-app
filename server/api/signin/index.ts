@@ -1,11 +1,8 @@
-import type { User } from '$prisma/client'
-
 type SigninBody = {
-  firebaseUid: User['firebaseUid']
   accessToken: string
 }
 
-type Token = string
+type Token = { token: string }
 
 export type Methods = {
   // signin
