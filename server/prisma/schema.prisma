@@ -15,27 +15,12 @@ model Task {
   done  Boolean @default(false)
 }
 
-// # 確認事項
-// ## 全体
-// - リレーション周りは問題ないか？
-// ## テーブル単位
-// - 要らないフィールドは無いか？
-// - 足りないフィールドは無いか？
-// - createdAt, updatedAt はいるか？
-// - deletedAtはいるか？
-// ## フィールド単位
-// - 型はあってるか？
-// - 必須かどうか
-// - uniqueかどうか
-// - default値はいるか
-// ## cascade delete, update大丈夫？？
-
 model User {
   id          Int       @id @default(autoincrement())
   name        String
   email       String?   @unique
   bio         String?
-  img         String
+  img         String?
   twitterLink String?
   githubLink  String?
   websiteLink String?
@@ -48,36 +33,34 @@ model User {
 }
 
 model Tag {
-  id       Int       @id @default(autoincrement())
-  name     String    @unique
-  createAt DateTime  @default(now())
-  updateAt DateTime  @updatedAt
-  roadmaps Roadmap[]
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  roadmaps  Roadmap[]
 }
 
 model Roadmap {
   id              Int      @id @default(autoincrement())
   title           String
   description     String?
+  forkedRoadmapId Int?
+  firstStepId     Int?
+	isGoalSet       Boolean  @default(false)
   isDone          Boolean  @default(false)
-  createAt        DateTime @default(now())
-  updateAt        DateTime @updatedAt
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
   userId          Int
   user            User     @relation(fields: [userId], references: [id])
   tags            Tag[]
   steps           Step[]
   likes           Like[]
-  forkedRoadmapId Int?
-  firstStepId     Int
 }
 
-// createdAt要らなそう
-// updatedAt要らなそう
-// isDeletedいれるか？
 model Like {
   id        Int      @id @default(autoincrement())
-  createAt  DateTime @default(now())
-  updateAt  DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   userId    Int
   user      User     @relation(fields: [userId], references: [id])
   roadmapId Int
@@ -87,22 +70,21 @@ model Like {
 model Step {
   id         Int      @id @default(autoincrement())
   memo       String?
+  nextStepId Int?
   isDone     Boolean  @default(false)
-  createAt   DateTime @default(now())
-  updateAt   DateTime @updatedAt
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
   roadmapId  Int
   roadmap    Roadmap  @relation(fields: [roadmapId], references: [id])
   libraryId  Int
   library    Library  @relation(fields: [libraryId], references: [id])
-  nextNodeId Int?
 }
 
 model Library {
-  id            Int      @id @default(autoincrement())
-  title         String
-  link          String   @unique
-  affiliateLink String?
-  createAt      DateTime @default(now())
-  updateAt      DateTime @updatedAt
-  steps         Step[]
+  id        Int      @id @default(autoincrement())
+  title     String
+  link      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  steps     Step[]
 }
