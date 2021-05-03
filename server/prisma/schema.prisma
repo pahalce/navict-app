@@ -24,8 +24,7 @@ model User {
   twitterLink String?
   githubLink  String?
   websiteLink String?
-  googleUid   String?   @unique
-  twitterUid  String?   @unique
+  firebaseUid String    @unique
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   roadmaps    Roadmap[]
