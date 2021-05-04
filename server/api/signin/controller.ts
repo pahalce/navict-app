@@ -25,7 +25,7 @@ export default defineController((fastify) => ({
       console.log('user exists')
       return {
         status: 201,
-        body: { token: fastify.jwt.sign({ id: user.id }) }
+        body: { token: fastify.jwt.sign({ id: user.id }), user }
       }
     }
 
@@ -41,7 +41,7 @@ export default defineController((fastify) => ({
     console.log('created new user')
     return {
       status: 201,
-      body: { token: fastify.jwt.sign({ id: newUser.id }) }
+      body: { token: fastify.jwt.sign({ id: newUser.id }), user: newUser }
     }
   }
 }))

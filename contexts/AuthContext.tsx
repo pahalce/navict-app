@@ -1,31 +1,36 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { apiClient } from '~/utils/apiClient'
 import firebase from 'firebase/app'
 import { auth } from '$firebase/firebase'
+import { apiClient } from '~/utils/apiClient'
+import type { User } from '$prisma/client'
+import { useRouter } from 'next/router'
 
 // TODO:Loginなどのメッセージをログじゃなくてちゃんと作る
 // TODO:loginを必要になったとき実装する
 // TODO: console.log全部消す
 
 export type SigninMethod = 'google' | 'twitter'
-interface AuthContextInterface {
+type AuthContext = {
   signup: (method: Partial<SigninMethod>) => void
   logout: () => void
   isLoggedIn: boolean
+  user: User | null | undefined
 }
 
-interface Props {
+type Props = {
   children: React.ReactNode
 }
 
-const AuthContext = React.createContext<AuthContextInterface | null>(null)
+const AuthContext = React.createContext<AuthContext | null>(null)
 export const useAuth = () => {
   return useContext(AuthContext)
 }
 
 export const AuthProvider = ({ children }: Props) => {
+  const router = useRouter()
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState<AuthContext['user']>()
 
   const signup = async (method: SigninMethod) => {
     try {
@@ -54,26 +59,25 @@ export const AuthProvider = ({ children }: Props) => {
   }
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      if (!user) {
-        console.log('no user')
+    const unsubscribe = auth.onAuthStateChanged(async (fbUser) => {
+      if (!fbUser) {
         setLoading(false)
         return
       }
 
       try {
         // user signed-in
-        const idToken = await user.getIdToken(/* forceRefresh */ true)
-        console.log('idToken', idToken)
+        const idToken = await fbUser.getIdToken(/* forceRefresh */ true)
         // Send token to your backend via HTTPS
         const res = await apiClient.signin.post({
           body: { accessToken: idToken }
         })
-        console.log('user:', user)
-        console.log('token:', res.body.token)
-        const username = user.displayName
-        console.log(`hello ${username}`)
+
+        router.push('/')
+        const user = res.body.user
+        setUser(user)
         setIsLoggedIn(true)
+        console.log(`hello ${user.name}`)
         setLoading(false)
       } catch (error) {
         console.log('error:useEffect:', error)
@@ -82,10 +86,11 @@ export const AuthProvider = ({ children }: Props) => {
     return unsubscribe
   }, [])
 
-  const value: AuthContextInterface = {
+  const value: AuthContext = {
     signup,
     logout,
-    isLoggedIn
+    isLoggedIn,
+    user
   }
   return (
     <AuthContext.Provider value={value}>
