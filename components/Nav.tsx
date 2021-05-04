@@ -1,6 +1,6 @@
 import { SigninMethod, useAuth } from '~/contexts/AuthContext'
 
-const UserBanner = () => {
+const Nav = () => {
   const auth = useAuth()
   const login = async (method: SigninMethod) => {
     await auth?.signup(method)
@@ -13,7 +13,7 @@ const UserBanner = () => {
   return (
     <div>
       {auth?.isLoggedIn ? (
-        <button onClick={logout}>LOGOUT</button>
+        <button onClick={logout}>新規作成</button>
       ) : (
         <>
           <button onClick={() => login('twitter')}>Twitter Login</button>
@@ -24,4 +24,4 @@ const UserBanner = () => {
   )
 }
 
-export default UserBanner
+export default Nav
