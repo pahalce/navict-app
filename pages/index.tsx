@@ -1,9 +1,5 @@
 import Head from 'next/head'
-import { useCallback, useState } from 'react'
-import useAspidaSWR from '@aspida/swr'
-import { apiClient } from '~/utils/apiClient'
 import UserBanner from '~/components/UserBanner'
-import type { FormEvent, ChangeEvent } from 'react'
 
 const Home = () => {
   return (
