@@ -64,7 +64,7 @@ export const AuthProvider = ({ children }: Props) => {
       try {
         // user signed-in
         const idToken = await user.getIdToken(/* forceRefresh */ true)
-
+        console.log('idToken', idToken)
         // Send token to your backend via HTTPS
         const res = await apiClient.signin.post({
           body: { accessToken: idToken }
