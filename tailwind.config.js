@@ -5,20 +5,21 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     colors: {
-      b_white: '#FFFFFF',
-      b_lightblue: '#E7F5FB',
-      b_greyblue: '#F8FAFF',
-      b_black: '#3F3F3F',
-      b_blue: '#76C3DB',
-      b_red: '#E97C4C',
-      b_yellow: '#F5B76B',
-      b_green: '#73B1A8'
+      $white: '#FFFFFF',
+      $lightblue: '#E7F5FB',
+      $greyblue: '#F8FAFF',
+      $black: '#3F3F3F',
+      $blue: '#76C3DB',
+      $red: '#E97C4C',
+      $yellow: '#F5B76B',
+      $green: '#73B1A8',
+      $grey: '#C0C0C0'
     },
     fontFamily: {
-      noto: 'Noto Sans JP',
-      josefin: 'Josefin Sans',
-      roboto: 'Roboto',
-      body: ['Noto Sans JP', 'Josefin Sans', 'Roboto']
+      $noto: 'Noto Sans JP',
+      $josefin: 'Josefin Sans',
+      $roboto: 'Roboto',
+      $body: ['Noto Sans JP', 'Josefin Sans', 'Roboto']
     },
     extend: {}
   },
@@ -28,12 +29,12 @@ module.exports = {
   plugins: [
     plugin(function ({ addUtilities, theme }) {
       const newUtilities = {
-        '.b-font-t1': {
+        '.$font-t1': {
           fontFamily: theme('fontFamily.noto'),
           fontWeight: 'bold',
           fontSize: theme('fontSize.4xl')
         },
-        '.b-font-t2': {
+        '.$font-t2': {
           fontFamily: theme('fontFamily.noto'),
           fontWeight: 'bold',
           fontSize: theme('fontSize.5xl')
