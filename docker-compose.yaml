@@ -14,7 +14,7 @@ services:
     image: postgres:12
     ports:
       - '5432:5432'
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: 'P@ssw0rd'
-      POSTGRES_DB: navict-app-db
+    # environment:
+    # POSTGRES_USER: root
+    # POSTGRES_PASSWORD: 'P@ssw0rd'
+    # POSTGRES_DB: navict-app-db
