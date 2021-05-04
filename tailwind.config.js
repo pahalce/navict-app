@@ -13,7 +13,8 @@ module.exports = {
       $red: '#E97C4C',
       $yellow: '#F5B76B',
       $green: '#73B1A8',
-      $grey: '#C0C0C0'
+      $grey: '#C0C0C0',
+      $bgLightblue: '#FAFDFF'
     },
     fontFamily: {
       noto: 'Noto Sans JP',
