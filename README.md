@@ -43,10 +43,34 @@ NEXT_PUBLIC_FB_APPID =
 
 ## PostgreSQL サーバーを立てる
 
-```bash
-# at project root directory
-$ docker-compose up db
-```
+- docker-compose.yaml に環境変数を追加する
+
+  ```yaml
+  db:
+    image: postgres:12
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 'P@ssw0rd'
+      POSTGRES_DB: navict-app-db
+  ```
+
+- 立てる
+
+  ```bash
+  # at project root directory
+  $ docker-compose up db
+  ```
+
+- 環境変数を削除する (production では使用しないので消してちょ。)
+
+  ```yaml
+  db:
+    image: postgres:12
+    ports:
+      - '5432:5432'
+  ```
 
 ## 依存モジュールをインストールする
 
@@ -153,19 +177,10 @@ TODO: 平が書く
   - Branch name to deploy: main
   - Static hosting service: Vercel
   ```
-- postgres につながらなかったので、上記記事の `docker-compose.yaml` を修正\
-  FIXME: POSTGRES_PASSWORD を env ファイルに移して環境ごとに変えられるようにする？
-  ```yaml
-  ...
-  db:
-    ...
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: 'P@ssw0rd'
-      POSTGRES_DB: navict-app-db
-  ```
 - install tailwind\
   [Install Tailwind CSS with Next.js - Tailwind CSS](https://tailwindcss.com/docs/guides/nextjs)
+- migrate in production\
+  [Production and testing environments - Prisma](https://www.prisma.io/docs/concepts/components/prisma-migrate#production-and-testing-environments)
 
 # Frourio default description
 
