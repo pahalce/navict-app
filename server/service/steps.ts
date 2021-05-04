@@ -10,15 +10,6 @@ export const createStep = (
   libraryId: Step['libraryId']
 ) => prisma.step.create({ data: { memo, nextStepId, roadmapId, libraryId } })
 
-// FIXME: navict-recommenderに問い合わせる様に変更する。
-export const getRecommendedSteps = async (libraryIds: number[]) =>
-  (await prisma.step.findMany()).slice(0, 3).map((step) => {
-    return {
-      ...step,
-      score: 50
-    }
-  })
-
 export const updateStep = (
   id: Step['id'],
   partialStep: Prisma.StepUpdateInput

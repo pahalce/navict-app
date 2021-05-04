@@ -1,9 +1,9 @@
 import { defineController } from './$relay'
-import { getRecommendedSteps } from '$/service/steps'
+import { getRecommendedLibraries } from '$/service/libraries'
 
 export default defineController(() => ({
   get: async ({ body }) => ({
     status: 200,
-    body: await getRecommendedSteps(body)
+    body: await getRecommendedLibraries(body)
   })
 }))
