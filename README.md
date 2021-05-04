@@ -124,7 +124,7 @@ $ git remote add upstream https://github.com/Piko-Piko-Pon-Taro/navict-app.git
 
 # 2.デプロイのたびに実行
 $ git fetch upstream
-$ git merge upstream/master
+$ git merge upstream/main
 # あとはVercelでforkしたレポジトリをデプロイするだけ
 ```
 
