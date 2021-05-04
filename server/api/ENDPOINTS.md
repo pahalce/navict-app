@@ -114,6 +114,6 @@ search libraries by link
 only for [navict-recommender](https://github.com/Piko-Piko-Pon-Taro/navict-recommender)
 
 ```txt
-get all roadmaps libraryIds
+get all roadmaps' libraryIds
    GET /navictRecommender/roadmaps/libraryIds
 ```
