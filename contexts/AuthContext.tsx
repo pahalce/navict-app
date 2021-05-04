@@ -8,17 +8,17 @@ import { auth } from '$firebase/firebase'
 // TODO: console.log全部消す
 
 export type SigninMethod = 'google' | 'twitter'
-interface AuthContextInterface {
+type AuthContext = {
   signup: (method: Partial<SigninMethod>) => void
   logout: () => void
   isLoggedIn: boolean
 }
 
-interface Props {
+type Props = {
   children: React.ReactNode
 }
 
-const AuthContext = React.createContext<AuthContextInterface | null>(null)
+const AuthContext = React.createContext<AuthContext | null>(null)
 export const useAuth = () => {
   return useContext(AuthContext)
 }
@@ -82,7 +82,7 @@ export const AuthProvider = ({ children }: Props) => {
     return unsubscribe
   }, [])
 
-  const value: AuthContextInterface = {
+  const value: AuthContext = {
     signup,
     logout,
     isLoggedIn
