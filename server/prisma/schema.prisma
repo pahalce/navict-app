@@ -8,13 +8,6 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// FIXME: タイミングを見て削除する。
-model Task {
-  id    Int     @id @default(autoincrement())
-  label String
-  done  Boolean @default(false)
-}
-
 // navictを使う一般ユーザー
 model User {
   id          Int       @id @default(autoincrement())

@@ -1,4 +1,3 @@
-import styles from '~/styles/UserBanner.module.css'
 import { SigninMethod, useAuth } from '~/contexts/AuthContext'
 
 const UserBanner = () => {
@@ -12,7 +11,7 @@ const UserBanner = () => {
   }
 
   return (
-    <div className={styles.userBanner}>
+    <div>
       {auth?.isLoggedIn ? (
         <button onClick={logout}>LOGOUT</button>
       ) : (
