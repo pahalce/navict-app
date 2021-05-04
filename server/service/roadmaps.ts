@@ -76,27 +76,24 @@ export const toggleIsDone = async (id: Roadmap['id']) => {
 
 export const sortSteps = async (
   roadmap: Roadmap & { steps: Step[] }
-): Promise<Roadmap & { steps: Step[] }> => {
+): Promise<Roadmap & { steps: Step[] | [] }> => {
   const sortedSteps: Step[] = []
 
   // 1番目のStepを追加
   const firstStep = roadmap.steps.find(
     (step) => step.id === roadmap.firstStepId
   )
-  if (firstStep) {
-    sortedSteps.push(firstStep)
-  } else {
-    return roadmap
-  }
+  if (!firstStep) return { ...roadmap, steps: [] }
+  sortedSteps.push(firstStep)
 
   // 2番目以降のStepを追加
-  ;[...Array(roadmap.steps.length - 1)].map(() => {
+  for (let i = 0; i < roadmap.steps.length - 1; i++) {
     const nextStep = roadmap.steps.find(
       (step) => step.id === sortedSteps[-1]?.nextStepId
     )
-    if (!nextStep) return
+    if (!nextStep) continue
     sortedSteps.push(nextStep)
-  })
+  }
 
   return { ...roadmap, steps: sortedSteps }
 }
