@@ -108,3 +108,12 @@ search libraries by title
 search libraries by link
    GET  /libraries/search/_link@string
 ```
+
+## navictRecommender
+
+only for [navict-recommender](https://github.com/Piko-Piko-Pon-Taro/navict-recommender)
+
+```txt
+get all roadmaps libraryIds
+   GET /navictRecommender/roadmaps/libraryIds
+```
