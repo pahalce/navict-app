@@ -80,9 +80,6 @@ delete a like
 create a step
 ** POST   /steps
 
-get recommend steps
-   POST   /steps/recommended
-
 update a step
 ** PUT    /steps/_stepId@number
 
@@ -101,6 +98,9 @@ delete a step
 ```txt
 create a library
  * POST /libraries
+
+get recommended libraries
+   POST /libriries/recommended
 
 search libraries by title
    GET  /libraries/search/_title@string
