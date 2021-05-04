@@ -1,10 +1,17 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { useEffect } from 'react'
+import { useAuth } from '~/contexts/AuthContext'
 const Nav = () => {
+  const auth = useAuth()
   return (
     <div className="flex justify-between items-center">
-      <div className="flex">
-        <p className="mr-8 font-josefin font-medium text-3.5xl">navict</p>
+      <div className="flex py-1">
+        <Link href="/">
+          <p className="mr-8 font-josefin font-medium text-3.5xl cursor-pointer">
+            navict
+          </p>
+        </Link>
 
         <form className="flex items-center relative w-1/2">
           <div className="flex items-center absolute top-50 left-4 text-$ cursor-text">
@@ -18,11 +25,39 @@ const Nav = () => {
         </form>
       </div>
 
-      <Link href="/signin">
-        <button className="border-2  border-$accent1 text-$accent1 rounded-md py-1.5 px-12 text-$t3">
-          ログイン
-        </button>
-      </Link>
+      {/* user is logged in */}
+
+      {!auth?.isLoggedIn && (
+        <Link href="/signin">
+          <button className="border-2  border-$accent1 text-$accent1 rounded-md py-2 px-12 text-$t3">
+            ログイン
+          </button>
+        </Link>
+      )}
+      {/* user is not logged in */}
+      {auth?.isLoggedIn && (
+        <div className="flex items-center">
+          <Image src="/bell.svg" alt="bell icon" width="32" height="32" />
+          {!!auth?.user?.img && (
+            <Link href="/mypage">
+              <div className="rounded-full overflow-hidden w-12 h-12 ml-4 cursor-pointer">
+                <Image
+                  src={auth.user?.img}
+                  alt="user icon"
+                  width="500"
+                  height="500"
+                />
+              </div>
+            </Link>
+          )}
+          <button className="flex items-center justify-center border-2  bg-$accent1 text-$white rounded-md ml-4 py-2 px-9 text-$t3">
+            <Image src="/pencil.svg" alt="pencil icon" width="20" height="20" />
+            <Link href="/signin">
+              <p className="ml-2">新規作成</p>
+            </Link>
+          </button>
+        </div>
+      )}
     </div>
   )
 }
