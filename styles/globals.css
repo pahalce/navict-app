@@ -4,19 +4,3 @@
 html {
   @apply font-body;
 }
-
-.b-font-t1 {
-  @apply font-noto font-bold text-4xl;
-}
-.b-font-t2 {
-  @apply font-noto font-bold text-5xl;
-}
-.b-font-t3 {
-  @apply font-noto font-bold text-6xl;
-}
-.b-font-t4 {
-  @apply font-noto font-bold text-7xl;
-}
-.b-font-t5 {
-  @apply font-noto font-bold text-8xl;
-}
