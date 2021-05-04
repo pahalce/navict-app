@@ -5,16 +5,15 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     colors: {
-      $white: '#FFFFFF',
-      $lightblue: '#E7F5FB',
-      $greyblue: '#F8FAFF',
-      $black: '#3F3F3F',
-      $blue: '#76C3DB',
-      $red: '#E97C4C',
-      $yellow: '#F5B76B',
-      $green: '#73B1A8',
-      $grey: '#C0C0C0',
-      $bgLightblue: '#FAFDFF'
+      $accent1: '#76C3DB',
+      $accent2: '#E97C4C',
+      $accent3: '#F2C94C',
+      $accent4: '#73B1A8',
+      $primary: '#2C2738',
+      $primary2: '#2C2738',
+      $muted: '#7C9CBF',
+      $shade: '#F2F2F2',
+      $tint: '#FAFDFF'
     },
     fontFamily: {
       noto: 'Noto Sans JP',
@@ -30,18 +29,36 @@ module.exports = {
   plugins: [
     plugin(function ({ addUtilities, theme }) {
       const newUtilities = {
-        '.font-$t1': {
-          fontFamily: theme('fontFamily.noto'),
-          fontWeight: 'bold',
-          fontSize: theme('fontSize.4xl')
-        },
-        '.font-$t2': {
-          fontFamily: theme('fontFamily.noto'),
-          fontWeight: 'bold',
-          fontSize: theme('fontSize.5xl')
-        }
+        // '.text-$t1': {
+        //   fontFamily: theme('fontFamily.noto'),
+        //   fontWeight: 'bold',
+        //   fontSize: theme('fontSize.4xl')
+        // },
+        // '.text-$t2': {
+        //   fontFamily: theme('fontFamily.noto'),
+        //   fontWeight: 'bold',
+        //   fontSize: theme('fontSize.5xl')
+        // }
       }
-
+      const fontSystems = {
+        types: [
+          { prefix: '.text-$t', family: theme('fontFamily.noto') },
+          { prefix: '.text-$TEXT', family: theme('fontFamily.josefin') }
+        ],
+        sizes: ['64', '36', '24', '20', '18', '16', '14'],
+        weight: 'bold',
+        letterSpacings: ['-2%', '3%', '3%', '3%', '3%', '0%', '-2%']
+      }
+      fontSystems.types.forEach((type) => {
+        for (let i = 0; i < fontSystems.sizes.length; i++) {
+          newUtilities[type.prefix + i.toString()] = {
+            fontFamily: type.family,
+            fontSize: fontSystems.sizes[i],
+            fontWeight: fontSystems.weight,
+            letterSpacing: fontSystems.letterSpacings[i]
+          }
+        }
+      })
       addUtilities(newUtilities)
     })
   ]
