@@ -16,10 +16,10 @@ module.exports = {
       $grey: '#C0C0C0'
     },
     fontFamily: {
-      $noto: 'Noto Sans JP',
-      $josefin: 'Josefin Sans',
-      $roboto: 'Roboto',
-      $body: ['Noto Sans JP', 'Josefin Sans', 'Roboto']
+      noto: 'Noto Sans JP',
+      josefin: 'Josefin Sans',
+      roboto: 'Roboto',
+      body: ['Noto Sans JP', 'Josefin Sans', 'Roboto']
     },
     extend: {}
   },
@@ -29,12 +29,12 @@ module.exports = {
   plugins: [
     plugin(function ({ addUtilities, theme }) {
       const newUtilities = {
-        '.$font-t1': {
+        '.font-$t1': {
           fontFamily: theme('fontFamily.noto'),
           fontWeight: 'bold',
           fontSize: theme('fontSize.4xl')
         },
-        '.$font-t2': {
+        '.font-$t2': {
           fontFamily: theme('fontFamily.noto'),
           fontWeight: 'bold',
           fontSize: theme('fontSize.5xl')
