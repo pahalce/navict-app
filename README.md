@@ -147,6 +147,14 @@ API_ORIGIN=https://navict-server.herokuapp.com
 https://dashboard.heroku.com/apps/navict-server \
 main ブランチに merge された時に、heroku(上記)に自動デプロイされます。
 
+# navict-recommender 用エンドポイント
+
+## 全 roadmap の libraryId リスト欲しい時
+
+```
+GET http://localhost:24373/api/navictRecommender/roadmaps/libraryIds
+```
+
 ---
 
 # Log by @pahalce for firebase admin sdk
