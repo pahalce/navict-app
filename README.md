@@ -123,14 +123,6 @@ API_ORIGIN=https://navict-server.herokuapp.com
 https://dashboard.heroku.com/apps/navict-server \
 main ブランチに merge された時に、heroku(上記)に自動デプロイされます。
 
-TODO: USER_ID と USER_PASS は必要ないので、tasks あたり消した後、削除する
-
-```bash
-# at project root directory
-$ heroku config:unset USER_ID
-$ heroku config:unset USER_PASS
-```
-
 ---
 
 # Log by @pahalce for firebase admin sdk
