@@ -15,7 +15,9 @@ module.exports = {
       $tint: '#FAFDFF',
       $shade1: '#C0C0C0',
       $shade2: '#F2F2F2',
-      $shade3: '#FAFAFA'
+      $shade3: '#FAFAFA',
+      $twitterBlue: '#1DA1F1',
+      $white: '#FFFFFF'
     },
     fontFamily: {
       noto: 'Noto Sans JP',
