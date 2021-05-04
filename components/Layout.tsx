@@ -9,7 +9,7 @@ type Props = {
 const Layout = ({ children }: Props) => {
   return (
     <AuthProvider>
-      <div className="container px-10 mx-auto">
+      <div className="container px-10 mx-auto pt-4">
         <Nav />
         <main>{children}</main>
       </div>
