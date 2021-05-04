@@ -89,6 +89,13 @@ $ cd ../
 $ yarn dev
 ```
 
+## seed データを初期化する
+
+```bash
+# at project root directory
+$ yarn migrate:reset
+```
+
 # データベースを操作する
 
 ## GUI
