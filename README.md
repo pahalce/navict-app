@@ -15,9 +15,9 @@ $ cp .env.examle .env
 $ cd ../../
 ```
 
-その後、firebase-admin 用の環境変数を server/直下に追加
+その後、firebase-admin 用の環境変数を `server/.env` に追加。(誰かにもらってください)
 
-```bash
+```
 FIREBASE_PROJECT_ID =
 FIREBASE_CLIENT_EMAIL =
 FIREBASE_PRIVATE_KEY =
@@ -25,9 +25,12 @@ FIREBASE_PRIVATE_KEY =
 
 ## .env.local ファイルを作る
 
-firebase 用
+```bash
+# at project root directory
+$ touch .env.local
+```
 
-平にもらってください。
+その後、firebase 用の環境変数を追加。(誰かにもらってください)
 
 ```
 NEXT_PUBLIC_FB_APIKEY =
@@ -103,10 +106,10 @@ $ git merge upstream/master
 
 ### デプロイ設定
 
-[ホスト先 URL](navict-app.vercel.app)
-PROJECT NAME: navict-client
-BUILD COMMAND: yarn build:client
-INSTALL COMMAND: yarn install --cwd server && yarn install
+- [ホスト先 URL](navict-app.vercel.app)
+- PROJECT NAME: navict-client
+- BUILD COMMAND: yarn build:client
+- INSTALL COMMAND: yarn install --cwd server && yarn install
 
 ### 環境変数
 
@@ -120,7 +123,7 @@ API_ORIGIN=https://navict-server.herokuapp.com
 https://dashboard.heroku.com/apps/navict-server \
 main ブランチに merge された時に、heroku(上記)に自動デプロイされます。
 
-TODO: USER_ID と USER_PASS は必要ないのであとで削除する
+TODO: USER_ID と USER_PASS は必要ないので、tasks あたり消した後、削除する
 
 ```bash
 # at project root directory
