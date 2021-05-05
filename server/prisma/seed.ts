@@ -571,7 +571,6 @@ const librariesForTrain = async () => {
 
 const roadmapsForTrain = async () => {
   const data = [
-    // TODO: @井上 ここを変えてちょ。id:8から初めてちょ。
     { id: 8, title: 'dummy8', firstStepId: 10, userId: 5 },
     { id: 9, title: 'dummy9', firstStepId: 20, userId: 5 },
     { id: 10, title: 'dummy10', firstStepId: 30, userId: 5 },
@@ -681,7 +680,6 @@ const roadmapsForTrain = async () => {
 
 const stepsForTrain = async () => {
   const data = [
-    // TODO: @井上 ここを変えてちょ。id:10から初めてちょ。
     { id: 10, nextStepId: 11, roadmapId: 8, libraryId: 15 },
     { id: 11, nextStepId: 12, roadmapId: 8, libraryId: 17 },
     { id: 12, nextStepId: 13, roadmapId: 8, libraryId: 30 },
