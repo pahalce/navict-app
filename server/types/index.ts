@@ -36,11 +36,3 @@ export type UserInfo = UserWithoutPersonal & {
   doneRoadmapsCount: number
   totalLikedCount: number
 }
-
-export type MyInfo = User & {
-  doingRoadmaps: RoadmapInfo[]
-  doneRoadmaps: RoadmapInfo[]
-  likeRoadmaps: RoadmapInfo[]
-  doneRoadmapsCount: number
-  totalLikedCount: number
-}
