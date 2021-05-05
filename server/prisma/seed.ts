@@ -543,6 +543,189 @@ const likes = async () => {
   })
 }
 
+const usersForTrain = async () => {
+  const data = [
+    // TODO: @井上 ここを変えてちょ。id:5から初めてちょ。
+    {
+      id: 5,
+      name: 'dummy5',
+      firebaseUid: 'dummy5'
+    },
+    {
+      id: 6,
+      name: 'dummy6',
+      firebaseUid: 'dummy6'
+    },
+    {
+      id: 7,
+      name: 'dummy7',
+      firebaseUid: 'dummy7'
+    }
+  ]
+
+  const users = await prisma.user.createMany({ data })
+
+  console.log({ users })
+}
+
+const librariesForTrain = async () => {
+  const data = [
+    // TODO: @井上 ここを変えてちょ。id:6から初めてちょ。
+    {
+      id: 6,
+      title: 'dummy6',
+      link: 'https://www.dummy.com/dumm6'
+    },
+    {
+      id: 7,
+      title: 'dummy7',
+      link: 'https://www.dummy.com/dummy7'
+    },
+    {
+      id: 8,
+      title: 'dummy8',
+      link: 'https://www.dummy.com/dummy8'
+    },
+    {
+      id: 9,
+      title: 'dummy9',
+      link: 'https://www.dummy.com/dummy9'
+    },
+    {
+      id: 10,
+      title: 'dummy10',
+      link: 'https://www.dummy.com/dummy10'
+    },
+    {
+      id: 11,
+      title: 'dummy11',
+      link: 'https://www.dummy.com/dummy11'
+    },
+    {
+      id: 12,
+      title: 'dummy12',
+      link: 'https://www.dummy.com/dummy12'
+    },
+    {
+      id: 13,
+      title: 'dummy13',
+      link: 'https://www.dummy.com/dummy13'
+    },
+    {
+      id: 14,
+      title: 'dummy14',
+      link: 'https://www.dummy.com/dummy14'
+    },
+    {
+      id: 15,
+      title: 'dummy15',
+      link: 'https://www.dummy.com/dummy15'
+    }
+  ]
+
+  const libraries = await prisma.library.createMany({ data })
+
+  console.log({ libraries })
+}
+
+const roadmapsForTrain = async () => {
+  const data = [
+    // TODO: @井上 ここを変えてちょ。id:8から初めてちょ。
+    {
+      id: 8,
+      title: 'dummy1',
+      firstStepId: 10,
+      userId: 5
+    },
+    {
+      id: 9,
+      title: 'dummy2',
+      firstStepId: 20,
+      userId: 6
+    },
+    {
+      id: 10,
+      title: 'dummy3',
+      firstStepId: 30,
+      userId: 7
+    }
+  ]
+
+  const roadmaps = await prisma.roadmap.createMany({ data })
+
+  console.log({ roadmaps })
+}
+
+const stepsForTrain = async () => {
+  const data = [
+    // TODO: @井上 ここを変えてちょ。id:10から初めてちょ。
+    {
+      id: 10,
+      nextStepId: 11,
+      roadmapId: 8,
+      libraryId: 6
+    },
+    {
+      id: 11,
+      nextStepId: 12,
+      roadmapId: 8,
+      libraryId: 7
+    },
+    {
+      id: 12,
+      nextStepId: 13,
+      roadmapId: 8,
+      libraryId: 8
+    },
+    {
+      id: 13,
+      nextStepId: 14,
+      roadmapId: 8,
+      libraryId: 9
+    },
+    {
+      id: 14,
+      nextStepId: 15,
+      roadmapId: 8,
+      libraryId: 10
+    },
+    {
+      id: 15,
+      nextStepId: 16,
+      roadmapId: 8,
+      libraryId: 11
+    },
+    {
+      id: 16,
+      nextStepId: 17,
+      roadmapId: 8,
+      libraryId: 12
+    },
+    {
+      id: 17,
+      nextStepId: 18,
+      roadmapId: 8,
+      libraryId: 13
+    },
+    {
+      id: 18,
+      nextStepId: 19,
+      roadmapId: 8,
+      libraryId: 14
+    },
+    {
+      id: 19,
+      nextStepId: 20,
+      roadmapId: 8,
+      libraryId: 15
+    }
+  ]
+
+  const steps = await prisma.step.createMany({ data })
+
+  console.log({ steps })
+}
+
 async function main() {
   console.log('===== deleteAllData =====')
   await deleteAllData()
@@ -564,6 +747,18 @@ async function main() {
 
   console.log('===== likes =====')
   await likes()
+
+  console.log('===== usersForTrain =====')
+  await usersForTrain()
+
+  console.log('===== librariesForTrain =====')
+  await librariesForTrain()
+
+  console.log('===== roadmapsForTrain =====')
+  await roadmapsForTrain()
+
+  console.log('===== stepsForTrain =====')
+  await stepsForTrain()
 }
 
 main()
