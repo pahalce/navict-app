@@ -1,11 +1,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect } from 'react'
 import { useAuth } from '~/contexts/AuthContext'
+import UserIcon from './UserIcon'
 const Nav = () => {
   const auth = useAuth()
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex justify-between items-center px-10 mx-auto pt-4">
       <div className="flex py-1">
         <Link href="/">
           <p className="mr-8 font-josefin font-medium text-3.5xl cursor-pointer">
@@ -40,14 +40,7 @@ const Nav = () => {
           <Image src="/bell.svg" alt="bell icon" width="32" height="32" />
           {!!auth?.user?.img && (
             <Link href="/mypage">
-              <div className="rounded-full overflow-hidden w-12 h-12 ml-4 cursor-pointer">
-                <Image
-                  src={auth.user?.img}
-                  alt="user icon"
-                  width="500"
-                  height="500"
-                />
-              </div>
+              <UserIcon src={auth.user.img} className="ml-4 cursor-pointer" />
             </Link>
           )}
           <button className="flex items-center justify-center border-2  bg-$accent1 text-$white rounded-md ml-4 py-2 px-9 text-$t3">
