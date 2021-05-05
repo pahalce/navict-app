@@ -5,10 +5,12 @@ type Props = {
   className?: string
 }
 
-const UserIcon = ({ src, size = 500, className }: Props) => {
+const UserIcon = ({ src, size = 12, className }: Props) => {
   return (
-    <div className={'rounded-full overflow-hidden w-12 h-12 ' + className}>
-      <Image src={src} alt="user icon" width={size} height={size} />
+    <div
+      className={`rounded-full overflow-hidden w-${size} h-${size} ${className}`}
+    >
+      <Image src={src} alt="user icon" width="5000" height="5000" />
     </div>
   )
 }
