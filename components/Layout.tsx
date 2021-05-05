@@ -1,6 +1,6 @@
 import React from 'react'
 import { AuthProvider } from '~/contexts/AuthContext'
-import Nav from './Nav'
+import Nav from './header/Nav'
 
 type Props = {
   children: React.ReactNode
@@ -9,10 +9,8 @@ type Props = {
 const Layout = ({ children }: Props) => {
   return (
     <AuthProvider>
-      <div className="container px-10 mx-auto pt-4">
-        <Nav />
-        <main>{children}</main>
-      </div>
+      <Nav />
+      <main>{children}</main>
     </AuthProvider>
   )
 }
