@@ -1,5 +1,5 @@
 import type { User } from '$prisma/client'
-import type { UserInfo } from '$/types'
+import type { UserInfo, UserWithoutPersonal } from '$/types'
 
 type UpdateUserBody = Partial<
   Pick<
@@ -23,10 +23,13 @@ export type Methods = {
     resBody: UserInfo
   }
 
-  // update a user
+  /**
+   * update a user
+   * PUT /users/_userId@number
+   */
   put: {
     reqBody: UpdateUserBody
-    resBody: User
+    resBody: UserWithoutPersonal
   }
 
   // delete a user
