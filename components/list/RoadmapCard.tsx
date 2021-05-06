@@ -1,4 +1,4 @@
-import type { Roadmap } from '$prisma/client'
+import type { RoadmapInfo } from '$/types'
 import { useAuth } from '~/contexts/AuthContext'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -8,7 +8,7 @@ import { useState } from 'react'
 import { formatDate } from 'utils/utility'
 
 type Props = {
-  roadmap: Roadmap
+  roadmap: RoadmapInfo
 }
 
 const RoadmapCard = ({ roadmap }: Props) => {
@@ -24,7 +24,6 @@ const RoadmapCard = ({ roadmap }: Props) => {
       <div className="flex">
         {!!auth?.user?.img && (
           <Link href="/mypage">
-            {/* div to avoid error from Link */}
             <a>
               <UserIcon
                 src={auth.user.img}

@@ -5,7 +5,7 @@ import UserIcon from '../UserIcon'
 import { Menu } from '@headlessui/react'
 import { useRouter } from 'next/router'
 
-function UserIconMenu() {
+const UserIconMenu = () => {
   const auth = useAuth()
   const router = useRouter()
   const logout = async () => {
@@ -26,7 +26,7 @@ function UserIconMenu() {
           <Menu.Item>
             {({ active }) => (
               <div
-                className={`py-2 px-2 rounded-md text-$primary ${
+                className={`py-2 px-2 rounded-lg text-$primary ${
                   active ? 'bg-$accent1 bg-opacity-10' : ''
                 }`}
               >
@@ -40,7 +40,7 @@ function UserIconMenu() {
             {({ active }) => (
               <div
                 onClick={logout}
-                className={`py-2 px-2 rounded-md text-$primary ${
+                className={`py-2 px-2 rounded-lg text-$primary ${
                   active ? 'bg-$accent1 bg-opacity-10' : ''
                 }`}
               >
@@ -57,7 +57,6 @@ function UserIconMenu() {
 const Nav = () => {
   const auth = useAuth()
   return (
-    // <UserIconMenu />
     <div className="flex justify-between items-center px-10 mx-auto pt-4">
       <div className="flex py-1">
         <Link href="/">
@@ -78,8 +77,7 @@ const Nav = () => {
         </form>
       </div>
 
-      {/* user is logged in */}
-
+      {/* user is not logged in */}
       {!auth?.isLoggedIn && (
         <button className="border-2  border-$accent1 text-$accent1 rounded-md py-2 px-12 text-$t3">
           <Link href="/signin">
@@ -87,7 +85,7 @@ const Nav = () => {
           </Link>
         </button>
       )}
-      {/* user is not logged in */}
+      {/* user is logged in */}
       {auth?.isLoggedIn && (
         <div className="flex items-center">
           <Image
