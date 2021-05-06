@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client'
 import type { Like, Prisma, User } from '$prisma/client'
 import * as admin from 'firebase-admin'
 import { getRoadmapInfosByUserId, getRoadmapInfoById } from '$/service/roadmaps'
-import type { RoadmapInfo } from '$/types'
+import type { RoadmapInfo, UserWithoutPersonal } from '$/types'
 import { userWithoutPersonalSelect } from '$/prisma/options'
 
 admin.initializeApp({
@@ -26,9 +26,6 @@ export const veriyfyUserViaFirebase = async (idToken: string) => {
     return null
   }
 }
-
-export const getUserById = (id: User['id']) =>
-  prisma.user.findUnique({ where: { id } })
 
 export const getUserInfoById = async (id: User['id']) => {
   const user = await prisma.user.findUnique({
@@ -62,21 +59,32 @@ export const getUserInfoById = async (id: User['id']) => {
   }
 }
 
-export const updateUser = (
-  userId: User['id'],
+export const updateUser = async (
+  id: User['id'],
   partialUser: Prisma.UserUpdateInput
 ) => {
-  return prisma.user.update({
-    where: {
-      id: userId
-    },
-    data: partialUser
-  })
+  const user = await prisma.user.update({ where: { id }, data: partialUser })
+  return makeUserWithoutPersonal(user)
 }
 
-// TODO: firebaseのアカウントも削除する
+/**
+ * TODO:
+ * 実装する
+ * firebaseのアカウントも削除する
+ */
 export const deleteUser = (id: User['id']) => {
-  prisma.user.delete({ where: { id } })
+  console.log(
+    `User(id: ${id}) is not deleted, because that function has not been implemented yet.`
+  )
+}
+
+const makeUserWithoutPersonal = (user: User): UserWithoutPersonal => {
+  const {
+    email, // eslint-disable-line @typescript-eslint/no-unused-vars
+    firebaseUid, // eslint-disable-line @typescript-eslint/no-unused-vars
+    ...userWithoutPersonal
+  } = user
+  return userWithoutPersonal
 }
 
 const getLikeRoadmaps = async (likes: Like[]): Promise<RoadmapInfo[]> => {
