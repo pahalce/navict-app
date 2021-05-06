@@ -70,7 +70,18 @@ export const updateUser = async (
   id: User['id'],
   partialUser: Prisma.UserUpdateInput
 ) => {
-  const user = await prisma.user.update({ where: { id }, data: partialUser })
+  const user = await prisma.user.update({
+    where: { id },
+    data: {
+      name: partialUser.name,
+      email: partialUser.email,
+      bio: partialUser.bio,
+      img: partialUser.img,
+      twitterLink: partialUser.twitterLink,
+      githubLink: partialUser.githubLink,
+      websiteLink: partialUser.websiteLink
+    }
+  })
   return makeUserWithoutPersonal(user)
 }
 
