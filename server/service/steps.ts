@@ -23,6 +23,21 @@ export const updateNextStepId = (
   nextStepId: Step['nextStepId']
 ) => prisma.step.update({ where: { id }, data: { nextStepId } })
 
+export const changeMemo = (id: Step['id'], memo: Step['memo']) =>
+  prisma.step.update({
+    where: { id },
+    data: { memo }
+  })
+
+export const changeNextStepId = (
+  id: Step['id'],
+  nextStepId: Step['nextStepId']
+) =>
+  prisma.step.update({
+    where: { id },
+    data: { nextStepId }
+  })
+
 export const toggleIsDone = async (id: Step['id']) => {
   const step = await prisma.step.findUnique({ where: { id } })
   await prisma.step.update({ where: { id }, data: { isDone: !step?.isDone } })

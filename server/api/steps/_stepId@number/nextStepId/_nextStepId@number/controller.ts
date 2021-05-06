@@ -1,9 +1,9 @@
 import { defineController } from './$relay'
-import { updateNextStepId } from '$/service/steps'
+import { changeNextStepId } from '$/service/steps'
 
 export default defineController(() => ({
   patch: async ({ params }) => {
-    await updateNextStepId(params.stepId, params.nextStepId)
+    await changeNextStepId(params.stepId, params.nextStepId)
     return { status: 204 }
   }
 }))

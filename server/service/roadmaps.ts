@@ -1,7 +1,8 @@
 import { PrismaClient } from '@prisma/client'
-import type { Prisma, Roadmap, User } from '$prisma/client'
+import type { Roadmap, Step, Tag, User } from '$prisma/client'
 import type { RoadmapInfo } from '$/types'
 import { partialRoadmapInfoInclude } from '$/prisma/options'
+import type { UpdateRoadmapReqBody } from '$/api/roadmaps/_roadmapId@number/index'
 
 type partialRoadmapInfo = Omit<
   RoadmapInfo,
@@ -10,16 +11,43 @@ type partialRoadmapInfo = Omit<
 
 const prisma = new PrismaClient()
 
-export const createRoadmap = (
+// FIXME: ここの実装適当すぎるからバグったら直す。
+export const createRoadmap = async (
   title: Roadmap['title'],
   description: Roadmap['description'],
   forkedRoadmapId: Roadmap['forkedRoadmapId'],
   firstStepId: Roadmap['firstStepId'],
-  userId: Roadmap['userId']
-) =>
-  prisma.roadmap.create({
+  userId: Roadmap['userId'],
+  tags: Pick<Tag, 'name'>[],
+  steps: Pick<Step, 'memo' | 'nextStepId' | 'isDone' | 'libraryId'>[]
+) => {
+  const roadmap = await prisma.roadmap.create({
     data: { title, description, forkedRoadmapId, firstStepId, userId }
   })
+
+  await prisma.roadmap.update({
+    where: {
+      id: roadmap.id
+    },
+    data: {
+      tags: {
+        connect: tags.map((t) => ({ name: t.name }))
+      }
+    }
+  })
+
+  await prisma.step.createMany({
+    data: steps.map((s) => ({
+      memo: s.memo,
+      nextStepId: s.nextStepId,
+      isDone: s.isDone,
+      roadmapId: roadmap.id,
+      libraryId: s.libraryId
+    }))
+  })
+
+  return roadmap
+}
 
 /**
  * FIXME:
@@ -81,10 +109,52 @@ export const searchRoadmapInfos = async (
 export const getRoadmapById = (id: Roadmap['id']) =>
   prisma.roadmap.findUnique({ where: { id } })
 
-export const updateRoadmap = (
+// FIXME: ここの実装適当すぎるからバグったら直す。
+export const updateRoadmap = async (
   id: Roadmap['id'],
-  partialRoadmap: Prisma.RoadmapUpdateInput
-) => prisma.roadmap.update({ where: { id }, data: partialRoadmap })
+  body: UpdateRoadmapReqBody
+) => {
+  const roadmap = await prisma.roadmap.update({
+    where: { id },
+    data: {
+      title: body.title,
+      description: body.description,
+      forkedRoadmapId: body.forkedRoadmapId,
+      firstStepId: body.firstStepId,
+      userId: body.userId
+    }
+  })
+
+  await prisma.roadmap.update({
+    where: {
+      id: roadmap.id
+    },
+    data: {
+      tags: {
+        connect: body.tags?.map((t) => ({ name: t.name }))
+      }
+    }
+  })
+
+  // FIXME: stepのいいねとかを導入するときに、この実装だとバグる。
+  await prisma.step.deleteMany({
+    where: {
+      roadmapId: roadmap.id
+    }
+  })
+  await prisma.step.createMany({
+    data: body.steps
+      ? body.steps?.map((s) => ({
+          memo: s.memo,
+          nextStepId: s.nextStepId,
+          isDone: s.isDone,
+          roadmapId: roadmap.id,
+          libraryId: s.libraryId
+        }))
+      : []
+  })
+  return roadmap
+}
 
 export const deleteRoadmap = (id: Roadmap['id']) =>
   prisma.roadmap.delete({ where: { id } })
