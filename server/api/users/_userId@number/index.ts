@@ -1,4 +1,5 @@
 import type { User } from '$prisma/client'
+import type { UserInfo } from '$/types'
 
 type UpdateUserBody = Partial<
   Pick<
@@ -14,9 +15,12 @@ type UpdateUserBody = Partial<
 >
 
 export type Methods = {
-  // get a user
+  /**
+   * get a user
+   * GET /users/_userId@number
+   */
   get: {
-    resBody: User
+    resBody: UserInfo
   }
 
   // update a user
