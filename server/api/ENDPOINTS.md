@@ -51,9 +51,6 @@ search roadmaps by keyword
 update a roadmap
 ** PUT    /roadmaps/_roadmapId@number
 
-change firstStepId
-** PATCH  /roadmaps/_roadmapId@number/_firstStepId@number
-
 toggle isDone
 ** PATCH  /roadmaps/_roadmapId@number/isDone
 
