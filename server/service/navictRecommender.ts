@@ -3,22 +3,8 @@ import { Roadmap, Step } from '$prisma/client'
 
 const prisma = new PrismaClient()
 
-export const getAllRoadmapsLibraryIds = async (): Promise<
-  [number, number, number, number][]
-> => {
-  /**
-   * 全roadmapを取得
-   *   各rodmapのstepsを順番に並び替える
-   *   4つずつ切り出してリストにして返す
-   *   null => 0
-   *   Goal => 1
-   *
-   * 例)
-   * roadmap.stepsのlibraryIdが
-   * 2 → 3 → 4 → 5 → 6 → 7 → 8 → 1(Goal) の順番の場合、
-   * 返り値は [[0,0,0,2], [0,0,2,3], [0,2,3,4], [2,3,4,5], [3,4,5,6], [4,5,6,7], [5,6,7,8], [6,7,8,1]]
-   */
-  const ids: [number, number, number, number][] = []
+export const getAllRoadmapsLibraryIds = async () => {
+  const ids: number[][] = []
   const roadmaps = await prisma.roadmap.findMany({
     include: {
       steps: true
@@ -26,14 +12,7 @@ export const getAllRoadmapsLibraryIds = async (): Promise<
   })
   roadmaps.map((roadmap) => {
     const steps = sortSteps(roadmap).steps
-    for (let i = 0; i < steps.length; i++) {
-      ids.push([
-        steps[i - 3]?.libraryId || 0,
-        steps[i - 2]?.libraryId || 0,
-        steps[i - 1]?.libraryId || 0,
-        steps[i - 0]?.libraryId || 0
-      ])
-    }
+    ids.push(steps.map((s: Step) => s.id))
   })
   return ids
 }
@@ -54,7 +33,7 @@ const sortSteps = (
   let nextStepId: Step['nextStepId'] = null
   for (let i = 0; i < roadmap.steps.length - 1; i++) {
     const nextStep = roadmap.steps.find(
-      (step) => step.id === sortedSteps[-1]?.nextStepId
+      (step) => step.id === sortedSteps.slice(-1)[0].nextStepId
     )
     if (!nextStep) break
     sortedSteps.push(nextStep)
