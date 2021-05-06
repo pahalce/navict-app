@@ -1,8 +1,11 @@
-import type { Roadmap } from '$prisma/client'
+import { RoadmapInfo } from '$/types'
 
 export type Methods = {
-  // search roadmaps by keyword
+  /**
+   * search roadmaps by keyword
+   * GET /roadmaps/search/_keyword@string
+   */
   get: {
-    resBody: Roadmap[]
+    resBody: RoadmapInfo[]
   }
 }

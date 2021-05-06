@@ -48,14 +48,10 @@ export const getPopularRoadmapInfos = async (): Promise<RoadmapInfo[]> => {
   return popularRoadmapInfos
 }
 
-export const searchRoadmaps = async (keyword: string) => {
-  const roadmaps = await prisma.roadmap.findMany({
-    where: {
-      title: {
-        contains: keyword
-      }
-    }
-  })
+export const searchRoadmapInfos = async (
+  keyword: string
+): Promise<RoadmapInfo[]> => {
+  const roadmapInfos: RoadmapInfo[] = []
   const tags = await prisma.tag.findMany({
     where: {
       name: {
@@ -66,10 +62,20 @@ export const searchRoadmaps = async (keyword: string) => {
       roadmaps: true
     }
   })
-  tags.map((tag) => {
-    roadmaps.push(...tag.roadmaps)
+  const roadmaps = await prisma.roadmap.findMany({
+    where: {
+      title: {
+        contains: keyword
+      }
+    }
   })
-  return roadmaps
+  tags.forEach((tag) => roadmaps.push(...tag.roadmaps))
+  for (const roadmap of roadmaps) {
+    const roadmapInfo = await getRoadmapInfoById(roadmap.id)
+    if (!roadmapInfo) continue
+    roadmapInfos.push(roadmapInfo)
+  }
+  return roadmapInfos
 }
 
 export const getRoadmapById = (id: Roadmap['id']) =>
