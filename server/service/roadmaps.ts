@@ -49,7 +49,7 @@ export const searchRoadmaps = async (keyword: string) => {
   return roadmaps
 }
 
-export const getRoadmap = (id: Roadmap['id']) =>
+export const getRoadmapById = (id: Roadmap['id']) =>
   prisma.roadmap.findUnique({ where: { id } })
 
 export const updateRoadmap = (

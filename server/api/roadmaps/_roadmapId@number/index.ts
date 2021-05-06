@@ -1,12 +1,16 @@
+import { RoadmapInfo } from '$/types'
 import type { Roadmap } from '$prisma/client'
 
 type UpdateRoadmapBody = Partial<
   Pick<Roadmap, 'title' | 'description' | 'forkedRoadmapId' | 'userId'>
 >
 export type Methods = {
-  // get a roadmap
+  /**
+   * get a roadmap
+   * GET /roadmaps/_roadmapId@number
+   */
   get: {
-    resBody: Roadmap
+    resBody: RoadmapInfo
   }
 
   // update a roadmap

@@ -1,9 +1,13 @@
 import { defineController } from './$relay'
-import { getRoadmap, updateRoadmap, deleteRoadmap } from '$/service/roadmaps'
+import {
+  getRoadmapInfoById,
+  updateRoadmap,
+  deleteRoadmap
+} from '$/service/roadmaps'
 
 export default defineController(() => ({
   get: async ({ params }) => {
-    const roadmap = await getRoadmap(params.roadmapId)
+    const roadmap = await getRoadmapInfoById(params.roadmapId)
     if (!roadmap) {
       return { status: 404 }
     }
