@@ -10,3 +10,12 @@ export const formatDate = (date: Date) => {
 export const systemColorToColorCode = (systemColor: string): string => {
   return theme.colors[systemColor] || ''
 }
+export const getSystemColorFromPercentage = (percentage: number): string => {
+  let systemColor = '$accent1'
+  if (percentage > 33) {
+    systemColor = '$accent2'
+  } else if (percentage > 66) {
+    systemColor = '$accent3'
+  }
+  return systemColor
+}

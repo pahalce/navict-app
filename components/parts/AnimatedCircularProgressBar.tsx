@@ -1,22 +1,15 @@
 import { useEffect, useState } from 'react'
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
+import {
+  systemColorToColorCode,
+  getSystemColorFromPercentage
+} from '~/utils/utility'
 
 type Props = {
   className: string
   finalValue: number
   text: string
-  styles: {
-    rotation?: number
-    strokeLinecap?: any
-    textColor?: string
-    textSize?: string | number
-    pathColor?: string
-    pathTransition?: string
-    pathTransitionDuration?: number
-    trailColor?: string
-    backgroundColor?: string
-  }
   delay?: number // afawef
 }
 
@@ -24,8 +17,7 @@ const AnimatedCircularProgressBar = ({
   className,
   finalValue,
   text,
-  styles,
-  delay = 0,
+  delay,
   ...rest
 }: Props) => {
   const [value, setValue] = useState(0)
@@ -41,7 +33,14 @@ const AnimatedCircularProgressBar = ({
         className={className}
         value={value}
         text={text}
-        styles={buildStyles(styles)}
+        styles={buildStyles({
+          textColor: systemColorToColorCode('$primary'),
+          pathColor: systemColorToColorCode(
+            getSystemColorFromPercentage(value)
+          ),
+          trailColor: 'none',
+          pathTransitionDuration: 0.8
+        })}
         {...rest}
       />
     </div>
