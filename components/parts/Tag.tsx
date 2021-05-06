@@ -1,11 +1,8 @@
 import Image from 'next/image'
+import { includeJapaneseLetter } from 'utils/utility'
 type Props = {
   name: string
   className?: string
-}
-
-const includeJapaneseLetter = (str: string) => {
-  return !!str.match(/^[^\x01-\x7E\xA1-\xDF]+$/)
 }
 
 const Tag = ({ name, className }: Props) => {

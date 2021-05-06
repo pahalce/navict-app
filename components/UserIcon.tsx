@@ -8,9 +8,9 @@ type Props = {
 const UserIcon = ({ src, size = 12, className }: Props) => {
   return (
     <div
-      className={`rounded-full overflow-hidden w-${size} h-${size} ${className}`}
+      className={`flex justify-center items-center rounded-full overflow-hidden w-${size} h-${size} ${className}`}
     >
-      <Image src={src} alt="user icon" width="5000" height="5000" />
+      <img src={src} alt="" className="object-cover" />
     </div>
   )
 }

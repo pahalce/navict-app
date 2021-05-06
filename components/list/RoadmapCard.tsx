@@ -5,13 +5,10 @@ import Image from 'next/image'
 import UserIcon from '../UserIcon'
 import Tag from '../parts/Tag'
 import { useState } from 'react'
+import { formatDate } from 'utils/utility'
 
 type Props = {
   roadmap: Roadmap
-}
-const formatDate = (date: Date) => {
-  const t = new Date(date)
-  return `${t.getFullYear()}/${t.getMonth()}/${t.getDate()}  ${t.getHours()}:${t.getSeconds()}`
 }
 
 const RoadmapCard = ({ roadmap }: Props) => {

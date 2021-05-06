@@ -42,6 +42,7 @@ const Nav = () => {
             alt="bell icon"
             width="32"
             height="32"
+            layout="fixed"
           />
           {!!auth?.user?.img && (
             <Link href="/mypage">
@@ -53,7 +54,7 @@ const Nav = () => {
           )}
           <button className="flex items-center justify-center border-2  bg-$accent1 text-$white rounded-md ml-4 py-2 px-9 text-$t3">
             <Image src="/pencil.svg" alt="pencil icon" width="20" height="20" />
-            <Link href="/signin">
+            <Link href="#">
               <p className="ml-2">新規作成</p>
             </Link>
           </button>
