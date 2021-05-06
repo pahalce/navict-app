@@ -1,6 +1,8 @@
 import useAspidaSWR from '@aspida/swr'
 import RoadmapCard from '$components/list/RoadmapCard'
 import { apiClient } from '~/utils/apiClient'
+import { useAuth } from '~/contexts/AuthContext'
+import RoadmapsInProgress from '~/components/list/RoadmapsInProgress'
 
 const SearchRoadmap = () => {
   return (
@@ -9,7 +11,7 @@ const SearchRoadmap = () => {
         ロードマップを見つける
         <span className="text-$t5"> 気になるワードで検索してみよう</span>
       </h2>
-      <form className="">
+      <form>
         <input
           type="text"
           placeholder="Javascript"
@@ -36,9 +38,11 @@ const PopularRoadmaps = () => {
 }
 
 const Home = () => {
+  const auth = useAuth()
   return (
     <div className="bg-$tint w-full pb-36">
       <h1 className="px-10">navictのロードマップでなんちゃららしよう。</h1>
+      {auth?.user && <RoadmapsInProgress userId={auth.user.id} />}
       <SearchRoadmap />
       <PopularRoadmaps />
     </div>

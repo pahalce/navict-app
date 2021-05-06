@@ -10,8 +10,8 @@ const UserIconMenu = () => {
   const router = useRouter()
   const logout = async () => {
     try {
-      auth?.logout()
-      router.push('/')
+      await auth?.logout()
+      router.reload()
     } catch (error) {
       console.log(error.message)
     }
