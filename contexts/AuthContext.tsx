@@ -3,7 +3,6 @@ import firebase from 'firebase/app'
 import { auth } from '$firebase/firebase'
 import { apiClient } from '~/utils/apiClient'
 import type { User } from '$prisma/client'
-import { useRouter } from 'next/router'
 
 // TODO:Loginなどのメッセージをログじゃなくてちゃんと作る
 // TODO:loginを必要になったとき実装する
@@ -27,7 +26,6 @@ export const useAuth = () => {
 }
 
 export const AuthProvider = ({ children }: Props) => {
-  const router = useRouter()
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [loading, setLoading] = useState(true)
   const [user, setUser] = useState<AuthContext['user']>()
@@ -73,7 +71,6 @@ export const AuthProvider = ({ children }: Props) => {
           body: { accessToken: idToken }
         })
 
-        router.push('/')
         const user = res.body.user
         setUser(user)
         setIsLoggedIn(true)

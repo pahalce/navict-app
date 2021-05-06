@@ -20,7 +20,7 @@ const RoadmapCard = ({ roadmap }: Props) => {
   }
 
   return (
-    <div className="flex justify-between bg-$white rounded-3xl shadow-$rich mt-8 px-10 py-6">
+    <div className="flex justify-between bg-$white rounded-3xl shadow-$rich px-10 py-6">
       <div className="flex">
         {!!auth?.user?.img && (
           <Link href="/mypage">
