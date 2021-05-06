@@ -84,18 +84,22 @@ export const toggleIsDone = async (id: Roadmap['id']) => {
 export const getRoadmapInfosByUserId = async (
   userId: User['id']
 ): Promise<RoadmapInfo[]> => {
-  const partialRoadmapInfos = await prisma.roadmap.findMany({
-    where: { userId },
-    include: partialRoadmapInfoInclude
-  })
+  const partialRoadmapInfos: partialRoadmapInfo[] = await prisma.roadmap.findMany(
+    {
+      where: { userId },
+      include: partialRoadmapInfoInclude
+    }
+  )
   return makeRoadmapInfos(partialRoadmapInfos)
 }
 
 export const getRoadmapInfoById = async (id: Roadmap['id']) => {
-  const partialRoadmapInfo = await prisma.roadmap.findFirst({
-    where: { id },
-    include: partialRoadmapInfoInclude
-  })
+  const partialRoadmapInfo: partialRoadmapInfo | null = await prisma.roadmap.findFirst(
+    {
+      where: { id },
+      include: partialRoadmapInfoInclude
+    }
+  )
   if (!partialRoadmapInfo) return null
   return makeRoadmapInfo(partialRoadmapInfo)
 }
@@ -124,7 +128,7 @@ const makeRoadmapInfo = async (
     }
   })
   let donePercent = 0
-  if (partialRoadmapInfo.steps.length) {
+  if (partialRoadmapInfo.steps.length > 0) {
     donePercent =
       (partialRoadmapInfo.steps.filter((step) => step.isDone).length /
         partialRoadmapInfo.steps.length) *

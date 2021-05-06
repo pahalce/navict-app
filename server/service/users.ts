@@ -41,14 +41,15 @@ export const getUserInfoById = async (id: User['id']) => {
   if (!user) return null
 
   const roadmapInfos = await getRoadmapInfosByUserId(id)
+
+  const {
+    likes, // eslint-disable-line @typescript-eslint/no-unused-vars
+    ...userWithPersonal
+  } = user
   const doingRoadmaps = roadmapInfos.filter((r) => !r.isDone)
   const doneRoadmaps = roadmapInfos.filter((r) => r.isDone)
-  const doneRoadmapsCount = doneRoadmaps.length
-
   const likeRoadmaps = await getLikeRoadmaps(user.likes)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { likes, ...userWithPersonal } = user
-
+  const doneRoadmapsCount = doneRoadmaps.length
   const totalLikedCount = await getTotalLikedCountByUserId(id)
 
   return {
