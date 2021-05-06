@@ -1,4 +1,3 @@
-import Image from 'next/image'
 type Props = {
   src: string
   size?: number

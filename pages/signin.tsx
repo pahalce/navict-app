@@ -4,7 +4,7 @@ import { useAuth } from '~/contexts/AuthContext'
 const signin = () => {
   const auth = useAuth()
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div className="flex flex-col justify-center items-center pb-20">
       <h1 className="my-20 text-$t2">
         <span className="font-josefin">navict</span>
         のロードマップでなんちゃららしよう。
