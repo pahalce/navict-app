@@ -1,6 +1,6 @@
 import { defineController } from './$relay'
 import { PrismaClient } from '@prisma/client'
-import { veriyfyUserViaFirebase } from '$/service/users'
+import { veriyfyUserViaFirebase, createUser } from '$/service/users'
 
 const prisma = new PrismaClient()
 export default defineController((fastify) => ({
@@ -30,14 +30,13 @@ export default defineController((fastify) => ({
     }
 
     // user does not exist -> create new user
-    const newUser = await prisma.user.create({
-      data: {
-        firebaseUid: verifiedUser.uid,
-        name: verifiedUser.displayName || '',
-        email: verifiedUser.email,
-        img: verifiedUser.photoURL
-      }
-    })
+    const newUser = await createUser(
+      verifiedUser.displayName || '',
+      verifiedUser.email || null,
+      verifiedUser.photoURL || null,
+      verifiedUser.uid
+    )
+
     console.log('created new user')
     return {
       status: 201,

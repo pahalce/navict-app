@@ -27,6 +27,13 @@ export const veriyfyUserViaFirebase = async (idToken: string) => {
   }
 }
 
+export const createUser = (
+  name: User['name'],
+  email: User['email'] | null,
+  img: User['img'] | null,
+  firebaseUid: User['firebaseUid']
+) => prisma.user.create({ data: { name, email, img, firebaseUid } })
+
 export const getUserInfoById = async (id: User['id']) => {
   const user = await prisma.user.findUnique({
     where: { id },
