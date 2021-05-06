@@ -21,9 +21,32 @@ export const createRoadmap = (
     data: { title, description, forkedRoadmapId, firstStepId, userId }
   })
 
-// FIXME: 人気順のロードマップを取得するように実装を変更する。
-export const getPopularRoadmaps = async () =>
-  (await prisma.roadmap.findMany()).slice(0, 10)
+/**
+ * FIXME:
+ * とりあえずいいね順で10件とってきてる。
+ * 何が人気なのか仕様固めたらロジック変更する。
+ */
+export const getPopularRoadmapInfos = async (): Promise<RoadmapInfo[]> => {
+  const popularRoadmapInfos: RoadmapInfo[] = []
+
+  const popularRoadmaps = (
+    await prisma.roadmap.findMany({
+      orderBy: {
+        likes: {
+          count: 'desc'
+        }
+      }
+    })
+  ).slice(0, 10)
+
+  for (const popularRoadmap of popularRoadmaps) {
+    const popularRoadmapInfo = await getRoadmapInfoById(popularRoadmap.id)
+    if (!popularRoadmapInfo) continue
+    popularRoadmapInfos.push(popularRoadmapInfo)
+  }
+
+  return popularRoadmapInfos
+}
 
 export const searchRoadmaps = async (keyword: string) => {
   const roadmaps = await prisma.roadmap.findMany({
