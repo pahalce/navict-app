@@ -1,5 +1,6 @@
 import React from 'react'
 import { AuthProvider } from '~/contexts/AuthContext'
+import Footer from './Footer'
 import Nav from './header/Nav'
 
 type Props = {
@@ -11,6 +12,7 @@ const Layout = ({ children }: Props) => {
     <AuthProvider>
       <Nav />
       <main>{children}</main>
+      <Footer />
     </AuthProvider>
   )
 }

@@ -6,8 +6,8 @@ const Home = () => {
   const { data: roadmaps, error } = useAspidaSWR(apiClient.roadmaps.popular)
   if (error) return <div>failed to load</div>
   return (
-    <div className="px-10">
-      <h1>navictのロードマップでなんちゃららしよう。</h1>
+    <div>
+      <h1 className="px-10">navictのロードマップでなんちゃららしよう。</h1>
       <div className="bg-$tint w-full">
         <div className="roadmaps px-48 mx-auto">
           <h2 className="text-$primary text-$t1 text-center pt-4">

@@ -4,3 +4,8 @@
 html {
   @apply font-body;
 }
+
+#__next {
+  position: relative;
+  min-height: 100vh;
+}
