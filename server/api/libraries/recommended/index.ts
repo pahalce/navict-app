@@ -1,7 +1,8 @@
+import { LibraryInfo } from '$/types'
 import type { Library } from '$prisma/client'
 
 type LibraryId = Library['id']
-type RecommendedLibrary = Library & { score: number }
+type RecommendedLibraryInfo = LibraryInfo & { score: number }
 export type Methods = {
   /**
    * get recommended libraries
@@ -9,6 +10,6 @@ export type Methods = {
    */
   post: {
     reqBody: LibraryId[]
-    resBody: RecommendedLibrary[]
+    resBody: RecommendedLibraryInfo[]
   }
 }

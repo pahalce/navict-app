@@ -103,10 +103,10 @@ get recommended libraries
    POST /libriries/recommended
 
 search libraries by title
-   GET  /libraries/search/_title@string
+   GET  /libraries/searchByTitle/_title@string
 
 search libraries by link
-   GET  /libraries/search/_link@string
+   GET  /libraries/searchByLink/_link@string
 ```
 
 ## navictRecommender
