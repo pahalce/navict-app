@@ -94,14 +94,6 @@ export const changeFirstStepId = (
   firstStepId: Roadmap['firstStepId']
 ) => prisma.roadmap.update({ where: { id }, data: { firstStepId } })
 
-export const toggleIsGoalSet = async (id: Roadmap['id']) => {
-  const roadmap = await prisma.roadmap.findUnique({ where: { id } })
-  await prisma.roadmap.update({
-    where: { id },
-    data: { isGoalSet: !roadmap?.isGoalSet }
-  })
-}
-
 export const toggleIsDone = async (id: Roadmap['id']) => {
   const roadmap = await prisma.roadmap.findUnique({ where: { id } })
   await prisma.roadmap.update({

@@ -54,9 +54,6 @@ update a roadmap
 change firstStepId
 ** PATCH  /roadmaps/_roadmapId@number/_firstStepId@number
 
-toggle isGoalSet
-** PATCH  /roadmaps/_roadmapId@number/isGoalSet
-
 toggle isDone
 ** PATCH  /roadmaps/_roadmapId@number/isDone
 

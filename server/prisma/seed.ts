@@ -1,11 +1,10 @@
-/* eslint @typescript-eslint/no-var-requires: 1 */
 /**
  * FIXME:
  * なぜかimportできなかったのでrequireしてる。
  * これは多分ES周りの知識不足によるあれなので、いつかimportにしたい。
  */
 
-const PrismaClient = require('@prisma/client').PrismaClient
+const PrismaClient = require('@prisma/client').PrismaClient // eslint-disable-line @typescript-eslint/no-var-requires
 const prisma = new PrismaClient()
 
 const deleteAllData = async () => {
@@ -180,33 +179,33 @@ const users = async () => {
     data: {
       id: 1,
       name: 'わたなべつよし',
-      email: 'tuyosi.628@gmail.com',
+      email: 'tuyosi.628@dummy.com',
       bio:
         'なまこエンジニアです。ロンドン大学1年<br>仲良くしてください。<br>23ちゃい',
       img:
         'https://pbs.twimg.com/profile_images/1377089205516431361/UgFbDgAH_400x400.jpg',
       twitterLink: 'https://twitter.com/dubianhaozhi',
       githubLink: 'https://github.com/dubianhaozhi',
-      firebaseUid: 'ZOglMsN1q7cr6qORUlSvvAPWqbk2'
+      firebaseUid: 'sfQBWXtuLmUZbfiiVk1RhFE6u5x1'
     }
   })
   const taira = await prisma.user.create({
     data: {
       id: 2,
       name: 'たいら',
-      email: 'peaceee.programming@gmail.com',
+      email: 'peaceee.programming@dummy.com',
       img:
         'https://pbs.twimg.com/profile_images/1294959391192432640/RehTKVAR_400x400.jpg',
       twitterLink: 'https://twitter.com/peacepacey',
       githubLink: 'https://github.com/pahalce',
-      firebaseUid: 'iiTnRINGWUM5LLJPvYfBuYiZgmo1'
+      firebaseUid: 'DSeGUUBb1HTUpgCNelnhwgHDCzW2'
     }
   })
   const muto = await prisma.user.create({
     data: {
       id: 3,
       name: 'むとうほなみ',
-      email: 'honakuma1218@gmail.com',
+      email: 'honakuma1218@dummy.com',
       img:
         'https://pbs.twimg.com/profile_images/1326871780024217600/n9QZJDFh_400x400.jpg',
       twitterLink: 'https://twitter.com/honami_mt',
@@ -217,7 +216,7 @@ const users = async () => {
     data: {
       id: 4,
       name: 'いのうえともひろ',
-      email: 'tomoino925@gmail.com',
+      email: 'tomoino925@dummy.com',
       bio: 'エンジニアをやっています。<br>多趣味です。',
       img:
         'https://pbs.twimg.com/profile_images/1295946409175212032/URYBm_Cz_400x400.jpg',
@@ -243,7 +242,6 @@ const roadmapsWithSteps = async () => {
       description:
         '機械学習は、まず本でさらってその後、サイトで得た情報を元にアプリを作ってみる予定です。',
       firstStepId: 1,
-      isGoalSet: true,
       userId: 1,
       steps: {
         createMany: {
@@ -287,7 +285,6 @@ const roadmapsWithSteps = async () => {
       description:
         'Pythonはできるようになればめちゃめちゃ便利です！０からの学習を効率よくできるものをやりました！皆さんも参考にしてみてください！',
       firstStepId: 5,
-      isGoalSet: true,
       isDone: true,
       userId: 4,
       steps: {
