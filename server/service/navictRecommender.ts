@@ -12,7 +12,7 @@ export const getAllRoadmapsLibraryIds = async () => {
   })
   roadmaps.map((roadmap) => {
     const steps = sortSteps(roadmap).steps
-    ids.push(steps.map((s: Step) => s.id))
+    ids.push(steps.map((s: Step) => s.libraryId))
   })
   return ids
 }
