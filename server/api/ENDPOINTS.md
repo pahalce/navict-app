@@ -51,9 +51,6 @@ search roadmaps by keyword
 update a roadmap
 ** PUT    /roadmaps/_roadmapId@number
 
-change firstStepId
-** PATCH  /roadmaps/_roadmapId@number/_firstStepId@number
-
 toggle isDone
 ** PATCH  /roadmaps/_roadmapId@number/isDone
 
@@ -80,8 +77,11 @@ create a step
 update a step
 ** PUT    /steps/_stepId@number
 
-change a nextStepId
-** PATCH  /steps/_stepId@number/_nextStepId@number
+change a step's memo
+** PATCH /steps/_stepId@number/memo/_memo@string
+
+change a step's nextStepId
+** PATCH  /steps/_stepId@number/nextStepId/_nextStepId@number
 
 toggle isDone
 ** PATCH  /steps/_stepId@number/isDone

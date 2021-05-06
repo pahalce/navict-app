@@ -1,5 +1,8 @@
 export type Methods = {
-  // delete a like
+  /**
+   * delete a like
+   * ** DELETE /likes/_likeId@number
+   */
   delete: {
     status: 204
   }

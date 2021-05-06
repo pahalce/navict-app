@@ -25,7 +25,7 @@ export type Methods = {
 
   /**
    * update a user
-   * PUT /users/_userId@number
+   * ** PUT /users/_userId@number
    */
   put: {
     reqBody: UpdateUserBody

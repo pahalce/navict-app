@@ -1,9 +1,9 @@
 import { defineController } from './$relay'
-import { changeFirstStepId } from '$/service/roadmaps'
+import { changeMemo } from '$/service/steps'
 
 export default defineController(() => ({
   patch: async ({ params }) => {
-    await changeFirstStepId(params.roadmapId, params.firstStepId)
+    await changeMemo(params.stepId, params.memo)
     return { status: 204 }
   }
 }))
