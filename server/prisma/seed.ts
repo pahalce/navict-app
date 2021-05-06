@@ -1706,17 +1706,17 @@ async function main() {
   console.log('===== likes =====')
   await likes()
 
-  console.log('===== usersForTrain =====')
-  await usersForTrain()
+  // console.log('===== usersForTrain =====')
+  // await usersForTrain()
 
-  console.log('===== librariesForTrain =====')
-  await librariesForTrain()
+  // console.log('===== librariesForTrain =====')
+  // await librariesForTrain()
 
-  console.log('===== roadmapsForTrain =====')
-  await roadmapsForTrain()
+  // console.log('===== roadmapsForTrain =====')
+  // await roadmapsForTrain()
 
-  console.log('===== stepsForTrain =====')
-  await stepsForTrain()
+  // console.log('===== stepsForTrain =====')
+  // await stepsForTrain()
 }
 
 main()
