@@ -1,11 +1,10 @@
-/* eslint @typescript-eslint/no-var-requires: 1 */
 /**
  * FIXME:
  * なぜかimportできなかったのでrequireしてる。
  * これは多分ES周りの知識不足によるあれなので、いつかimportにしたい。
  */
 
-const PrismaClient = require('@prisma/client').PrismaClient
+const PrismaClient = require('@prisma/client').PrismaClient // eslint-disable-line @typescript-eslint/no-var-requires
 const prisma = new PrismaClient()
 
 const deleteAllData = async () => {
@@ -243,7 +242,6 @@ const roadmapsWithSteps = async () => {
       description:
         '機械学習は、まず本でさらってその後、サイトで得た情報を元にアプリを作ってみる予定です。',
       firstStepId: 1,
-      isGoalSet: true,
       userId: 1,
       steps: {
         createMany: {
@@ -287,7 +285,6 @@ const roadmapsWithSteps = async () => {
       description:
         'Pythonはできるようになればめちゃめちゃ便利です！０からの学習を効率よくできるものをやりました！皆さんも参考にしてみてください！',
       firstStepId: 5,
-      isGoalSet: true,
       isDone: true,
       userId: 4,
       steps: {

@@ -9,7 +9,6 @@ export const createLibrary = (title: Library['title'], link: Library['link']) =>
 /**
  * FIXME:
  * navict-recommenderに問い合わせる様に変更する。
- * goalの仕様固まったら実装修正する。
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getRecommendedLibraries = async (ids: Library['id'][]) => {

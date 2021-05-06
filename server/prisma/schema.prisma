@@ -40,9 +40,9 @@ model Roadmap {
   id              Int      @id @default(autoincrement())
   title           String
   description     String?
+  goal            String?
   forkedRoadmapId Int?
   firstStepId     Int?
-  isGoalSet       Boolean  @default(false)
   isDone          Boolean  @default(false)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt

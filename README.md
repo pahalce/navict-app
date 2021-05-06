@@ -102,7 +102,7 @@ $ yarn migrate:reset
 
 ```bash
 # at project root directory
-$ cd ./server/prisma
+$ cd server/prisma
 $ npx prisma studio
 ```
 
