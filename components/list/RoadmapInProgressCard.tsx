@@ -1,10 +1,8 @@
 import Link from 'next/link'
 import { RoadmapInfo } from '~/server/types'
 import { useState } from 'react'
-import { theme } from '~/tailwind.config'
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar'
-import 'react-circular-progressbar/dist/styles.css'
-// import ChangingProgressProvider from './ChangingProgressProvider'
+import { systemColorToColorCode } from 'utils/utility'
+import AnimatedCircularProgressBar from '$components/parts/AnimatedCircularProgressBar'
 
 const getSystemColorFromPercentage = (
   percentage: number
@@ -15,11 +13,7 @@ const getSystemColorFromPercentage = (
   } else if (percentage > 66) {
     systemColor = '$accent3'
   }
-  return { systemColor, colorCode: getColorCode(systemColor) }
-}
-
-const getColorCode = (systemColor: string): string => {
-  return theme.colors[systemColor] || ''
+  return { systemColor, colorCode: systemColorToColorCode(systemColor) }
 }
 
 type Props = {
@@ -33,20 +27,17 @@ const RoadmapInProgressCard = ({ roadmap }: Props) => {
       <p className="text-$t3 text-$white my-4">{roadmap.title}</p>
       {/* content */}
       <div className="bg-$white w-full rounded-b-lg text-$primary">
-        {/* <ChangingProgressProvider values={[0, roadmap.donePercent]}>
-          {(percentage: number) => ( */}
-        <CircularProgressbar
+        <AnimatedCircularProgressBar
           className="text-$T1 px-20 py-8"
-          value={roadmap.donePercent}
+          finalValue={roadmap.donePercent}
           text={`${roadmap.donePercent}%`}
-          styles={buildStyles({
-            textColor: getColorCode('$primary'),
+          styles={{
+            textColor: systemColorToColorCode('$primary'),
             pathColor: colorObj.colorCode,
-            trailColor: 'none'
-          })}
+            trailColor: 'none',
+            pathTransitionDuration: 0.8
+          }}
         />
-        {/* )} */}
-        {/* </ChangingProgressProvider> */}
         <div className="text-$t4 pb-4">
           <Link href="#">
             <a>ロードマップへ</a>
