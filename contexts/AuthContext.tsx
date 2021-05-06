@@ -12,7 +12,7 @@ import { useRouter } from 'next/router'
 export type SigninMethod = 'google' | 'twitter'
 type AuthContext = {
   signup: (method: Partial<SigninMethod>) => void
-  logout: () => void
+  logout: () => Promise<void>
   isLoggedIn: boolean
   user: User | null | undefined
 }

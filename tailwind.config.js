@@ -56,6 +56,16 @@ module.exports = {
           }
         }
       })
+      newUtilities['.w-$fit-content'] = {
+        width: 'fit-content'
+      }
+      newUtilities['.w-$max-content'] = {
+        width: 'max-content'
+      }
+      newUtilities['.shadow-$rich'] = {
+        boxShadow:
+          '0px 12px 19px rgba(44, 39, 56, 0.02), 0px 24px 43px rgba(0, 67, 101, 0.04)'
+      }
       addUtilities(newUtilities)
     })
   ]

@@ -2,15 +2,67 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useAuth } from '~/contexts/AuthContext'
 import UserIcon from '../UserIcon'
+import { Menu } from '@headlessui/react'
+import { useRouter } from 'next/router'
+
+const UserIconMenu = () => {
+  const auth = useAuth()
+  const router = useRouter()
+  const logout = async () => {
+    try {
+      await auth?.logout()
+      router.reload()
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+  return (
+    <div className="relative">
+      <Menu>
+        <Menu.Button className="ml-4 cursor-pointer">
+          <UserIcon src={auth?.user?.img || ''} />
+        </Menu.Button>
+        <Menu.Items className="flex flex-col absolute left-0 top-14 w-60 rounded-3xl bg-$white shadow-$rich py-4 px-4 text-$t4">
+          <Menu.Item>
+            {({ active }) => (
+              <div
+                className={`py-2 px-2 rounded-lg text-$primary ${
+                  active ? 'bg-$accent1 bg-opacity-10' : ''
+                }`}
+              >
+                <Link href="/mypage">
+                  <a className="w-36">個人ページへ</a>
+                </Link>
+              </div>
+            )}
+          </Menu.Item>
+          <Menu.Item>
+            {({ active }) => (
+              <div
+                onClick={logout}
+                className={`py-2 px-2 rounded-lg text-$primary ${
+                  active ? 'bg-$accent1 bg-opacity-10' : ''
+                }`}
+              >
+                ログアウト
+              </div>
+            )}
+          </Menu.Item>
+        </Menu.Items>
+      </Menu>
+    </div>
+  )
+}
+
 const Nav = () => {
   const auth = useAuth()
   return (
     <div className="flex justify-between items-center px-10 mx-auto pt-4">
       <div className="flex py-1">
         <Link href="/">
-          <p className="mr-8 font-josefin font-medium text-3.5xl cursor-pointer">
+          <a className="mr-8 font-josefin font-medium text-3.5xl cursor-pointer">
             navict
-          </p>
+          </a>
         </Link>
 
         <form className="flex items-center relative w-1/2">
@@ -25,16 +77,15 @@ const Nav = () => {
         </form>
       </div>
 
-      {/* user is logged in */}
-
-      {!auth?.isLoggedIn && (
-        <Link href="/signin">
-          <button className="border-2  border-$accent1 text-$accent1 rounded-md py-2 px-12 text-$t3">
-            ログイン
-          </button>
-        </Link>
-      )}
       {/* user is not logged in */}
+      {!auth?.isLoggedIn && (
+        <button className="border-2  border-$accent1 text-$accent1 rounded-md py-2 px-12 text-$t3">
+          <Link href="/signin">
+            <a>ログイン</a>
+          </Link>
+        </button>
+      )}
+      {/* user is logged in */}
       {auth?.isLoggedIn && (
         <div className="flex items-center">
           <Image
@@ -44,18 +95,11 @@ const Nav = () => {
             height="32"
             layout="fixed"
           />
-          {!!auth?.user?.img && (
-            <Link href="/mypage">
-              {/* div to avoid error from Link */}
-              <div>
-                <UserIcon src={auth.user.img} className="ml-4 cursor-pointer" />
-              </div>
-            </Link>
-          )}
+          {!!auth?.user?.img && <UserIconMenu />}
           <button className="flex items-center justify-center border-2  bg-$accent1 text-$white rounded-md ml-4 py-2 px-9 text-$t3">
             <Image src="/pencil.svg" alt="pencil icon" width="20" height="20" />
             <Link href="#">
-              <p className="ml-2">新規作成</p>
+              <a className="ml-2">新規作成</a>
             </Link>
           </button>
         </div>
