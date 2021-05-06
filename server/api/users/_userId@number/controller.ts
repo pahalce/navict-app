@@ -1,9 +1,9 @@
 import { defineController } from './$relay'
-import { deleteUser, getUser, updateUser } from '$/service/users'
+import { deleteUser, getUserInfoById, updateUser } from '$/service/users'
 
 export default defineController(() => ({
   get: async ({ params }) => {
-    const user = await getUser(params.userId)
+    const user = await getUserInfoById(params.userId)
     if (!user) {
       return { status: 404 }
     }

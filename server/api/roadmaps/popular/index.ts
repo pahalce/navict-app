@@ -1,8 +1,11 @@
-import type { Roadmap } from '$prisma/client'
+import { RoadmapInfo } from '$/types'
 
 export type Methods = {
-  // get popular roadmaps
+  /**
+   * get popular roadmaps
+   * GET /roadmaps/popular
+   */
   get: {
-    resBody: Roadmap[]
+    resBody: RoadmapInfo[]
   }
 }
