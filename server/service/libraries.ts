@@ -11,6 +11,7 @@ export const createLibrary = (title: Library['title'], link: Library['link']) =>
  * navict-recommenderに問い合わせる様に変更する。
  * goalの仕様固まったら実装修正する。
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getRecommendedLibraries = async (ids: Library['id'][]) => {
   return (await prisma.library.findMany()).slice(0, 3).map((library) => {
     return {
