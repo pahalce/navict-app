@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useRouter } from 'next/router'
 import { useAuth } from '~/contexts/AuthContext'
 import UserIcon from '~/components/UserIcon'
 import useAspidaSWR from '@aspida/swr'
