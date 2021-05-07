@@ -6,7 +6,7 @@ type Props = {
   userId: number
 }
 const RoadmapsInProgress = ({ userId }: Props) => {
-  const { data: user, error } = useAspidaSWR(apiClient.users._userId(1))
+  const { data: user, error } = useAspidaSWR(apiClient.users._userId(userId))
   if (error) return <div>failed to load</div>
   return (
     <div className="bg-$tint">
