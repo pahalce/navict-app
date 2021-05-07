@@ -6,6 +6,7 @@ import Tag from '../parts/Tag'
 import React, { useState } from 'react'
 import { formatDate } from 'utils/utility'
 import AnimatedCircularProgressBar from '../parts/AnimatedCircularProgressBar'
+import { Roadmap } from '$prisma/client'
 
 export enum RoadmapCardType {
   DOING,
@@ -73,7 +74,7 @@ type RoadmapCardProps = {
   type: RoadmapCardType
   roadmap: RoadmapInfo
   isLiked: boolean
-  onToggleLike: () => void
+  onToggleLike: (roadmapId: Roadmap['id']) => void
 }
 const RoadmapCard = ({
   type,
@@ -81,12 +82,11 @@ const RoadmapCard = ({
   isLiked: initialIsLiked,
   onToggleLike
 }: RoadmapCardProps) => {
-  // const auth = useAuth()
   const [isLiked, setIsliked] = useState<boolean>(initialIsLiked)
 
   const handleToggleLike = () => {
     setIsliked(!isLiked)
-    onToggleLike()
+    onToggleLike(roadmap.id)
   }
 
   return (
@@ -94,6 +94,7 @@ const RoadmapCard = ({
       <div className="flex">
         <div className={`mr-10`} style={{ minWidth: '48px' }}>
           <UserIcon
+            userId={roadmap.user.id}
             src={roadmap.user.img || ''}
             size={12}
             className={`cursor-pointer`}

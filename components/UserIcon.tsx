@@ -5,17 +5,18 @@ const navictIcon =
 
 type Props = {
   src: string
+  userId?: number
   size?: number
   className?: string
 }
 
-const UserIcon = ({ src, size = 12, className }: Props) => {
+const UserIcon = ({ userId, src, size = 12, className }: Props) => {
+  const href = userId ? `/users/${userId}` : '/mypage'
   return (
     <div
       className={`rounded-full overflow-hidden w-${size} h-${size} min-h-${size} ${className}`}
     >
-      {/* FIXME: UserPageに飛ばす */}
-      <Link href={`/mypage`}>
+      <Link href={href}>
         <img src={src || navictIcon} alt="" className="object-cover" />
       </Link>
     </div>
