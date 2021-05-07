@@ -6,6 +6,8 @@ import { apiClient } from '~/utils/apiClient'
 import Image from 'next/image'
 import { RoadmapInfo, UserInfo } from '~/server/types'
 import RoadmapCard from '~/components/list/RoadmapCard'
+import { RoadmapCardType } from '~/components/list/RoadmapCard'
+import { Roadmap } from '$prisma/client'
 
 type SnsLinkProps = {
   type: 'twitter' | 'github' | 'website'
@@ -87,9 +89,9 @@ const Profile = ({ user }: ProfileProps) => (
 
 type TabsProps = {
   index: number
-  handleClick: (index: number) => void
+  onClick: (index: number) => void
 }
-const Tabs = ({ index, handleClick }: TabsProps) => {
+const Tabs = ({ index, onClick }: TabsProps) => {
   const tabs = ['実行中', '達成済み', 'いいね']
   return (
     <div className={`flex max-w-5xl mx-auto`}>
@@ -100,7 +102,7 @@ const Tabs = ({ index, handleClick }: TabsProps) => {
             className={`text-$primary text-$t2 w-1/3 text-center py-3 border-b-4 cursor-pointer ${
               i === index ? 'border-$accent1' : 'border-none'
             }`}
-            onClick={() => handleClick(i)}
+            onClick={() => onClick(i)}
           >
             {tab}
           </div>
@@ -115,12 +117,14 @@ type RoadmapsProps = {
   doingRoadmaps: RoadmapInfo[]
   doneRoadmaps: RoadmapInfo[]
   likeRoadmaps: RoadmapInfo[]
+  onToggleLike: (roadmapId: Roadmap['id']) => void
 }
 const Roadmaps = ({
   index,
   doingRoadmaps,
   doneRoadmaps,
-  likeRoadmaps
+  likeRoadmaps,
+  onToggleLike
 }: RoadmapsProps) => {
   const roadmaps = (index: number) => {
     if (index === 0) {
@@ -133,11 +137,23 @@ const Roadmaps = ({
       return doingRoadmaps
     }
   }
+  const roadmapCardType = [
+    RoadmapCardType.DOING,
+    RoadmapCardType.DONE,
+    RoadmapCardType.LIKE
+  ]
+
   return (
     <div>
       {roadmaps(index).map((roadmap, i) => (
         <div key={i} className={`max-w-5xl mx-auto ${i > 0 ? 'mt-11' : ''}`}>
-          <RoadmapCard roadmap={roadmap} />
+          <RoadmapCard
+            type={roadmapCardType[index]}
+            // FIXME: ここ常にtrueにする実装ちょっと怪しい。
+            isLiked={true}
+            roadmap={roadmap}
+            onToggleLike={() => onToggleLike(roadmap.id)}
+          />
         </div>
       ))}
     </div>
@@ -155,8 +171,13 @@ const MyPage = () => {
   )
   if (error || !user) return <div>failed to load</div>
 
-  const onTabClick = (index: number) => {
+  const handleTabClick = (index: number) => {
     setIndex(index)
+  }
+
+  const handleToggleLike = (roadmapId: Roadmap['id']) => {
+    if (!auth.user) return
+    apiClient.likes.post({ body: { userId: auth.user.id, roadmapId } })
   }
 
   return (
@@ -165,7 +186,7 @@ const MyPage = () => {
         <Profile user={user} />
       </div>
       <div className={`mb-10`}>
-        <Tabs index={index} handleClick={onTabClick} />
+        <Tabs index={index} onClick={handleTabClick} />
       </div>
       <div className={`pt-20 pb-24 bg-$tint`}>
         <Roadmaps
@@ -173,6 +194,7 @@ const MyPage = () => {
           doingRoadmaps={user.doingRoadmaps}
           doneRoadmaps={user.doneRoadmaps}
           likeRoadmaps={user.likeRoadmaps}
+          onToggleLike={handleToggleLike}
         />
       </div>
     </div>

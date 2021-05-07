@@ -23,7 +23,7 @@ const AnimatedCircularProgressBar = ({
   const [value, setValue] = useState(0)
   useEffect(() => {
     window.setTimeout(() => {
-      setValue(finalValue)
+      setValue(finalValue + 0.1)
     }, delay)
   }, [])
 
