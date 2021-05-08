@@ -35,7 +35,7 @@ const UserIcon = ({ userId, src, size = 12, className }: Props) => {
   }
   return (
     <div
-      className={`rounded-full overflow-hidden w-${size} h-${size} min-h-${size} ${className}`}
+      className={`rounded-full overflow-hidden w-${size} h-${size} ${className}`}
     >
       {img}
     </div>
