@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import type { Roadmap, Step, Tag, User } from '$prisma/client'
-import type { RoadmapInfo } from '$/types'
+import type { RoadmapInfo, StepInfo } from '$/types'
 import { partialRoadmapInfoInclude } from '$/prisma/options'
 import type { UpdateRoadmapReqBody } from '$/api/roadmaps/_roadmapId@number/index'
 
@@ -192,7 +192,33 @@ export const getRoadmapInfoById = async (id: Roadmap['id']) => {
     }
   )
   if (!partialRoadmapInfo) return null
-  return makeRoadmapInfo(partialRoadmapInfo)
+  return sortSteps(await makeRoadmapInfo(partialRoadmapInfo))
+}
+
+// FIXME: $/service/navictRecommender.tsのsortStepsとかぶってるのでリファクタする
+const sortSteps = (roadmapInfo: RoadmapInfo): RoadmapInfo => {
+  const sortedSteps: StepInfo[] = []
+
+  // 1番目のStepを追加
+  const firstStep = roadmapInfo.steps.find(
+    (step) => step.id === roadmapInfo.firstStepId
+  )
+  if (!firstStep) return { ...roadmapInfo, steps: [] }
+  sortedSteps.push(firstStep)
+
+  // 2番目以降のStepを追加
+  let nextStepId: Step['nextStepId'] = null
+  for (let i = 0; i < roadmapInfo.steps.length - 1; i++) {
+    const nextStep = roadmapInfo.steps.find(
+      (step) => step.id === sortedSteps.slice(-1)[0].nextStepId
+    )
+    if (!nextStep) break
+    sortedSteps.push(nextStep)
+    nextStepId = nextStep?.nextStepId || null
+    if (!nextStepId) break
+  }
+
+  return { ...roadmapInfo, steps: sortedSteps }
 }
 
 const makeRoadmapInfos = async (
