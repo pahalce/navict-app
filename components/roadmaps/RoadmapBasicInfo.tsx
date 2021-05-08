@@ -8,6 +8,7 @@ type TagsSearchResultProps = {
   tags: Tag[]
   keyword: string
   handleClickTag: (tag: Tag) => void
+  clearSearch: () => void
   className?: string
 }
 
@@ -15,6 +16,7 @@ const TagSearchResult = ({
   tags,
   keyword,
   handleClickTag,
+  clearSearch,
   className
 }: TagsSearchResultProps) => {
   return (
@@ -31,7 +33,13 @@ const TagSearchResult = ({
       {keyword.length > 0 && (
         <Menu.Items className="flex flex-col absolute left-0 top-14 w-full rounded-3xl bg-$white shadow-$rich py-4 px-4 text-$t4">
           {tags.map((tag) => (
-            <Menu.Item key={tag.id} onClick={() => handleClickTag(tag)}>
+            <Menu.Item
+              key={tag.id}
+              onClick={() => {
+                handleClickTag(tag)
+                clearSearch()
+              }}
+            >
               {({ active }) => (
                 <div
                   className={`py-2 px-2 rounded-lg text-$primary ${
@@ -114,12 +122,16 @@ const RoadmapBasicInfo = ({
             className="w-full py-2 px-3"
             onChange={handleTagKeywordChange}
             type="text"
+            value={keyword}
             placeholder="関連するキーワードを入力してタグを作成　見つけてもらいやすくしよう！"
           />
           <TagSearchResult
             tags={getFilteredTags(tags)}
             keyword={keyword}
             handleClickTag={onTagSelect}
+            clearSearch={() => {
+              setKeyword('')
+            }}
           />
         </div>
         <textarea
