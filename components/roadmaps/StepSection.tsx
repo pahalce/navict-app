@@ -222,7 +222,7 @@ const StepSection = ({
         <div key={index} className="w-full max-w-3xl">
           <StepCard
             href={stepWithLib.library.link || ''}
-            src={stepWithLib.library.img || '/no-source.png'}
+            src={stepWithLib.library.img || ''}
             memo={''}
             title={stepWithLib.library.title}
             canDelete
