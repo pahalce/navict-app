@@ -41,7 +41,7 @@ const Home = () => {
   const auth = useAuth()
   return (
     <div className="bg-$tint w-full pb-36">
-      <h1 className="px-10">navictのロードマップでなんちゃららしよう。</h1>
+      <img src="/top-mv.jpg" />
       {auth?.user && <RoadmapsInProgress userId={auth.user.id} />}
       <SearchRoadmap />
       <PopularRoadmaps />
