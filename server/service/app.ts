@@ -14,9 +14,10 @@ import server from '$/$server'
 export const init = (serverFactory?: FastifyServerFactory) => {
   const app = Fastify({ serverFactory })
   app.register(helmet)
-  app.register(cors, {
-    origin: ['https://navict-app.vercel.app']
-  })
+  // FIXME: いったんコメントアウト
+  // app.register(cors, {
+  //   origin: ['https://navict-app.vercel.app']
+  // })
   app.register(fastifyStatic, {
     root: path.join(__dirname, 'static'),
     prefix: '/static/'
