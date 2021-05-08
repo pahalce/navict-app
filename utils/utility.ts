@@ -6,7 +6,9 @@ export const includeJapaneseLetter = (str: string) => {
 
 export const formatDate = (date: Date) => {
   const t = new Date(date)
-  return `${t.getFullYear()}/${t.getMonth()}/${t.getDate()}  ${t.getHours()}:${t.getSeconds()}`
+  return `${t.getFullYear()}/${
+    t.getMonth() + 1
+  }/${t.getDate()}  ${t.getHours()}:${t.getSeconds()}`
 }
 
 export const systemColorToColorCode = (systemColor: string): string => {
@@ -25,3 +27,5 @@ export const getSystemColorFromPercentage = (percentage: number): string => {
 
 export const shortenText = (text: string, count: number) =>
   `${text.slice(0, count)} ...`
+
+export const comingSoon = () => alert('coming soon ...')

@@ -1,6 +1,6 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { shortenText } from '~/utils/utility'
+import Trash from '../parts/Trash'
 
 type StepCardProps = {
   src: string
@@ -30,16 +30,7 @@ const StepCard = ({
       <div>
         <div className={`flex mb-1`}>
           <p className="text-$t2 text-$primary mr-8">{title}</p>
-          {canDelete ? (
-            <Image
-              src={`/trash.svg`}
-              width={16}
-              height={20}
-              onClick={onDeleteClick}
-            />
-          ) : (
-            <></>
-          )}
+          {canDelete ? <Trash onClick={onDeleteClick} /> : <></>}
         </div>
         <div>
           <Link href={href}>

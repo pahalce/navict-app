@@ -7,7 +7,7 @@ import {
 } from '~/utils/utility'
 
 type Props = {
-  className: string
+  className?: string
   finalValue: number
   text: string
   delay?: number // afawef
