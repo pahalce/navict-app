@@ -1,10 +1,10 @@
 import Image from 'next/image'
 import { includeJapaneseLetter } from 'utils/utility'
+
 type Props = {
   name: string
   className?: string
 }
-
 const Tag = ({ name, className }: Props) => {
   return (
     <div className={`flex ${className}`}>
