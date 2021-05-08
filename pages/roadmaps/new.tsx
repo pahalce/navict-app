@@ -128,7 +128,6 @@ const createRoadmapsPage = () => {
           const name = selectedTag.name
           return { name }
         }) || []
-      console.log(steps)
       const reqBody: RoadmapCreateReqBody = {
         userId,
         title,
@@ -138,9 +137,8 @@ const createRoadmapsPage = () => {
         forkedRoadmapId: null, // TODO: forkしたときに変える
         steps: steps
       }
-      console.log(reqBody)
-      const resBody = await apiClient.roadmaps.$post({ body: reqBody })
-      console.log('res:', resBody)
+      apiClient.roadmaps.$post({ body: reqBody })
+      router.push(`/users/${userId}`)
       // router.push(`roadmaps/edit/${resBody.id}`)
     } catch (error) {
       console.error(error)
