@@ -22,9 +22,10 @@ const AnimatedCircularProgressBar = ({
 }: Props) => {
   const [value, setValue] = useState(0)
   useEffect(() => {
-    window.setTimeout(() => {
+    const clear = window.setTimeout(() => {
       setValue(finalValue + 0.1)
     }, delay)
+    return clearTimeout(clear)
   }, [])
 
   return (

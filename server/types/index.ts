@@ -44,3 +44,8 @@ export type RoadmapCreateReqBody = Pick<
   tags: Pick<Tag, 'name'>[]
   steps: Pick<Step, 'memo' | 'isDone' | 'libraryId'>[]
 }
+
+export type StepReqBody = Pick<
+  Step,
+  'memo' | 'nextStepId' | 'isDone' | 'libraryId'
+>

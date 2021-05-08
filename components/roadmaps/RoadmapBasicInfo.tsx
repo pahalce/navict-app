@@ -2,12 +2,12 @@ import { Tag } from '$prisma/client'
 import React, { useState } from 'react'
 import TagChip from '../parts/TagChip'
 import { Menu } from '@headlessui/react'
-import ButtonSmall from '../button/ButtonSmall'
 
 type TagsSearchResultProps = {
   tags: Tag[]
   keyword: string
   handleClickTag: (tag: Tag) => void
+  onCreateNewTag: (name: string) => void
   clearSearch: () => void
   className?: string
 }
@@ -16,20 +16,17 @@ const TagSearchResult = ({
   tags,
   keyword,
   handleClickTag,
+  onCreateNewTag,
   clearSearch,
   className
 }: TagsSearchResultProps) => {
+  const handleNewTag = () => {
+    onCreateNewTag(keyword)
+  }
+
   return (
     <Menu>
-      <Menu.Button className={`${className}`} as="div">
-        <ButtonSmall
-          text={'候補を表示'}
-          onClick={(e) => {
-            e.preventDefault()
-          }}
-          className="text-$t5 px-2 w-$max-content"
-        />
-      </Menu.Button>
+      <Menu.Button className={`${className}`}>検索</Menu.Button>
       {keyword.length > 0 && (
         <Menu.Items className="flex flex-col absolute left-0 top-14 w-full rounded-3xl bg-$white shadow-$rich py-4 px-4 text-$t4">
           {tags.map((tag) => (
@@ -54,6 +51,7 @@ const TagSearchResult = ({
           <Menu.Item key="add-new">
             {({ active }) => (
               <div
+                onClick={handleNewTag}
                 className={`py-2 px-2 rounded-lg text-$primary ${
                   active ? 'bg-$accent1 bg-opacity-10' : ''
                 }`}
@@ -76,6 +74,7 @@ type Props = {
   tags: Tag[] | undefined
   selectedTags: Tag[] | undefined
   onTagSelect: (tag: Tag) => void
+  onCreateNewTag: (name: string) => void
   onCloseSelectedTag: (tag: Tag) => void
   onTagKeywordChange: (keyword: string) => void
 }
@@ -88,20 +87,24 @@ const RoadmapBasicInfo = ({
   tags = [],
   selectedTags = [],
   onTagSelect,
+  onCreateNewTag,
   onCloseSelectedTag,
   onTagKeywordChange
 }: Props) => {
   const [keyword, setKeyword] = useState('')
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault()
     onChangeTitle(e.target.value)
   }
   const handleChangeDescription = (
     e: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
+    e.preventDefault()
     onChangeDescription(e.target.value)
   }
   const handleTagKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault()
     setKeyword(e.target.value)
     onTagKeywordChange(e.target.value)
   }
@@ -148,9 +151,11 @@ const RoadmapBasicInfo = ({
             tags={getFilteredTags(tags)}
             keyword={keyword}
             handleClickTag={onTagSelect}
+            onCreateNewTag={onCreateNewTag}
             clearSearch={() => {
               setKeyword('')
             }}
+            className="bg-$accent1 text-$white w-16 p-2 rounded-md text-$t6"
           />
         </div>
         <textarea
