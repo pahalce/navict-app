@@ -5,8 +5,17 @@ import { RecommendedLibraryInfo } from '$/types'
 
 const prisma = new PrismaClient()
 
-export const createLibrary = (title: Library['title'], link: Library['link']) =>
-  prisma.library.create({ data: { title, link } })
+export const createLibrary = async (
+  title: Library['title'],
+  link: Library['link']
+) => {
+  // FIXME: seedデータのせいかなんかで、idのconstraintがおかしかったのでいったんクソな対応をした。直す。
+  // return await prisma.library.create({ data: { title, link } })
+  const lastLibraryId = (await prisma.library.findMany()).slice(-1)[0].id
+  return await prisma.library.create({
+    data: { id: lastLibraryId + 1, title, link }
+  })
+}
 
 export const getRecommendedLibraryInfos = async (ids: Library['id'][]) => {
   try {

@@ -57,7 +57,7 @@ const UserIconMenu = () => {
 const Nav = () => {
   const auth = useAuth()
   return (
-    <div className="flex justify-between items-center px-10 mx-auto pt-4">
+    <div className="flex justify-between items-center px-10 mx-auto py-10">
       <div className="flex py-1">
         <div className={`mr-4 cursor-pointer`}>
           <Link href="/">
@@ -67,12 +67,13 @@ const Nav = () => {
           </Link>
         </div>
 
-        <form className="flex items-center relative w-1/2">
+        <form className="flex items-center relative w-1/2" action={`/search`}>
           <div className="flex items-center absolute top-50 left-4 text-$ cursor-text">
             <Image src="/header/search.svg" width="20" height="20" />
           </div>
           <input
             type="text"
+            name="keyword"
             placeholder="ロードマップを検索"
             className="py-1 pl-12 border-2 border-$grey border-opacity-5 rounded-md text-$t4 text-$shade1"
           />
