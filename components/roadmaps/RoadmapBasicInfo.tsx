@@ -69,6 +69,10 @@ const TagSearchResult = ({
 }
 
 type Props = {
+  title: string | undefined
+  onChangeTitle: (title: string) => void
+  description: string | null
+  onChangeDescription: (description: string) => void
   tags: Tag[] | undefined
   selectedTags: Tag[] | undefined
   onTagSelect: (tag: Tag) => void
@@ -77,6 +81,10 @@ type Props = {
 }
 
 const RoadmapBasicInfo = ({
+  title,
+  onChangeTitle,
+  description,
+  onChangeDescription,
   tags = [],
   selectedTags = [],
   onTagSelect,
@@ -85,6 +93,14 @@ const RoadmapBasicInfo = ({
 }: Props) => {
   const [keyword, setKeyword] = useState('')
 
+  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChangeTitle(e.target.value)
+  }
+  const handleChangeDescription = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    onChangeDescription(e.target.value)
+  }
   const handleTagKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value)
     onTagKeywordChange(e.target.value)
@@ -100,11 +116,14 @@ const RoadmapBasicInfo = ({
 
   return (
     <div>
-      <form className="flex justify-center items-center flex-col max-w-3xl mx-auto my-16 text-$primary">
+      <div className="flex justify-center items-center flex-col max-w-3xl mx-auto my-16 text-$primary">
         <input
+          onChange={handleChangeTitle}
+          value={title}
           className="text-$t1 text-center w-full py-2"
           type="text"
           placeholder="タイトルを入力"
+          required
         />
         {/* search tags */}
         <div className="flex relative border-2 border-$shade2 rounded-md w-full text-$t4 my-6">
@@ -135,11 +154,13 @@ const RoadmapBasicInfo = ({
           />
         </div>
         <textarea
+          onChange={handleChangeDescription}
+          value={description || ''}
           className="bg-$shade3 rounded-md w-full text-$t4 py-2 px-3"
           rows={8}
           placeholder="概要を入力"
         />
-      </form>
+      </div>
     </div>
   )
 }
