@@ -30,7 +30,7 @@ const SetGoal = () => {
         ゴールの設定
       </button> */}
       <p className="text-$t1 mb-8">ゴール</p>
-      <form className="flex flex-col justify-between bg-$white rounded-2xl p-4 w-full max-w-4xl mx-auto">
+      <form className="flex flex-col justify-between bg-$white rounded-2xl shadow-$rich p-4 w-full max-w-4xl mx-auto">
         <input
           className="text-$t3 p-2 w-full pb-12"
           type="text"
