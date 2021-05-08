@@ -71,6 +71,9 @@ const createRoadmapsPage = () => {
       const lib = await apiClient.libraries.$post({
         body: { title, link }
       })
+      if (!lib) {
+        throw Error('failed to post data')
+      }
       setSelectedLibrary(lib)
       return lib
     } catch (error) {
@@ -84,7 +87,6 @@ const createRoadmapsPage = () => {
     } else {
       newSteps = [step]
     }
-    console.log('addStep:', newSteps, step)
     setSteps(newSteps)
     setSelectedLibrary(null)
   }

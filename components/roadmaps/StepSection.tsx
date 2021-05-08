@@ -7,9 +7,7 @@ import { Menu } from '@headlessui/react'
 
 type LibrarySearchResultProps = {
   libraries: LibraryInfo[]
-  onAddLibrary: (title: string, link: string) => void
   keyword: string
-  linkUrl: string
   handleClickLibrary: (library: LibraryInfo) => void
   afterSearch: (any: any) => void
   className?: string
@@ -17,9 +15,7 @@ type LibrarySearchResultProps = {
 
 const LibrarySearchResult = ({
   libraries,
-  onAddLibrary,
   keyword,
-  linkUrl,
   handleClickLibrary,
   afterSearch,
   className
@@ -27,46 +23,51 @@ const LibrarySearchResult = ({
   return (
     <Menu>
       <Menu.Button className={`${className}`}>検索</Menu.Button>
-      <Menu.Items className="flex flex-col absolute left-0 top-14 w-full rounded-3xl bg-$white shadow-$rich py-4 px-4 text-$t4">
-        {libraries.map((library: LibraryInfo) => (
-          <Menu.Item
-            key={library.id}
-            onClick={() => {
-              handleClickLibrary(library)
-              afterSearch(library)
-            }}
-          >
+      {keyword.length > 0 && (
+        <Menu.Items className="flex flex-col absolute left-0 top-14 w-full rounded-3xl bg-$white shadow-$rich py-4 px-4 text-$t4">
+          {libraries.map((library: LibraryInfo) => (
+            <Menu.Item
+              key={library.id}
+              onClick={() => {
+                handleClickLibrary(library)
+                afterSearch(library)
+              }}
+            >
+              {({ active }) => (
+                <div
+                  className={`py-2 px-2 rounded-lg text-$primary ${
+                    active ? 'bg-$accent1 bg-opacity-10' : ''
+                  }`}
+                >
+                  {library.title}
+                </div>
+              )}
+            </Menu.Item>
+          ))}
+          <Menu.Item key="add-new">
             {({ active }) => (
               <div
                 className={`py-2 px-2 rounded-lg text-$primary ${
                   active ? 'bg-$accent1 bg-opacity-10' : ''
                 }`}
               >
-                {library.title}
+                {keyword}を追加する
               </div>
             )}
           </Menu.Item>
-        ))}
-        <Menu.Item key="add-new">
-          {({ active }) => (
-            <div
-              className={`py-2 px-2 rounded-lg text-$primary ${
-                active ? 'bg-$accent1 bg-opacity-10' : ''
-              }`}
-            >
-              {keyword}を追加する
-            </div>
-          )}
-        </Menu.Item>
-      </Menu.Items>
+        </Menu.Items>
+      )}
     </Menu>
   )
 }
 
 type LibrarySearchProps = {
-  onAddLibrary: (title: string, link: string) => Promise<LibraryInfo>
+  onAddLibrary: (
+    title: string,
+    link: string
+  ) => Promise<LibraryInfo | undefined>
   libraries: LibraryInfo[] | undefined
-  selectedLibrary: LibraryInfo | undefined
+  selectedLibrary: LibraryInfo | null
   onLibrarySelect: (library: LibraryInfo) => void
   onLibraryKeywordChange: (keyword: string) => void
   onAddStep: (step: StepReqBody) => void
@@ -88,31 +89,38 @@ const LibrarySearch = ({
   const [linkUrl, setLinkUrl] = useState('')
 
   const handleAddStep = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
     if (!keyword) {
       return
     }
-    e.preventDefault()
-    let resultLib
-    if (!selectedLibrary) {
-      resultLib = await onAddLibrary(keyword, linkUrl)
-      console.log('created:', resultLib)
-      onLibrarySelect(resultLib)
-    } else {
-      resultLib = selectedLibrary
+    try {
+      let resultLib
+      if (!selectedLibrary) {
+        resultLib = await onAddLibrary(keyword, linkUrl)
+        if (!resultLib) {
+          throw Error('failed to connect')
+        }
+        onLibrarySelect(resultLib)
+      } else {
+        resultLib = selectedLibrary
+      }
+      const step: StepReqBody = {
+        libraryId: resultLib.id,
+        isDone: false,
+        memo: null,
+        nextStepId: null
+      }
+      onAddStep(step)
+      const currentStepWithLib: StepWithLibrary = {
+        ...step,
+        library: resultLib
+      }
+      setStepsWithLibs([...stepsWithLibs, currentStepWithLib])
+      setKeyword('')
+      setLinkUrl('')
+    } catch (error) {
+      console.error(error)
     }
-    const step: StepReqBody = {
-      libraryId: resultLib.id,
-      isDone: false,
-      memo: null,
-      nextStepId: null
-    }
-    onAddStep(step)
-    const currentStepWithLib: StepWithLibrary = {
-      ...step,
-      library: resultLib
-    }
-    setStepsWithLibs([...stepsWithLibs, currentStepWithLib])
-    console.log('stlbs:', [...stepsWithLibs, currentStepWithLib])
   }
   const handleLibraryKeywordChange = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -122,7 +130,6 @@ const LibrarySearch = ({
     onLibraryKeywordChange(e.target.value)
   }
   const setLibraryInfo = (library: LibraryInfo) => {
-    // setKeyword(selectedLibrary?.title || '')
     setKeyword(library.title)
     setLinkUrl(library.link || '')
   }
@@ -140,9 +147,7 @@ const LibrarySearch = ({
           />
           <LibrarySearchResult
             keyword={keyword}
-            linkUrl={linkUrl}
             libraries={libraries || []}
-            onAddLibrary={onAddLibrary}
             handleClickLibrary={onLibrarySelect}
             afterSearch={setLibraryInfo}
             className="bg-$accent1 text-$white w-16 p-2 rounded-md text-$t6"
@@ -169,9 +174,12 @@ type StepSectionProps = {
   steps: StepReqBody[]
   onAddStep: (step: StepReqBody) => void
   onDeleteStep: (step: StepReqBody) => void
-  onAddLibrary: (title: string, link: string) => void
+  onAddLibrary: (
+    title: string,
+    link: string
+  ) => Promise<LibraryInfo | undefined>
   libraries: LibraryInfo[] | undefined
-  selectedLibrary: LibraryInfo | undefined
+  selectedLibrary: LibraryInfo | null
   onLibrarySelect: (library: LibraryInfo) => void
   onLibraryKeywordChange: (keyword: string) => void
 }
@@ -232,7 +240,7 @@ const StepSection = ({
         </div>
         {isFormShown && (
           <LibrarySearch
-            libraries={libraries}
+            libraries={libraries?.slice(0, 5)}
             onAddLibrary={onAddLibrary}
             onLibraryKeywordChange={onLibraryKeywordChange}
             onLibrarySelect={onLibrarySelect}
