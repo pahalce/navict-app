@@ -184,14 +184,22 @@ const UserPage = ({ isInMypage = false }: { isInMypage?: boolean }) => {
   const [index, setIndex] = useState<number>(0)
 
   const auth = useAuth()
-  if (!auth || !auth.user) return <div>failed to load</div>
-  if (typeof userId === 'string' && +userId === auth.user.id) {
+  if (typeof userId === 'string' && +userId === auth?.user?.id) {
     router.push('/mypage')
   }
 
   const { data: user, error } = useAspidaSWR(
     apiClient.users._userId(
-      isInMypage || typeof userId !== 'string' ? auth.user.id : +userId
+      (() => {
+        // FIXME: 読めないよこんなの。
+        if (isInMypage && auth?.user?.id) {
+          return auth.user.id
+        } else if (typeof userId === 'string') {
+          return +userId
+        } else {
+          return 0
+        }
+      })()
     )
   )
   if (error || !user) return <div>failed to load</div>
@@ -201,8 +209,8 @@ const UserPage = ({ isInMypage = false }: { isInMypage?: boolean }) => {
   }
 
   const handleToggleLike = (roadmapId: Roadmap['id']) => {
-    if (!auth.user) return
-    apiClient.likes.post({ body: { userId: auth.user.id, roadmapId } })
+    if (!auth?.isLoggedIn) return
+    apiClient.likes.post({ body: { userId: auth?.user?.id || 0, roadmapId } })
   }
 
   return (
