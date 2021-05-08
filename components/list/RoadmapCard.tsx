@@ -7,6 +7,7 @@ import React, { useState } from 'react'
 import { formatDate } from 'utils/utility'
 import AnimatedCircularProgressBar from '../parts/AnimatedCircularProgressBar'
 import { Roadmap } from '$prisma/client'
+import RoadmapStatus from '../parts/RoadmapStatus'
 
 export enum RoadmapCardType {
   DOING,
@@ -108,8 +109,7 @@ const RoadmapCard = ({
             {formatDate(roadmap.updatedAt)} 更新
           </p>
           <p className="text-$t2 text-$primary cursor-pointer inline">
-            {/* FIXME: RoadmapPageに飛ばす。*/}
-            <Link href={`/`}>{roadmap.title}</Link>
+            <Link href={`/roadmaps/${roadmap.id}`}>{roadmap.title}</Link>
           </p>
           <p className="text-$indigo">{roadmap.user.name}</p>
           <Tags tags={roadmap.tags} />
@@ -120,21 +120,10 @@ const RoadmapCard = ({
       {/* right part icons and likes */}
       <div className="relative pl-5">
         {/* upper-right */}
-        <div className="flex items-center w-full">
-          <Image src="/list/copy.svg" width={28} height={28} layout={'fixed'} />
-          <div className="inline text-$accent4 font-josefin font-semibold text-2xl leading-tight ml-2 mr-4">
-            {roadmap.forkedCount}
-          </div>
-          <Image
-            src="/list/heart-outline.svg"
-            width={24}
-            height={24}
-            layout={'fixed'}
-          />
-          <div className="inline text-$accent2 font-josefin font-semibold text-2xl leading-tight ml-2">
-            {roadmap.likedCount}
-          </div>
-        </div>
+        <RoadmapStatus
+          forkedCount={roadmap.forkedCount}
+          likedCount={roadmap.likedCount}
+        />
         {/* bottom-left */}
         <RightBottom
           type={type}
