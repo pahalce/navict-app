@@ -5,10 +5,12 @@ import SetGoal from '~/components/roadmaps/SetGoal'
 import StepSection from '~/components/roadmaps/StepSection'
 import { apiClient } from '~/utils/apiClient'
 import { Tag } from '$prisma/client'
+import { RoadmapInfo } from '$/types/index'
 
 const createRoadmapsPage = () => {
   const [tags, setTags] = useState([] as Tag[])
   const [selectedTags, setSelectedTags] = useState<Tag[]>()
+  const [goal, setGoal] = useState<RoadmapInfo['goal']>(null)
   const handleTagKeywordChange = async (keyword: string) => {
     const result = await apiClient.tags.search._name(keyword).$get()
     setTags(result)
@@ -29,6 +31,9 @@ const createRoadmapsPage = () => {
     }
     setSelectedTags(newTags)
   }
+  const handleGoalChange = (goal: RoadmapInfo['goal']) => {
+    setGoal(goal)
+  }
   return (
     <div>
       <RoadmapBasicInfo
@@ -39,7 +44,7 @@ const createRoadmapsPage = () => {
         onTagKeywordChange={handleTagKeywordChange}
       />
       <StepSection />
-      <SetGoal />
+      <SetGoal goal={goal} onGoalChange={handleGoalChange} />
       <ButtonSmall text="保存" className="block mx-auto mt-40 mb-20" />
     </div>
   )
