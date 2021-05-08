@@ -11,14 +11,23 @@ type Props = {
 }
 
 const UserIcon = ({ userId, src, size = 12, className }: Props) => {
-  const href = userId ? `/users/${userId}` : '/mypage'
+  let href
+  let img
+  if (userId) {
+    href = userId ? `/users/${userId}` : '/mypage'
+    img = (
+      <Link href={href}>
+        <img src={src || navictIcon} alt="" className="object-cover" />
+      </Link>
+    )
+  } else {
+    img = <img src={src || navictIcon} alt="" className="object-cover" />
+  }
   return (
     <div
       className={`rounded-full overflow-hidden w-${size} h-${size} min-h-${size} ${className}`}
     >
-      <Link href={href}>
-        <img src={src || navictIcon} alt="" className="object-cover" />
-      </Link>
+      {img}
     </div>
   )
 }
