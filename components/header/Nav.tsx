@@ -57,7 +57,7 @@ const UserIconMenu = () => {
 const Nav = () => {
   const auth = useAuth()
   return (
-    <div className="flex justify-between items-center px-10 mx-auto pt-4">
+    <div className="flex justify-between items-center px-10 mx-auto py-10">
       <div className="flex py-1">
         <div className={`mr-4 cursor-pointer`}>
           <Link href="/">
