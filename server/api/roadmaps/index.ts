@@ -1,12 +1,7 @@
-import type { Roadmap, Step, Tag } from '$prisma/client'
+import type { Roadmap } from '$prisma/client'
+import type { RoadmapCreateReqBody } from '$/types/index'
 
-type reqBody = Pick<
-  Roadmap,
-  'title' | 'description' | 'forkedRoadmapId' | 'firstStepId' | 'userId'
-> & {
-  tags: Pick<Tag, 'name'>[]
-  steps: Pick<Step, 'memo' | 'nextStepId' | 'isDone' | 'libraryId'>[]
-}
+type reqBody = RoadmapCreateReqBody
 export type Methods = {
   /**
    * create a roadmap

@@ -36,3 +36,16 @@ export type UserInfo = UserWithoutPersonal & {
   doneRoadmapsCount: number
   totalLikedCount: number
 }
+
+export type RoadmapCreateReqBody = Pick<
+  Roadmap,
+  | 'title'
+  | 'description'
+  | 'goal'
+  | 'forkedRoadmapId'
+  | 'firstStepId'
+  | 'userId'
+> & {
+  tags: Pick<Tag, 'name'>[]
+  steps: Pick<Step, 'memo' | 'nextStepId' | 'isDone' | 'libraryId'>[]
+}
