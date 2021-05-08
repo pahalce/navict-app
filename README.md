@@ -132,7 +132,8 @@ $ git remote add upstream https://github.com/Piko-Piko-Pon-Taro/navict-app.git
 # 2.デプロイのたびに実行
 $ git fetch upstream
 $ git merge upstream/main
-# あとはVercelでforkしたレポジトリをデプロイするだけ
+$ git push origin main
+# あとはVercelが自動でやってくれる(push時のみのなのでgithub上のボタンクリックでFetch upstreamした場合はgit push --allow-emptyでからコミットをpush)
 ```
 
 ### デプロイ設定
