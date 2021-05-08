@@ -4,6 +4,9 @@ import { LibraryInfo, StepReqBody } from '$/types/index'
 import ButtonSmall from '../button/ButtonSmall'
 import StepCard from '../list/StepCard'
 import { Menu } from '@headlessui/react'
+import BarTop from '../parts/BarTop'
+import BarMiddle from '../parts/BarMiddle'
+import BarBottom from '../parts/BarBottom'
 
 type LibrarySearchResultProps = {
   libraries: LibraryInfo[]
@@ -213,46 +216,77 @@ const StepSection = ({
   }
 
   return (
-    <div className="flex justify-center bg-$tint py-16 text-$primary">
-      <div className="bg-$white text-$t2 text-center rounded-3xl text-$primary shadow-$rich w-full max-w-2xl py-14 px-10">
-        {stepsWithLibs?.map((stepWithLib, index) => (
-          <div key={index}>
-            <StepCard
-              href={stepWithLib.library.link || ''}
-              src={stepWithLib.library.img || '/no-source.png'}
-              memo={''}
-              title={stepWithLib.library.title}
-              canDelete
-              onDeleteClick={() => handleDeleteStep(index)}
+    <div className="flex flex-col justify-center items-center bg-$tint py-16 text-$primary">
+      <BarTop />
+      {stepsWithLibs?.map((stepWithLib, index) => (
+        <div key={index} className="w-full max-w-3xl">
+          <StepCard
+            href={stepWithLib.library.link || ''}
+            src={stepWithLib.library.img || '/no-source.png'}
+            memo={''}
+            title={stepWithLib.library.title}
+            canDelete
+            onDeleteClick={() => handleDeleteStep(index)}
+          />
+          {stepsWithLibs.length - 1 !== index && <BarMiddle />}
+        </div>
+      ))}
+      {steps.length === 0 && (
+        <div className="bg-$white text-$t2 text-center rounded-3xl text-$primary shadow-$rich w-full max-w-2xl py-14 px-10">
+          <div onClick={toggleShowForm} className="cursor-pointer">
+            最初のステップを決めてみよう{' '}
+            <Image
+              src={isFormShown ? '/minus.svg' : '/plus.svg'}
+              width="20"
+              height="20"
+              layout="fixed"
             />
           </div>
-        ))}
-        <div onClick={toggleShowForm} className="cursor-pointer">
-          {steps.length === 0
-            ? '最初のステップを決めてみよう'
-            : '次のステップを決めてみよう'}{' '}
-          <Image
-            src={isFormShown ? '/minus.svg' : '/plus.svg'}
-            width="20"
-            height="20"
-            layout="fixed"
-          />
+          {isFormShown && (
+            <LibrarySearch
+              libraries={libraries?.slice(0, 5)}
+              onAddLibrary={onAddLibrary}
+              onLibraryKeywordChange={onLibraryKeywordChange}
+              onLibrarySelect={onLibrarySelect}
+              selectedLibrary={selectedLibrary}
+              onAddStep={onAddStep}
+              stepsWithLibs={stepsWithLibs}
+              setStepsWithLibs={(stepsWithLibs: StepWithLibrary[]) =>
+                setStepsWithLibs(stepsWithLibs)
+              }
+            />
+          )}
         </div>
-        {isFormShown && (
-          <LibrarySearch
-            libraries={libraries?.slice(0, 5)}
-            onAddLibrary={onAddLibrary}
-            onLibraryKeywordChange={onLibraryKeywordChange}
-            onLibrarySelect={onLibrarySelect}
-            selectedLibrary={selectedLibrary}
-            onAddStep={onAddStep}
-            stepsWithLibs={stepsWithLibs}
-            setStepsWithLibs={(stepsWithLibs: StepWithLibrary[]) =>
-              setStepsWithLibs(stepsWithLibs)
-            }
-          />
-        )}
-      </div>
+      )}
+      <BarBottom />
+
+      {steps.length > 0 && (
+        <div className="bg-$white text-$t2 text-center rounded-3xl text-$primary shadow-$rich w-full max-w-2xl py-14 px-10 mt-20">
+          <div onClick={toggleShowForm} className="cursor-pointer">
+            次のステップを決めてみよう{' '}
+            <Image
+              src={isFormShown ? '/minus.svg' : '/plus.svg'}
+              width="20"
+              height="20"
+              layout="fixed"
+            />
+          </div>
+          {isFormShown && (
+            <LibrarySearch
+              libraries={libraries?.slice(0, 5)}
+              onAddLibrary={onAddLibrary}
+              onLibraryKeywordChange={onLibraryKeywordChange}
+              onLibrarySelect={onLibrarySelect}
+              selectedLibrary={selectedLibrary}
+              onAddStep={onAddStep}
+              stepsWithLibs={stepsWithLibs}
+              setStepsWithLibs={(stepsWithLibs: StepWithLibrary[]) =>
+                setStepsWithLibs(stepsWithLibs)
+              }
+            />
+          )}
+        </div>
+      )}
     </div>
   )
 }
