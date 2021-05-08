@@ -67,12 +67,13 @@ const Nav = () => {
           </Link>
         </div>
 
-        <form className="flex items-center relative w-1/2">
+        <form className="flex items-center relative w-1/2" action={`/search`}>
           <div className="flex items-center absolute top-50 left-4 text-$ cursor-text">
             <Image src="/header/search.svg" width="20" height="20" />
           </div>
           <input
             type="text"
+            name="keyword"
             placeholder="ロードマップを検索"
             className="py-1 pl-12 border-2 border-$grey border-opacity-5 rounded-md text-$t4 text-$shade1"
           />

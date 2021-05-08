@@ -6,24 +6,7 @@ import RoadmapsInProgress from '~/components/list/RoadmapsInProgress'
 import Image from 'next/image'
 import Link from 'next/link'
 import { RoadmapInfo, UserInfo } from '~/server/types'
-
-const SearchRoadmap = () => {
-  return (
-    <div className="px-40 mx-auto">
-      <h2 className="text-$t1 text-$primary mb-4">
-        ロードマップを見つける
-        <span className="text-$t5"> 気になるワードで検索してみよう</span>
-      </h2>
-      <form>
-        <input
-          type="text"
-          placeholder="Javascript"
-          className="w-full py-4 px-5 rounded-md text-$t4 text-$primary placeholder-$shade1 border-$shade2 border-4"
-        />
-      </form>
-    </div>
-  )
-}
+import SearchRoadmap from '~/components/SearchRoadmap'
 
 const AddRoadmapBtn = () => {
   return (
