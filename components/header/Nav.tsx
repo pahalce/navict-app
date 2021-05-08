@@ -59,11 +59,13 @@ const Nav = () => {
   return (
     <div className="flex justify-between items-center px-10 mx-auto pt-4">
       <div className="flex py-1">
-        <Link href="/">
-          <a className="mr-8 font-josefin font-medium text-3.5xl cursor-pointer">
-            navict
-          </a>
-        </Link>
+        <div className={`mr-4 cursor-pointer`}>
+          <Link href="/">
+            <a>
+              <Image src={`/logo.svg`} width={129} height={35.27} />
+            </a>
+          </Link>
+        </div>
 
         <form className="flex items-center relative w-1/2">
           <div className="flex items-center absolute top-50 left-4 text-$ cursor-text">
