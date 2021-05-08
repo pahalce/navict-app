@@ -13,7 +13,7 @@ const SetGoal = ({ onGoalChange, goal }: Props) => {
   return (
     <div className="flex flex-col items-center w-full text-$primary">
       <p className="text-$t1 mb-8">ゴール</p>
-      <form className="flex flex-col justify-between bg-$white rounded-2xl shadow-$rich p-4 w-full max-w-4xl mx-auto">
+      <div className="flex flex-col justify-between bg-$white rounded-2xl shadow-$rich p-4 w-full max-w-4xl mx-auto">
         <input
           className="text-$t3 p-2 w-full pb-12"
           type="text"
@@ -21,7 +21,7 @@ const SetGoal = ({ onGoalChange, goal }: Props) => {
           onChange={handleChange}
           value={goal || ''}
         />
-      </form>
+      </div>
     </div>
   )
 }
