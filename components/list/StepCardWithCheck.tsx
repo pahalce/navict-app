@@ -8,8 +8,7 @@ type StepCardWithCheckProps = {
   href: string
   memo: string
   initialIsChecked: boolean
-  onDeleteClick: () => void
-  onCheckClick: (bool: boolean) => void
+  onCheckClick: () => void
 }
 const StepCardWithCheck = ({
   src,
@@ -17,12 +16,11 @@ const StepCardWithCheck = ({
   href,
   memo,
   initialIsChecked,
-  onDeleteClick,
   onCheckClick
 }: StepCardWithCheckProps) => {
   const [isChecked, setIsChecked] = useState<boolean>(initialIsChecked)
   const handleCheckClick = () => {
-    onCheckClick(!isChecked)
+    onCheckClick()
     setIsChecked(!isChecked)
   }
 
@@ -58,14 +56,7 @@ const StepCardWithCheck = ({
       >
         {checkIcon}
       </div>
-      <StepCard
-        src={src}
-        title={title}
-        href={href}
-        memo={memo}
-        canDelete={true}
-        onDeleteClick={onDeleteClick}
-      />
+      <StepCard src={src} title={title} href={href} memo={memo} />
     </div>
   )
 }

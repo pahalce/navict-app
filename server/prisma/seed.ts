@@ -138,14 +138,18 @@ const libraries = async () => {
       id: 2,
       title: '独学プログラマー',
       link:
-        'https://www.amazon.co.jp/%E7%8B%AC%E5%AD%A6%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9E%E3%83%BC-Python%E8%A8%80%E8%AA%9E%E3%81%AE%E5%9F%BA%E6%9C%AC%E3%81%8B%E3%82%89%E4%BB%95%E4%BA%8B%E3%81%AE%E3%82%84%E3%82%8A%E6%96%B9%E3%81%BE%E3%81%A7-%E3%82%B3%E3%83%BC%E3%83%AA%E3%83%BC%E3%83%BB%E3%82%A2%E3%83%AB%E3%82%BD%E3%83%95/dp/4822292274'
+        'https://www.amazon.co.jp/%E7%8B%AC%E5%AD%A6%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9E%E3%83%BC-Python%E8%A8%80%E8%AA%9E%E3%81%AE%E5%9F%BA%E6%9C%AC%E3%81%8B%E3%82%89%E4%BB%95%E4%BA%8B%E3%81%AE%E3%82%84%E3%82%8A%E6%96%B9%E3%81%BE%E3%81%A7-%E3%82%B3%E3%83%BC%E3%83%AA%E3%83%BC%E3%83%BB%E3%82%A2%E3%83%AB%E3%82%BD%E3%83%95/dp/4822292274',
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/5166WuMMdmS._SX351_BO1,204,203,200_.jpg'
     }
   })
   const progatepythonhen = await prisma.library.create({
     data: {
       id: 3,
       title: 'progate Python編',
-      link: 'https://prog-8.com/courses/python'
+      link: 'https://prog-8.com/courses/python',
+      img:
+        'https://d2aj9sy12tbpym.cloudfront.net/progate/shared/images/slide/python/study/1/1474614123957.png'
     }
   })
   const dokusyupython = await prisma.library.create({
@@ -153,7 +157,9 @@ const libraries = async () => {
       id: 4,
       title: '独習 Python',
       link:
-        'https://www.amazon.co.jp/%E7%8B%AC%E7%BF%92Python-%E5%B1%B1%E7%94%B0-%E7%A5%A5%E5%AF%9B/dp/4798163643/ref=sr_1_6?adgrpid=70966512196&dchild=1&gclid=Cj0KCQjw4cOEBhDMARIsAA3XDRgbem9wRwg-mxtqD_4Cx_ovv3c7PdOjxuY-N6K9Ky1OczF2W8TSUgMaAvNcEALw_wcB&hvadid=352002171030&hvdev=c&hvlocphy=1009298&hvnetw=g&hvqmt=e&hvrand=1475016604126294196&hvtargid=kwd-762279376286&hydadcr=27269_11561182&jp-ad-ap=0&keywords=amazon+python+%E5%85%A5%E9%96%80&qid=1620146518&sr=8-6'
+        'https://www.amazon.co.jp/%E7%8B%AC%E7%BF%92Python-%E5%B1%B1%E7%94%B0-%E7%A5%A5%E5%AF%9B/dp/4798163643/ref=sr_1_6?adgrpid=70966512196&dchild=1&gclid=Cj0KCQjw4cOEBhDMARIsAA3XDRgbem9wRwg-mxtqD_4Cx_ovv3c7PdOjxuY-N6K9Ky1OczF2W8TSUgMaAvNcEALw_wcB&hvadid=352002171030&hvdev=c&hvlocphy=1009298&hvnetw=g&hvqmt=e&hvrand=1475016604126294196&hvtargid=kwd-762279376286&hydadcr=27269_11561182&jp-ad-ap=0&keywords=amazon+python+%E5%85%A5%E9%96%80&qid=1620146518&sr=8-6',
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/519692r4Q7L._SX394_BO1,204,203,200_.jpg'
     }
   })
   const zerokaratsukurudeeplearning = await prisma.library.create({
@@ -161,7 +167,9 @@ const libraries = async () => {
       id: 5,
       title: 'ゼロから作る Deep Learning',
       link:
-        'https://www.amazon.co.jp/%E3%82%BC%E3%83%AD%E3%81%8B%E3%82%89%E4%BD%9C%E3%82%8BDeep-Learning-%E2%80%95Python%E3%81%A7%E5%AD%A6%E3%81%B6%E3%83%87%E3%82%A3%E3%83%BC%E3%83%97%E3%83%A9%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0%E3%81%AE%E7%90%86%E8%AB%96%E3%81%A8%E5%AE%9F%E8%A3%85-%E6%96%8E%E8%97%A4-%E5%BA%B7%E6%AF%85/dp/4873117585/ref=sr_1_1?adgrpid=53066868853&dchild=1&gclid=Cj0KCQjw4cOEBhDMARIsAA3XDRiOFzBSzrp4Kff2FZXXnE5TLYebZDoovqThMTFQIPyxHCtJXlgEqSAaAsFPEALw_wcB&hvadid=338519936610&hvdev=c&hvlocphy=1009298&hvnetw=g&hvqmt=b&hvrand=10352989427815413098&hvtargid=kwd-475213042923&hydadcr=27294_11561544&jp-ad-ap=0&keywords=deep+learning+%E3%82%BC%E3%83%AD%E3%81%8B%E3%82%89%E4%BD%9C%E3%82%8B&qid=1620146584&sr=8-1'
+        'https://www.amazon.co.jp/%E3%82%BC%E3%83%AD%E3%81%8B%E3%82%89%E4%BD%9C%E3%82%8BDeep-Learning-%E2%80%95Python%E3%81%A7%E5%AD%A6%E3%81%B6%E3%83%87%E3%82%A3%E3%83%BC%E3%83%97%E3%83%A9%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0%E3%81%AE%E7%90%86%E8%AB%96%E3%81%A8%E5%AE%9F%E8%A3%85-%E6%96%8E%E8%97%A4-%E5%BA%B7%E6%AF%85/dp/4873117585/ref=sr_1_1?adgrpid=53066868853&dchild=1&gclid=Cj0KCQjw4cOEBhDMARIsAA3XDRiOFzBSzrp4Kff2FZXXnE5TLYebZDoovqThMTFQIPyxHCtJXlgEqSAaAsFPEALw_wcB&hvadid=338519936610&hvdev=c&hvlocphy=1009298&hvnetw=g&hvqmt=b&hvrand=10352989427815413098&hvtargid=kwd-475213042923&hydadcr=27294_11561544&jp-ad-ap=0&keywords=deep+learning+%E3%82%BC%E3%83%AD%E3%81%8B%E3%82%89%E4%BD%9C%E3%82%8B&qid=1620146584&sr=8-1',
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/513J77QZHgL._SX350_BO1,204,203,200_.jpg'
     }
   })
 
