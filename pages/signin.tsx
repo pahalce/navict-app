@@ -2,7 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import { useAuth } from '~/contexts/AuthContext'
 import { useRouter } from 'next/router'
-const signin = () => {
+const SigninPage = () => {
   const router = useRouter()
   const auth = useAuth()
   if (auth?.isLoggedIn) router.push('/')
@@ -45,4 +45,4 @@ const signin = () => {
   )
 }
 
-export default signin
+export default SigninPage
