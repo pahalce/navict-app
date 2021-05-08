@@ -16,35 +16,78 @@ export const createRoadmap = async (
   title: Roadmap['title'],
   description: Roadmap['description'],
   forkedRoadmapId: Roadmap['forkedRoadmapId'],
-  firstStepId: Roadmap['firstStepId'],
   userId: Roadmap['userId'],
   tags: Pick<Tag, 'name'>[],
-  steps: Pick<Step, 'memo' | 'nextStepId' | 'isDone' | 'libraryId'>[]
+  steps: Pick<Step, 'memo' | 'isDone' | 'libraryId'>[]
 ) => {
-  const roadmap = await prisma.roadmap.create({
-    data: { title, description, forkedRoadmapId, firstStepId, userId }
-  })
-
-  await prisma.roadmap.update({
-    where: {
-      id: roadmap.id
-    },
-    data: {
-      tags: {
-        connect: tags.map((t) => ({ name: t.name }))
+  /**
+   * FIXME:
+   * "\nInvalid `prisma.roadmap.create()` invocation:\n\n\n  Unique constraint failed on the fields: (`id`)"
+   * 上記のエラーが出たのでしたのような実装になってる。
+   * 直したい。
+   */
+  const lastRoadmap = (
+    await prisma.roadmap.findMany({
+      orderBy: {
+        id: 'desc'
       }
+    })
+  ).slice(0)[0]
+  const roadmap = await prisma.roadmap.create({
+    data: {
+      id: lastRoadmap.id + 1,
+      title,
+      description,
+      forkedRoadmapId,
+      userId
     }
   })
 
-  await prisma.step.createMany({
-    data: steps.map((s) => ({
-      memo: s.memo,
-      nextStepId: s.nextStepId,
-      isDone: s.isDone,
-      roadmapId: roadmap.id,
-      libraryId: s.libraryId
-    }))
-  })
+  // FIXME: エラーでる…直して…。
+  // await prisma.roadmap.update({
+  //   where: {
+  //     id: roadmap.id
+  //   },
+  //   data: {
+  //     tags: {
+  //       connect: tags.map((t) => ({ name: t.name }))
+  //     }
+  //   }
+  // })
+
+  let lastStep = (
+    await prisma.step.findMany({
+      orderBy: {
+        id: 'desc'
+      }
+    })
+  ).slice(0)[0]
+  let nextStepId = null
+  for (let i = 0; i < steps.length; i++) {
+    const reqStep = steps[steps.length - i - 1]
+    lastStep = await prisma.step.create({
+      data: {
+        id: lastStep.id + 1,
+        memo: reqStep.memo,
+        nextStepId: nextStepId,
+        isDone: reqStep.isDone,
+        roadmapId: roadmap.id,
+        libraryId: reqStep.libraryId
+      }
+    })
+    if (i === steps.length - 1) {
+      // 最初のstep
+      await prisma.roadmap.update({
+        where: { id: roadmap.id },
+        data: {
+          firstStepId: lastStep.id
+        }
+      })
+    } else {
+      // それ以外のstep
+      nextStepId = lastStep.id
+    }
+  }
 
   return roadmap
 }

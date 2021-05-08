@@ -8,7 +8,6 @@ export default defineController(() => ({
       body.title,
       body.description,
       body.forkedRoadmapId,
-      body.firstStepId,
       body.userId,
       body.tags,
       body.steps
