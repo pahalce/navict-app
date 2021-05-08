@@ -39,13 +39,8 @@ export type UserInfo = UserWithoutPersonal & {
 
 export type RoadmapCreateReqBody = Pick<
   Roadmap,
-  | 'title'
-  | 'description'
-  | 'goal'
-  | 'forkedRoadmapId'
-  | 'firstStepId'
-  | 'userId'
+  'title' | 'description' | 'goal' | 'forkedRoadmapId' | 'userId'
 > & {
   tags: Pick<Tag, 'name'>[]
-  steps: Pick<Step, 'memo' | 'nextStepId' | 'isDone' | 'libraryId'>[]
+  steps: Pick<Step, 'memo' | 'isDone' | 'libraryId'>[]
 }
