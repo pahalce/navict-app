@@ -4,6 +4,7 @@ import { useAuth } from '~/contexts/AuthContext'
 import UserIcon from '../UserIcon'
 import { Menu } from '@headlessui/react'
 import { useRouter } from 'next/router'
+import { comingSoon } from '~/utils/utility'
 
 const UserIconMenu = () => {
   const auth = useAuth()
@@ -40,7 +41,7 @@ const UserIconMenu = () => {
             {({ active }) => (
               <div
                 onClick={logout}
-                className={`py-2 px-2 rounded-lg text-$primary ${
+                className={`py-2 px-2 rounded-lg text-$accent2 cursor-pointer ${
                   active ? 'bg-$accent1 bg-opacity-10' : ''
                 }`}
               >
@@ -97,11 +98,13 @@ const Nav = () => {
             width="32"
             height="32"
             layout="fixed"
+            onClick={() => comingSoon()}
+            className={`cursor-pointer`}
           />
           {!!auth?.user?.img && <UserIconMenu />}
           <button className="flex items-center justify-center border-2  bg-$accent1 text-$white rounded-md ml-4 py-2 px-9 text-$t3">
             <Image src="/pencil.svg" alt="pencil icon" width="20" height="20" />
-            <Link href="#">
+            <Link href="/roadmaps/new">
               <a className="ml-2">新規作成</a>
             </Link>
           </button>
