@@ -21,8 +21,7 @@ const createRoadmapsPage = () => {
   const [steps, setSteps] = useState<StepReqBody[]>([] as StepReqBody[])
   const [libraries, setLibraies] = useState<LibraryInfo[]>()
   const [selectedLibrary, setSelectedLibrary] = useState<LibraryInfo>()
-  // const [libTitle, setLibTitle] = useState<LibraryInfo['title']>('')
-  // const [libUrl, setLibUrl] = useState<LibraryInfo['title']>('')
+
   const router = useRouter()
   const auth = useAuth()
   if (!auth?.user) {
@@ -96,7 +95,7 @@ const createRoadmapsPage = () => {
     setGoal(goal)
   }
 
-  const handleSubmitRoadmap = async (e: React.MouseEvent<HTMLFormElement>) => {
+  const handleSaveRoadmap = async (e: React.MouseEvent<HTMLButtonElement>) => {
     try {
       e.preventDefault()
       const userId = auth?.user?.id
@@ -116,7 +115,6 @@ const createRoadmapsPage = () => {
         tags: tagNames,
         description: description,
         goal,
-        firstStepId: null,
         forkedRoadmapId: null, // TODO: forkしたときに変える
         steps: steps
       }
@@ -129,7 +127,8 @@ const createRoadmapsPage = () => {
     }
   }
   return (
-    <form onSubmit={handleSubmitRoadmap}>
+    // FIXME: フォームにしないからバリデーション自分で書かないといけない
+    <>
       <RoadmapBasicInfo
         title={title}
         onChangeTitle={handleTitleChange}
@@ -152,12 +151,17 @@ const createRoadmapsPage = () => {
         onLibraryKeywordChange={handleLibraryKeywordChange}
       />
       <SetGoal goal={goal} onGoalChange={handleGoalChange} />
-      <ButtonSmall
-        type="submit"
-        text="保存"
-        className="block mx-auto mt-40 mb-20"
-      />
-    </form>
+      <div className="flex flex-col justify-center items-center mt-40 mb-20 text-$accent2">
+        {!title && <div>タイトルは必須です</div>}
+        <ButtonSmall
+          onClick={handleSaveRoadmap}
+          type="submit"
+          text="保存"
+          disabled={!title}
+          className="block mx-auto"
+        />
+      </div>
+    </>
   )
 }
 
