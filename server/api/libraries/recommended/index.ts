@@ -7,7 +7,7 @@ export type Methods = {
    * POST /libraries/recommended
    */
   post: {
-    reqBody: Library['id'][]
+    reqBody: [Library['id'], Library['id'], Library['id']]
     resBody: RecommendedLibraryInfo[]
   }
 }
