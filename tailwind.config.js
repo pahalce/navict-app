@@ -5,19 +5,19 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     colors: {
-      $accent1: '#76C3DB',
-      $accent2: '#E97C4C',
-      $accent3: '#F2C94C',
-      $accent4: '#73B1A8',
+      $accent1: '#5CC4DE',
+      $accent2: '#F9753D',
+      $accent3: '#FFD235',
+      $accent4: '#5EB3A8',
+      $white: '#FFFFFF',
       $primary: '#3F3F3F',
       $primary2: '#979797',
-      $indigo: '#7C9CBF',
-      $tint: '#FAFDFF',
-      $shade1: '#C0C0C0',
+      $indigo: '#749CC2',
+      $tint: '#F9FDFF',
+      $shade1: '#BBBBBB',
       $shade2: '#F2F2F2',
       $shade3: '#FAFAFA',
-      $twitterBlue: '#1DA1F1',
-      $white: '#FFFFFF'
+      $twitterBlue: '#1DA1F1'
     },
     fontFamily: {
       noto: 'Noto Sans JP',
@@ -28,6 +28,9 @@ module.exports = {
     extend: {
       fontSize: {
         '3.5xl': '2rem'
+      },
+      backgroundOpacity: {
+        10: '0.1'
       }
     }
   },
