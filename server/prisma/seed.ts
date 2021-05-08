@@ -1709,8 +1709,8 @@ async function main() {
   // console.log('===== usersForTrain =====')
   // await usersForTrain()
 
-  // console.log('===== librariesForTrain =====')
-  // await librariesForTrain()
+  console.log('===== librariesForTrain =====')
+  await librariesForTrain()
 
   // console.log('===== roadmapsForTrain =====')
   // await roadmapsForTrain()
