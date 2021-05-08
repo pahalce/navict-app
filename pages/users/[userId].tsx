@@ -9,6 +9,7 @@ import { RoadmapInfo, UserInfo } from '~/server/types'
 import RoadmapCard from '~/components/list/RoadmapCard'
 import { RoadmapCardType } from '~/components/list/RoadmapCard'
 import { Roadmap } from '$prisma/client'
+import { comingSoon } from '~/utils/utility'
 
 type SnsLinkProps = {
   type: 'twitter' | 'github' | 'website'
@@ -68,7 +69,9 @@ const Profile = ({ isInMypage, user }: ProfileProps) => {
         <div className={`flex`}>
           <div className={`flex flex-col items-center mr-8`}>
             <div className={`flex items-center`}>
-              <Image src={`/crown.svg`} width={20.87} height={16.14} />
+              <div className={`mr-1 mb-1`}>
+                <Image src={`/crown.svg`} width={20.87} height={16.14} />
+              </div>
               <p className={`text-$T2 text-$accent3`}>
                 {user.doneRoadmapsCount}
               </p>
@@ -78,11 +81,13 @@ const Profile = ({ isInMypage, user }: ProfileProps) => {
 
           <div className={`flex flex-col items-center`}>
             <div className={`flex items-center`}>
-              <Image
-                src={`/list/heart-fill.svg`}
-                width={18.25}
-                height={16.51}
-              />
+              <div className={`mr-1`}>
+                <Image
+                  src={`/list/heart-fill.svg`}
+                  width={18.25}
+                  height={16.51}
+                />
+              </div>
               <p className={`text-$T2 text-$accent2`}>{user.totalLikedCount}</p>
             </div>
             <p className={`text-$shade1 text-$T6`}>総獲得いいね</p>
@@ -92,7 +97,13 @@ const Profile = ({ isInMypage, user }: ProfileProps) => {
 
       {isInMypage ? (
         <div className={`absolute top-0 right-1`}>
-          <Image src={`/three-dots.svg`} width={21} height={5} />
+          <Image
+            src={`/three-dots.svg`}
+            width={21}
+            height={5}
+            onClick={() => comingSoon()}
+            className={`cursor-pointer`}
+          />
         </div>
       ) : (
         <></>
