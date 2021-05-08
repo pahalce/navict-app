@@ -24,7 +24,10 @@ const StepCard = ({
         className={`flex items-center justify-center w-28 h-36 rounded-2xl overflow-hidden mr-8`}
         style={{ minWidth: '112px' }}
       >
-        <img className={`object-cover h-full w-full`} src={src} />
+        <img
+          className={`object-cover h-full w-full`}
+          src={src || '/no-source.png'}
+        />
       </div>
 
       <div>
