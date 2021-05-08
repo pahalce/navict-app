@@ -36,6 +36,7 @@ const StepCard = ({
               width={16}
               height={20}
               onClick={onDeleteClick}
+              className={`cursor-pointer`}
             />
           ) : (
             <></>
