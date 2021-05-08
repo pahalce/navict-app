@@ -17,11 +17,21 @@ const UserIcon = ({ userId, src, size = 12, className }: Props) => {
     href = userId ? `/users/${userId}` : '/mypage'
     img = (
       <Link href={href}>
-        <img src={src || navictIcon} alt="" className="object-cover" />
+        <img
+          src={src || navictIcon}
+          alt=""
+          className="flex justify-center items-center object-cover"
+        />
       </Link>
     )
   } else {
-    img = <img src={src || navictIcon} alt="" className="object-cover" />
+    img = (
+      <img
+        src={src || navictIcon}
+        alt=""
+        className="flex justify-center items-center object-cover"
+      />
+    )
   }
   return (
     <div
