@@ -20,7 +20,9 @@ const createRoadmapsPage = () => {
   const [goal, setGoal] = useState<RoadmapInfo['goal']>(null)
   const [steps, setSteps] = useState<StepReqBody[]>([] as StepReqBody[])
   const [libraries, setLibraies] = useState<LibraryInfo[]>()
-  const [selectedLibrary, setSelectedLibrary] = useState<LibraryInfo>()
+  const [selectedLibrary, setSelectedLibrary] = useState<LibraryInfo | null>(
+    null
+  )
 
   const router = useRouter()
   const auth = useAuth()
@@ -56,12 +58,21 @@ const createRoadmapsPage = () => {
     }
     setSelectedTags(newTags)
   }
+  const handleCreateNewTag = async (name: string) => {
+    const result = await apiClient.tags.$post({
+      body: {
+        name
+      }
+    })
+    setTags([...tags, result])
+  }
   const handleAddLibrary = async (title: string, link: string) => {
     try {
       const lib = await apiClient.libraries.$post({
         body: { title, link }
       })
       setSelectedLibrary(lib)
+      return lib
     } catch (error) {
       console.log(error)
     }
@@ -75,21 +86,28 @@ const createRoadmapsPage = () => {
     }
     console.log('addStep:', newSteps, step)
     setSteps(newSteps)
+    setSelectedLibrary(null)
   }
   const handleDeleteStep = (deltedStep: StepReqBody) => {
     const newSteps = steps.filter((step) => step !== deltedStep)
     setSteps(newSteps)
   }
   const handleLibraryKeywordChange = async (title: string) => {
-    const result = await apiClient.libraries.searchByTitle._title(title).$get()
-    setLibraies(result)
+    try {
+      const result = await apiClient.libraries.searchByTitle
+        ._title(title)
+        .$get()
+      setLibraies(result)
+    } catch (error) {
+      console.error(error)
+    }
   }
   // const handleLibraryUrlChange = async (url: string) => {
   //   const result = await apiClient.libraries.searchByLink._link(url).$get()
   //   setLibraies(result)
   // }
   const handleLibrarySelect = (library: LibraryInfo) => {
-    setSelectedLibrary(() => library)
+    setSelectedLibrary(library)
   }
   const handleGoalChange = (goal: RoadmapInfo['goal']) => {
     setGoal(goal)
@@ -137,6 +155,7 @@ const createRoadmapsPage = () => {
         tags={tags}
         selectedTags={selectedTags}
         onTagSelect={handleTagSelect}
+        onCreateNewTag={handleCreateNewTag}
         onCloseSelectedTag={handleCloseSelectedTag}
         onTagKeywordChange={handleTagKeywordChange}
       />

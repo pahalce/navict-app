@@ -53,7 +53,6 @@ const LibrarySearchResult = ({
               className={`py-2 px-2 rounded-lg text-$primary ${
                 active ? 'bg-$accent1 bg-opacity-10' : ''
               }`}
-              onClick={() => onAddLibrary(keyword, linkUrl)}
             >
               {keyword}を追加する
             </div>
@@ -65,7 +64,7 @@ const LibrarySearchResult = ({
 }
 
 type LibrarySearchProps = {
-  onAddLibrary: (title: string, link: string) => void
+  onAddLibrary: (title: string, link: string) => Promise<LibraryInfo>
   libraries: LibraryInfo[] | undefined
   selectedLibrary: LibraryInfo | undefined
   onLibrarySelect: (library: LibraryInfo) => void
@@ -88,13 +87,21 @@ const LibrarySearch = ({
   const [keyword, setKeyword] = useState('')
   const [linkUrl, setLinkUrl] = useState('')
 
-  const handleAddStep = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
-    if (!selectedLibrary) {
+  const handleAddStep = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!keyword) {
       return
     }
+    e.preventDefault()
+    let resultLib
+    if (!selectedLibrary) {
+      resultLib = await onAddLibrary(keyword, linkUrl)
+      console.log('created:', resultLib)
+      onLibrarySelect(resultLib)
+    } else {
+      resultLib = selectedLibrary
+    }
     const step: StepReqBody = {
-      libraryId: selectedLibrary.id,
+      libraryId: resultLib.id,
       isDone: false,
       memo: null,
       nextStepId: null
@@ -102,7 +109,7 @@ const LibrarySearch = ({
     onAddStep(step)
     const currentStepWithLib: StepWithLibrary = {
       ...step,
-      library: selectedLibrary
+      library: resultLib
     }
     setStepsWithLibs([...stepsWithLibs, currentStepWithLib])
     console.log('stlbs:', [...stepsWithLibs, currentStepWithLib])

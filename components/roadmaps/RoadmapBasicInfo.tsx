@@ -2,12 +2,12 @@ import { Tag } from '$prisma/client'
 import React, { useState } from 'react'
 import TagChip from '../parts/TagChip'
 import { Menu } from '@headlessui/react'
-import ButtonSmall from '../button/ButtonSmall'
 
 type TagsSearchResultProps = {
   tags: Tag[]
   keyword: string
   handleClickTag: (tag: Tag) => void
+  onCreateNewTag: (name: string) => void
   clearSearch: () => void
   className?: string
 }
@@ -16,9 +16,14 @@ const TagSearchResult = ({
   tags,
   keyword,
   handleClickTag,
+  onCreateNewTag,
   clearSearch,
   className
 }: TagsSearchResultProps) => {
+  const handleNewTag = () => {
+    onCreateNewTag(keyword)
+  }
+
   return (
     <Menu>
       <Menu.Button className={`${className}`}>検索</Menu.Button>
@@ -46,6 +51,7 @@ const TagSearchResult = ({
           <Menu.Item key="add-new">
             {({ active }) => (
               <div
+                onClick={handleNewTag}
                 className={`py-2 px-2 rounded-lg text-$primary ${
                   active ? 'bg-$accent1 bg-opacity-10' : ''
                 }`}
@@ -68,6 +74,7 @@ type Props = {
   tags: Tag[] | undefined
   selectedTags: Tag[] | undefined
   onTagSelect: (tag: Tag) => void
+  onCreateNewTag: (name: string) => void
   onCloseSelectedTag: (tag: Tag) => void
   onTagKeywordChange: (keyword: string) => void
 }
@@ -80,6 +87,7 @@ const RoadmapBasicInfo = ({
   tags = [],
   selectedTags = [],
   onTagSelect,
+  onCreateNewTag,
   onCloseSelectedTag,
   onTagKeywordChange
 }: Props) => {
@@ -143,6 +151,7 @@ const RoadmapBasicInfo = ({
             tags={getFilteredTags(tags)}
             keyword={keyword}
             handleClickTag={onTagSelect}
+            onCreateNewTag={onCreateNewTag}
             clearSearch={() => {
               setKeyword('')
             }}
