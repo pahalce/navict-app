@@ -1,8 +1,12 @@
 import React from 'react'
 import Image from 'next/image'
 import { useAuth } from '~/contexts/AuthContext'
-const signin = () => {
+import { useRouter } from 'next/router'
+const SigninPage = () => {
+  const router = useRouter()
   const auth = useAuth()
+  if (auth?.isLoggedIn) router.push('/')
+
   return (
     <div className="flex flex-col justify-center items-center pb-20">
       <h1 className="my-20 text-$t2">
@@ -41,4 +45,4 @@ const signin = () => {
   )
 }
 
-export default signin
+export default SigninPage

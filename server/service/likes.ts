@@ -3,10 +3,14 @@ import type { Like } from '$prisma/client'
 
 const prisma = new PrismaClient()
 
-export const createLike = (
+export const toggleLike = async (
   userId: Like['userId'],
   roadmapId: Like['roadmapId']
-) => prisma.like.create({ data: { userId, roadmapId } })
-
-export const deleteLike = (id: Like['id']) =>
-  prisma.like.delete({ where: { id } })
+) => {
+  const like = await prisma.like.findFirst({ where: { userId, roadmapId } })
+  if (like) {
+    await prisma.like.deleteMany({ where: { userId, roadmapId } })
+  } else {
+    await prisma.like.create({ data: { userId, roadmapId } })
+  }
+}

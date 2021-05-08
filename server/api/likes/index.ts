@@ -2,11 +2,11 @@ import type { Like } from '$prisma/client'
 
 export type Methods = {
   /**
-   * create a like
+   * toggle a like
    * ** POST /likes
    */
   post: {
     reqBody: Pick<Like, 'userId' | 'roadmapId'>
-    resBody: Like
+    status: 204
   }
 }

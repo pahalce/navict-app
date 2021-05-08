@@ -61,11 +61,8 @@ delete a roadmap
 ## likes
 
 ```txt
-create a like
-** POST   /likes
-
-delete a like
-** DELETE /likes/_likeId@number
+toggle a like
+** POST /likes
 ```
 
 ## steps
