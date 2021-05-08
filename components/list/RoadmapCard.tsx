@@ -49,7 +49,9 @@ const RightBottom = ({
       />
     )
   } else if (type === RoadmapCardType.DONE) {
-    rightBottom = <Image src={`/crown.svg`} width={47} height={36.35} />
+    rightBottom = (
+      <Image src={`/crown.svg`} width={47} height={36.35} layout={`fixed`} />
+    )
   } else {
     rightBottom = (
       <Image
@@ -58,7 +60,7 @@ const RightBottom = ({
         className="cursor-pointer"
         width={32}
         height={32}
-        layout={'fixed'}
+        layout={`fixed`}
       />
     )
   }
