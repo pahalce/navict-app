@@ -5,7 +5,7 @@ import SetGoal from '~/components/roadmaps/SetGoal'
 import StepSection from '~/components/roadmaps/StepSection'
 import { apiClient } from '~/utils/apiClient'
 import { Tag } from '$prisma/client'
-import type { RoadmapInfo, StepInfo } from '$/types/index'
+import type { RoadmapInfo, LibraryInfo, StepReqBody } from '$/types/index'
 import type { RoadmapCreateReqBody } from '$/types/index'
 import { useRouter } from 'next/router'
 import { useAuth } from '~/contexts/AuthContext'
@@ -18,8 +18,11 @@ const createRoadmapsPage = () => {
   const [tags, setTags] = useState([] as Tag[])
   const [selectedTags, setSelectedTags] = useState<Tag[]>()
   const [goal, setGoal] = useState<RoadmapInfo['goal']>(null)
-  const [steps, setSteps] = useState<StepInfo[]>([] as StepInfo[])
-  const [libray, setLibray] = useState<StepInfo['library']>()
+  const [steps, setSteps] = useState<StepReqBody[]>([] as StepReqBody[])
+  const [libraries, setLibraies] = useState<LibraryInfo[]>()
+  const [selectedLibrary, setSelectedLibrary] = useState<LibraryInfo>()
+  // const [libTitle, setLibTitle] = useState<LibraryInfo['title']>('')
+  // const [libUrl, setLibUrl] = useState<LibraryInfo['title']>('')
   const router = useRouter()
   const auth = useAuth()
   if (!auth?.user) {
@@ -54,25 +57,40 @@ const createRoadmapsPage = () => {
     }
     setSelectedTags(newTags)
   }
-  const handleAddLibrary = (library: StepInfo['library']) => {
-    apiClient.libraries.post({
-      body: { title: library.title, link: library.link }
-    })
+  const handleAddLibrary = async (title: string, link: string) => {
+    try {
+      const lib = await apiClient.libraries.$post({
+        body: { title, link }
+      })
+      setSelectedLibrary(lib)
+    } catch (error) {
+      console.log(error)
+    }
   }
-  const handleAddStep = (step: StepInfo) => {
-    let newSteps: StepInfo[]
+  const handleAddStep = (step: StepReqBody) => {
+    let newSteps: StepReqBody[]
     if (steps) {
       newSteps = [...steps, step]
     } else {
       newSteps = [step]
     }
+    console.log('addStep:', newSteps, step)
     setSteps(newSteps)
   }
-  const handleDeleteStep = (deltedStep: StepInfo) => {
-    const newSteps: StepInfo[] = steps.filter(
-      (step) => step.id !== deltedStep.id
-    )
+  const handleDeleteStep = (deltedStep: StepReqBody) => {
+    const newSteps = steps.filter((step) => step !== deltedStep)
     setSteps(newSteps)
+  }
+  const handleLibraryKeywordChange = async (title: string) => {
+    const result = await apiClient.libraries.searchByTitle._title(title).$get()
+    setLibraies(result)
+  }
+  // const handleLibraryUrlChange = async (url: string) => {
+  //   const result = await apiClient.libraries.searchByLink._link(url).$get()
+  //   setLibraies(result)
+  // }
+  const handleLibrarySelect = (library: LibraryInfo) => {
+    setSelectedLibrary(() => library)
   }
   const handleGoalChange = (goal: RoadmapInfo['goal']) => {
     setGoal(goal)
@@ -91,6 +109,7 @@ const createRoadmapsPage = () => {
           const name = selectedTag.name
           return { name }
         }) || []
+      console.log(steps)
       const reqBody: RoadmapCreateReqBody = {
         userId,
         title,
@@ -99,7 +118,7 @@ const createRoadmapsPage = () => {
         goal,
         firstStepId: null,
         forkedRoadmapId: null, // TODO: forkしたときに変える
-        steps
+        steps: steps
       }
       console.log(reqBody)
       const resBody = await apiClient.roadmaps.$post({ body: reqBody })
@@ -127,6 +146,10 @@ const createRoadmapsPage = () => {
         onAddStep={handleAddStep}
         onDeleteStep={handleDeleteStep}
         onAddLibrary={handleAddLibrary}
+        libraries={libraries}
+        selectedLibrary={selectedLibrary}
+        onLibrarySelect={handleLibrarySelect}
+        onLibraryKeywordChange={handleLibraryKeywordChange}
       />
       <SetGoal goal={goal} onGoalChange={handleGoalChange} />
       <ButtonSmall
