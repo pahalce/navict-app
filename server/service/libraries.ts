@@ -1,23 +1,46 @@
 import { PrismaClient } from '@prisma/client'
 import type { Library } from '$prisma/client'
+import axios from 'axios'
+import { RecommendedLibraryInfo } from '$/types'
 
 const prisma = new PrismaClient()
 
 export const createLibrary = (title: Library['title'], link: Library['link']) =>
   prisma.library.create({ data: { title, link } })
 
-/**
- * FIXME:
- * navict-recommenderに問い合わせる様に変更する。
- */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getRecommendedLibraries = async (ids: Library['id'][]) => {
-  return (await prisma.library.findMany()).slice(0, 3).map((library) => {
-    return {
-      ...library,
-      score: 50
+export const getRecommendedLibraryInfos = async (ids: Library['id'][]) => {
+  try {
+    const recommendedLibraryInfos: RecommendedLibraryInfo[] = []
+    type ResBody = {
+      id: string
+      score: string
+    }[]
+    const { data }: { data: ResBody } = await axios.post(
+      'https://navict-recommender.herokuapp.com/suggestions',
+      {
+        library_ids: ids
+      }
+    )
+    console.log({
+      ids,
+      data
+    })
+    for (const { id: libraryId, score } of data.slice(0, 3)) {
+      const libraryInfo = await prisma.library.findUnique({
+        where: { id: +libraryId }
+      })
+      if (!libraryInfo) continue
+      const recommendedLibraryInfo = {
+        ...libraryInfo,
+        scorePercent: +score * 100
+      }
+      recommendedLibraryInfos.push(recommendedLibraryInfo)
     }
-  })
+    return recommendedLibraryInfos
+  } catch (e) {
+    console.log(e)
+    return []
+  }
 }
 
 export const searchLibrariesByTitle = (title: string) =>
