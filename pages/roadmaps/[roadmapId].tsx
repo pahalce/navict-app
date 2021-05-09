@@ -16,6 +16,8 @@ import { RoadmapInfo, StepInfo } from '~/server/types'
 import { useAuth } from '~/contexts/AuthContext'
 import { comingSoon, formatDate } from '~/utils/utility'
 import StepCard from '~/components/list/StepCard'
+import AchieveModal from '~/components/modals/AchieveModal'
+import { useState } from 'react'
 
 type HeaderProps = {
   roadmap: RoadmapInfo
@@ -191,6 +193,7 @@ const ForkBtn = ({ isMine, onDoneClick, onForkClick }: ForkBtnProps) => {
 }
 
 const RoadmapPage = () => {
+  const [isOpen, setIsOpen] = useState<boolean>(false)
   const auth = useAuth()
   const router = useRouter()
   const { roadmapId } = router.query
@@ -219,6 +222,7 @@ const RoadmapPage = () => {
   const handleDoneClick = async () => {
     await apiClient.roadmaps._roadmapId(roadmap.id).isDone.patch()
     revalidate()
+    setIsOpen(!isOpen)
   }
 
   const handleForkClick = async () => {
@@ -227,7 +231,7 @@ const RoadmapPage = () => {
   }
   console.log(roadmap)
   return (
-    <div>
+    <div className="relative">
       <div className={`my-16`}>
         <Header
           roadmap={roadmap}
@@ -252,8 +256,8 @@ const RoadmapPage = () => {
           onForkClick={handleForkClick}
         />
       </div>
+      <AchieveModal setIsOpen={setIsOpen} isOpen={isOpen} />
     </div>
   )
 }
-
 export default RoadmapPage
