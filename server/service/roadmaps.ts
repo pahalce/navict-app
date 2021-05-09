@@ -105,9 +105,7 @@ export const getPopularRoadmapInfos = async (): Promise<RoadmapInfo[]> => {
   const popularRoadmaps = (
     await prisma.roadmap.findMany({
       orderBy: {
-        likes: {
-          count: 'desc'
-        }
+        id: 'asc'
       }
     })
   ).slice(0, 10)
