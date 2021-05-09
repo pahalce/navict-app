@@ -3,6 +3,7 @@ import firebase from 'firebase/app'
 import { auth } from '$firebase/firebase'
 import { apiClient } from '~/utils/apiClient'
 import type { User } from '$prisma/client'
+import Image from 'next/image'
 
 // TODO:Loginなどのメッセージをログじゃなくてちゃんと作る
 // TODO:loginを必要になったとき実装する
@@ -91,7 +92,21 @@ export const AuthProvider = ({ children }: Props) => {
   }
   return (
     <AuthContext.Provider value={value}>
-      {loading && 'loading...'}
+      {loading && (
+        <div className={`flex justify-center items-center w-screen h-screen`}>
+          <div>
+            <Image
+              src={`/navict_chan.gif`}
+              width={323}
+              height={215}
+              className={`rounded-full`}
+            />
+            <p className={`text-$T2 text-$accent1 text-center mt-7`}>
+              LOADING...
+            </p>
+          </div>
+        </div>
+      )}
       {!loading && children}
     </AuthContext.Provider>
   )
