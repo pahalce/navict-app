@@ -26,7 +26,7 @@ const RoadmapInProgressCard = ({ roadmap }: Props) => {
           text={`${roadmap.donePercent}%`}
         />
         <div className="text-$t4 pb-4">
-          <Link href="#">
+          <Link href={`/roadmaps/${roadmap.id}`}>
             <a className={`flex justify-center`}>
               <p className={`mr-4`}>ロードマップへ</p>
               <Image src={`/arrow.svg`} width={9} height={13} />
