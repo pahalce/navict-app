@@ -139,10 +139,24 @@ const Goal = ({ text }: GoalProps) => {
         <p className={`text-$T1 text-$primary mx-11`}>GOAL!</p>
         <hr className={`border border-$shade1 flex-grow`} />
       </div>
+      {/* <div className={`my-16 max-w-2xl mx-auto`}>
+        {text && (
+          <div className="flex flex-col justify-center text-center align-middle bg-$white rounded-3xl shadow-$rich px-7 py-8">
+            <div className={`flex mb-5`}>楽しかった！</div>
+            <p className={`text-$t2 text-$primary1`}>{`${text}`}</p>
+          </div>
+        )}
+      </div> */}
       <div className={`my-16 max-w-2xl mx-auto`}>
         <div className="bg-$white rounded-3xl shadow-$rich px-7 py-8">
-          {/* <div className={`flex mb-5`}></div> */}
-          <p className={`text-$t5 text-$shade1`}>{`${text}`}</p>
+          <div className={`flex mb-5`}>
+            <p
+              className={`mr-9 text-$t2 text-$primary`}
+            >{`Python入門できた！`}</p>
+          </div>
+          <p
+            className={`text-$t5 text-$shade1`}
+          >{`意外と簡単だった！みんなもできる！時間にして約３ヶ月、よく頑張ったあ自分。`}</p>
         </div>
       </div>
     </div>

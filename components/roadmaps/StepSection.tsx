@@ -244,7 +244,6 @@ const StepSection = ({
   )
 
   const getRecommendation = async (stepsWithLibs: StepWithLibrary[]) => {
-    console.log(stepsWithLibs)
     let libraryIds = stepsWithLibs.map((s) => s.libraryId).slice(-3)
     while (libraryIds.length < 3) {
       libraryIds = [0, ...libraryIds]
