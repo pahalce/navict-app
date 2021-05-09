@@ -158,8 +158,8 @@ const createRoadmapsPage = () => {
         forkedRoadmapId: null, // TODO: forkしたときに変える
         steps: steps
       }
-      apiClient.roadmaps.$post({ body: reqBody })
-      router.push(`/users/${userId}`)
+      const roadmap = await apiClient.roadmaps.$post({ body: reqBody })
+      router.push(`/roadmaps/${roadmap.id}`)
       // router.push(`roadmaps/edit/${resBody.id}`)
     } catch (error) {
       console.error(error)
