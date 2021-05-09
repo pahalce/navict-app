@@ -568,55 +568,60 @@ const librariesForTrain = async () => {
       id: 6,
       title: 'とほほのJavaScriptリファレンス',
       link: 'https://www.tohoho-web.com/js/',
-      img: null
+      img: ''
     },
     {
       id: 7,
       title: 'JavaScript逆引きリファレンス',
       link: 'https://shanabrian.com/web/javascript/',
-      img: null
+      img: ''
     },
     {
       id: 8,
       title: 'ノンプログラマのためのJavaScriptはじめの一歩',
       link:
         'https://www.amazon.co.jp/dp/4774153761?tag=technote012-22&linkCode=ogi&th=1&psc=1',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/51s6kAzy8RL._SX354_BO1,204,203,200_.jpg'
     },
     {
       id: 9,
       title: 'スラスラ読める JavaScriptふりがなプログラミング',
       link:
         'https://www.amazon.co.jp/-/en/%E5%8F%8A%E5%B7%9D%E5%8D%93%E4%B9%9F-ebook/dp/B07DR76HSG/ref=sr_1_15?dchild=1&keywords=JavaScript&qid=1620484108&sr=8-15',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51sZO6dvLBL.jpg'
     },
     {
       id: 10,
       title: '確かな力が身につくJavaScript「超」入門',
       link:
         'https://www.amazon.co.jp/dp/4797383585?tag=technote012-22&linkCode=ogi&th=1&psc=1',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/51GzcQ2ZKlL._SX392_BO1,204,203,200_.jpg'
     },
     {
       id: 11,
       title: 'スラスラわかるJavaScript',
       link:
         'https://www.amazon.co.jp/dp/4798125830?tag=technote012-22&linkCode=ogi&th=1&psc=1',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/51vnLRMlugL._SX358_BO1,204,203,200_.jpg'
     },
     {
       id: 12,
       title: 'Webサイト制作者のための JavaScript入門講座',
       link:
         'https://www.amazon.co.jp/dp/4774145246?tag=technote012-22&linkCode=ogi&th=1&psc=1',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/51jejrR1ltL._SX392_BO1,204,203,200_.jpg'
     },
     {
       id: 13,
       title: '初めてのJavaScript 第3版 ',
       link:
         'https://www.amazon.co.jp/-/en/Ethan-Brown/dp/4873117836/ref=sr_1_8?dchild=1&keywords=JavaScript&qid=1620484108&sr=8-8',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/51U44SJi3jL._SX388_BO1,204,203,200_.jpg'
     },
     {
       id: 14,
@@ -624,35 +629,39 @@ const librariesForTrain = async () => {
         '改訂新版JavaScript本格入門 ~モダンスタイルによる基礎から現場での応用まで',
       link:
         'https://www.amazon.co.jp/dp/477418411X?tag=technote012-22&linkCode=ogi&th=1&psc=1',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/51AvRbVdAsL._SX394_BO1,204,203,200_.jpg'
     },
     {
       id: 15,
       title: 'パーフェクトJavaScript (PERFECT SERIES 4)',
       link:
         'https://www.amazon.co.jp/dp/477414813X?tag=technote012-22&linkCode=ogi&th=1&psc=1',
-      img: null
+      img: 'https://images-na.ssl-images-amazon.com/images/I/51yrjFsf-2L.jpg'
     },
     {
       id: 16,
       title: 'JavaScriptエンジニア養成読本',
       link:
         'https://www.amazon.co.jp/dp/4774167975?tag=technote012-22&linkCode=ogi&th=1&psc=1',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/512JJ-aNoiL._SX352_BO1,204,203,200_.jpg'
     },
     {
       id: 17,
       title: 'JavaScriptパターン ―優れたアプリケーションのための作法',
       link:
         'https://www.amazon.co.jp/dp/4873114888?tag=technote012-22&linkCode=ogi&th=1&psc=1',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/51ZoMJ+rLhL._SX389_BO1,204,203,200_.jpg'
     },
     {
       id: 18,
       title: 'Effective JavaScript',
       link:
         'https://www.amazon.co.jp/dp/4798131113?tag=technote012-22&linkCode=ogi&th=1&psc=1',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/51nSK4pE-RL._SX393_BO1,204,203,200_.jpg'
     },
     {
       id: 19,
@@ -660,63 +669,65 @@ const librariesForTrain = async () => {
         'JavaScriptモダンプログラミング完全ガイド　堅牢なコードを効率的に開発できる！',
       link:
         'https://www.amazon.co.jp/-/en/Cay-S-Horstmann-ebook/dp/B08QVCSY1D/ref=sr_1_10?dchild=1&keywords=JavaScript&qid=1620484108&sr=8-10',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51wyH+xfTIL._SX260_.jpg'
     },
     {
       id: 20,
       title: '開眼! JavaScript ―言語仕様から学ぶJavaScriptの本質',
       link:
         'https://www.amazon.co.jp/-/en/Cody-Lindley/dp/487311621X/ref=sr_1_18?dchild=1&keywords=JavaScript&qid=1620484108&sr=8-18',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/51jMq3+DklL._SX352_BO1,204,203,200_.jpg'
     },
     {
       id: 21,
       title: 'Webフロントエンド ハイパフォーマンス チューニング',
       link:
         'https://www.amazon.co.jp/-/en/%E4%B9%85%E4%BF%9D%E7%94%B0-%E5%85%89%E5%89%87-ebook/dp/B0728K5JZV/ref=sr_1_12?dchild=1&keywords=JavaScript&qid=1620484862&sr=8-12',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51Xdg77GAhL.jpg'
     },
     {
       id: 22,
       title: 'これからはじめるVue.js実践入門',
       link:
         'https://www.amazon.co.jp/-/en/%E5%B1%B1%E7%94%B0-%E7%A5%A5%E5%AF%9B-ebook/dp/B07WVXRNH3/ref=sr_1_26?dchild=1&keywords=JavaScript&qid=1620485102&sr=8-26',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51bIiHhapVL.jpg'
     },
     {
       id: 23,
       title: '速習 React 速習シリーズ',
       link:
         'https://www.amazon.co.jp/-/en/%E5%B1%B1%E7%94%B0%E7%A5%A5%E5%AF%9B-ebook/dp/B07GWFRCR1/ref=sr_1_70?dchild=1&keywords=JavaScript&qid=1620485012&sr=8-70',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51HhxkiAfrL.jpg'
     },
     {
       id: 24,
       title: 'React.js & Next.js超入門',
       link:
         'https://www.amazon.co.jp/-/en/%E6%8E%8C%E7%94%B0%E6%B4%A5%E8%80%B6%E4%B9%83-ebook/dp/B07X7DHZ9F/ref=sr_1_58?dchild=1&keywords=JavaScript&qid=1620485012&sr=8-58',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51A9Ul-VM5L.jpg'
     },
     {
       id: 25,
       title: 'レベルアップNode.js ',
       link:
         'https://www.amazon.co.jp/-/en/%E4%BD%90%E3%80%85%E6%9C%A8-%E5%8B%9D%E5%BA%83-ebook/dp/B08B183M5V/ref=sr_1_29?dchild=1&keywords=JavaScript&qid=1620485102&sr=8-29',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51FAqrKt9dL.jpg'
     },
     {
       id: 26,
       title: 'Pythonの絵本 Pythonを楽しく学ぶ9つの扉',
       link:
         'https://www.amazon.co.jp/Python%E3%81%AE%E7%B5%B5%E6%9C%AC-Python%E3%82%92%E6%A5%BD%E3%81%97%E3%81%8F%E5%AD%A6%E3%81%B69%E3%81%A4%E3%81%AE%E6%89%89-%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE%E3%82%A2%E3%83%B3%E3%82%AF/dp/4798155136',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/51uq67ckI8L._SX399_BO1,204,203,200_.jpg'
     },
     {
       id: 27,
       title: 'いちばんやさしい Python 入門教室',
       link:
         'https://www.amazon.co.jp/-/en/%E5%A4%A7%E6%BE%A4-%E6%96%87%E5%AD%9D-ebook/dp/B06Y3ZVS9Y/ref=sr_1_50?dchild=1&keywords=Python&qid=1620485975&sr=8-50',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51Hr8iwgwpL._SX260_.jpg'
     },
     {
       id: 28,
@@ -724,35 +735,36 @@ const librariesForTrain = async () => {
         'Python 1年生 体験してわかる！会話でまなべる！プログラミングのしくみ',
       link:
         'https://www.amazon.co.jp/Python-1%E5%B9%B4%E7%94%9F-%E4%BD%93%E9%A8%93%E3%81%97%E3%81%A6%E3%82%8F%E3%81%8B%E3%82%8B%EF%BC%81%E4%BC%9A%E8%A9%B1%E3%81%A7%E3%81%BE%E3%81%AA%E3%81%B9%E3%82%8B%EF%BC%81%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E3%81%AE%E3%81%97%E3%81%8F%E3%81%BF-%E6%A3%AE-%E5%B7%A7%E5%B0%9A-ebook/dp/B076DDBBK9',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/61mUe-f7C6L.jpg'
     },
     {
       id: 29,
       title: '図解！ Pythonのツボとコツがゼッタイにわかる本 “超”入門編',
       link:
         'https://www.amazon.co.jp/%E7%AB%8B%E5%B1%B1%E7%A7%80%E5%88%A9-ebook/dp/B089K5PFFF/ref=sr_1_51_sspa?dchild=1&keywords=Python&qid=1620485663&sr=8-51-spons&psc=1&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUFQRUtLNlVHS0FCMk4mZW5jcnlwdGVkSWQ9QTAyMTg0NjQyUjg3U1VITDNJTVA1JmVuY3J5cHRlZEFkSWQ9QTE0UUdJQVNOU005SjImd2lkZ2V0TmFtZT1zcF9idGYmYWN0aW9uPWNsaWNrUmVkaXJlY3QmZG9Ob3RMb2dDbGljaz10cnVl',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/41X1X2y2cWL.jpg'
     },
     {
       id: 30,
       title: 'スッキリわかるPython入門 スッキリわかるシリーズ',
       link:
         'https://www.amazon.co.jp/-/en/%E5%9B%BD%E6%9C%AC%E5%A4%A7%E6%82%9F-ebook/dp/B07T63W9KC/ref=rtpb_5?pd_rd_w=UhMAw&pf_rd_p=c221ae92-96f8-424c-884c-196b2fc439b0&pf_rd_r=D44A6VX9S20G3CX8AYD5&pd_rd_r=816315d0-5878-487d-9700-4acaee6979e5&pd_rd_wg=h0TEk&pd_rd_i=B07T63W9KC&psc=1',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51ot2IdQUHL._SY346_.jpg'
     },
     {
       id: 31,
       title: 'Python［完全］入門',
       link:
         'https://www.amazon.co.jp/-/en/%E6%9D%BE%E6%B5%A6-%E5%81%A5%E4%B8%80%E9%83%8E-ebook/dp/B08KT6XZMQ/ref=sr_1_50?dchild=1&keywords=Python&qid=1620485975&sr=8-50',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51gs89IxjlL.jpg'
     },
     {
       id: 32,
       title: '独習Python',
       link:
         'https://www.amazon.co.jp/%E7%8B%AC%E7%BF%92Python-%E5%B1%B1%E7%94%B0-%E7%A5%A5%E5%AF%9B/dp/4798163643',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/519692r4Q7L._SX394_BO1,204,203,200_.jpg'
     },
     {
       id: 33,
@@ -760,28 +772,31 @@ const librariesForTrain = async () => {
         '最短距離でゼロからしっかり学ぶ Python入門　必修編　〜プログラミングの基礎からエラー処理、テストコードの書き方まで',
       link:
         'https://www.amazon.co.jp/-/en/Eric-Matthes-ebook/dp/B08GP27B1P/ref=sr_1_36?dchild=1&keywords=Python&qid=1620485663&sr=8-36',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51xApupAAsL.jpg'
     },
     {
       id: 34,
       title: 'スラスラわかるPython',
       link:
         'https://www.amazon.co.jp/%E3%82%B9%E3%83%A9%E3%82%B9%E3%83%A9%E3%82%8F%E3%81%8B%E3%82%8BPython-%E5%B2%A9%E5%B4%8E-%E5%9C%AD/dp/4798151092',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/41cNLS3Aa9L._SX354_BO1,204,203,200_.jpg'
     },
     {
       id: 35,
       title: '入門 Python 3',
       link:
         'https://www.amazon.co.jp/-/en/Bill-Lubanovic/dp/4873117380/ref=sr_1_118?dchild=1&keywords=Python&qid=1620486162&sr=8-118',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/51+xv65qdBL._SX352_BO1,204,203,200_.jpg'
     },
     {
       id: 36,
       title: 'なっとく! アルゴリズム ',
       link:
         'https://www.amazon.co.jp/%E3%81%AA%E3%81%A3%E3%81%A8%E3%81%8F-%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0-%E3%82%A2%E3%83%87%E3%82%A3%E3%83%86%E3%82%A3%E3%82%A2%E3%83%BBY%E3%83%BB%E3%83%90%E3%83%BC%E3%82%AC%E3%83%90/dp/4798143359',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/61muIrGwUTL._SX394_BO1,204,203,200_.jpg'
     },
     {
       id: 37,
@@ -789,111 +804,115 @@ const librariesForTrain = async () => {
         'Pythonによるクローラー＆スクレイピング入門 設計・開発から収集データの解析・運用まで',
       link:
         'https://www.amazon.co.jp/Python%E3%81%AB%E3%82%88%E3%82%8B%E3%82%AF%E3%83%AD%E3%83%BC%E3%83%A9%E3%83%BC%EF%BC%86%E3%82%B9%E3%82%AF%E3%83%AC%E3%82%A4%E3%83%94%E3%83%B3%E3%82%B0%E5%85%A5%E9%96%80-%E8%A8%AD%E8%A8%88%E3%83%BB%E9%96%8B%E7%99%BA%E3%81%8B%E3%82%89%E5%8F%8E%E9%9B%86%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E8%A7%A3%E6%9E%90%E3%81%BE%E3%81%A7-%E5%8A%A0%E8%97%A4-%E5%8B%9D%E4%B9%9F-ebook/dp/B075D51624',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51vZxm1MGaL.jpg'
     },
     {
       id: 38,
       title: 'Pythonスクレイピングの基本と実践',
       link:
         'https://www.amazon.co.jp/Seppe-vanden-Broucke-ebook/dp/B07LGT94YH/ref=sr_1_136_sspa?dchild=1&keywords=Python&qid=1620486162&sr=8-136-spons&psc=1&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUExWTdRTkM4WEZTVkQyJmVuY3J5cHRlZElkPUEwNDgxMzc2VkxDS0lDUktCSFM1JmVuY3J5cHRlZEFkSWQ9QTFWWUw0WUgwMEZTRzkmd2lkZ2V0TmFtZT1zcF9idGYmYWN0aW9uPWNsaWNrUmVkaXJlY3QmZG9Ob3RMb2dDbGljaz10cnVl',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51psvzLBhdL.jpg'
     },
     {
       id: 39,
       title: '実践 Python 3 ',
       link:
         'https://www.amazon.co.jp/-/en/Mark-Summerfield/dp/4873117399/ref=sr_1_167?dchild=1&keywords=Python&qid=1620486243&sr=8-167',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/41wJtgiHrXL._SX352_BO1,204,203,200_.jpg'
     },
     {
       id: 40,
       title: '動かして学ぶ！Python Django開発入門',
       link:
         'https://www.amazon.co.jp/%E5%8B%95%E3%81%8B%E3%81%97%E3%81%A6%E5%AD%A6%E3%81%B6%EF%BC%81Python-Django%E9%96%8B%E7%99%BA%E5%85%A5%E9%96%80-%E5%A4%A7%E9%AB%98-%E9%9A%86-ebook/dp/B07YY5RDPC',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51zuLavR1DL.jpg'
     },
     {
       id: 41,
       title: '現場で使える Django の教科書《基礎編》',
       link:
         'https://www.amazon.co.jp/-/en/%E6%A8%AA%E7%80%AC-%E6%98%8E%E4%BB%81-ebook/dp/B07GK7BWB7/ref=sr_1_27?dchild=1&keywords=Python&qid=1620485663&sr=8-27',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/41BfcCNG8pL.jpg'
     },
     {
       id: 42,
       title: 'テスト駆動Python',
       link:
         'https://www.amazon.co.jp/%E3%83%86%E3%82%B9%E3%83%88%E9%A7%86%E5%8B%95Python-BrianOkken-ebook/dp/B07F65PFZN',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51w-JtosPXL.jpg'
     },
     {
       id: 43,
       title: 'Pythonトリック',
       link:
         'https://www.amazon.co.jp/Python%E3%83%88%E3%83%AA%E3%83%83%E3%82%AF-Dan-Bader-ebook/dp/B085455WKV',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/41WpA-daWCL.jpg'
     },
     {
       id: 44,
       title: 'ハイパフォーマンスPython',
       link:
         'https://www.amazon.co.jp/-/en/Micha-Gorelick/dp/4873117402/ref=bmx_3?pd_rd_w=yh8zk&pf_rd_p=c7562b60-0bda-4f3e-bc1b-ac174bc78d04&pf_rd_r=DFHSN2EZMD60K3QGAVAP&pd_rd_r=0ecfaf5c-1f3d-460d-80dd-147e2d0b678e&pd_rd_wg=2cNps&pd_rd_i=4873117402&psc=1',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/51zS8QNJtRL._SX389_BO1,204,203,200_.jpg'
     },
     {
       id: 45,
       title: 'Fluent Python ―Pythonicな思考とコーディング手法',
       link:
         'https://www.amazon.co.jp/-/en/Luciano-Ramalho/dp/4873118174/ref=sr_1_57?dchild=1&keywords=Python&qid=1620485975&sr=8-57',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/51fYuqUYxAL._SX389_BO1,204,203,200_.jpg'
     },
     {
       id: 46,
       title: 'なるほどデザイン',
       link: 'https://www.amazon.co.jp/dp/B012VJNW6Q',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/41i89jqMyPL.jpg'
     },
     {
       id: 47,
       title: 'けっきょく、よはく。余白を活かしたデザインレイアウトの本',
       link:
         'https://www.amazon.co.jp/%E3%81%91%E3%81%A3%E3%81%8D%E3%82%87%E3%81%8F%E3%80%81%E3%82%88%E3%81%AF%E3%81%8F%E3%80%82%E4%BD%99%E7%99%BD%E3%82%92%E6%B4%BB%E3%81%8B%E3%81%97%E3%81%9F%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3%E3%83%AC%E3%82%A4%E3%82%A2%E3%82%A6%E3%83%88%E3%81%AE%E6%9C%AC-%EF%BD%89%EF%BD%8E%EF%BD%87%EF%BD%85%EF%BD%83%EF%BD%94%EF%BD%81%EF%BD%92%EF%BC%8D%EF%BD%85-ebook/dp/B07FW35F5R/ref=bmx_5/356-7695742-9162748?_encoding=UTF8&pd_rd_i=B07FW35F5R&pd_rd_r=9362903c-9e7e-4cf6-abde-e937d833802c&pd_rd_w=lm5Hz&pd_rd_wg=YzvaU&pf_rd_p=6ad035f2-0f1c-4b9e-a763-5321d5c2cd6e&pf_rd_r=N7RT1AT83HSGKVK8VN8H&psc=1&refRID=N7RT1AT83HSGKVK8VN8H',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/414qmDe-CWL.jpg'
     },
     {
       id: 48,
       title: 'ノンデザイナーズ・デザインブック',
       link:
         'https://www.amazon.co.jp/%E3%83%8E%E3%83%B3%E3%83%87%E3%82%B6%E3%82%A4%E3%83%8A%E3%83%BC%E3%82%BA%E3%83%BB%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3%E3%83%96%E3%83%83%E3%82%AF-%EF%BC%BB%E7%AC%AC4%E7%89%88%EF%BC%BD-Robin-Williams-ebook/dp/B01LW1BC2L/ref=bmx_2/356-7695742-9162748?_encoding=UTF8&pd_rd_i=B01LW1BC2L&pd_rd_r=9362903c-9e7e-4cf6-abde-e937d833802c&pd_rd_w=lm5Hz&pd_rd_wg=YzvaU&pf_rd_p=6ad035f2-0f1c-4b9e-a763-5321d5c2cd6e&pf_rd_r=N7RT1AT83HSGKVK8VN8H&psc=1&refRID=N7RT1AT83HSGKVK8VN8H',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51OV7VCefgL.jpg'
     },
     {
       id: 49,
       title: 'いちばんよくわかるWebデザインの基本きちんと入門',
       link:
         'https://www.amazon.co.jp/%E3%81%84%E3%81%A1%E3%81%B0%E3%82%93%E3%82%88%E3%81%8F%E3%82%8F%E3%81%8B%E3%82%8BWeb%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3%E3%81%AE%E5%9F%BA%E6%9C%AC%E3%81%8D%E3%81%A1%E3%82%93%E3%81%A8%E5%85%A5%E9%96%80-%E3%83%AC%E3%82%A4%E3%82%A2%E3%82%A6%E3%83%88%EF%BC%8F%E9%85%8D%E8%89%B2%EF%BC%8F%E5%86%99%E7%9C%9F%EF%BC%8F%E3%82%BF%E3%82%A4%E3%83%9D%E3%82%B0%E3%83%A9%E3%83%95%E3%82%A3%EF%BC%8F%E6%9C%80%E6%96%B0%E3%83%86%E3%82%AF%E3%83%8B%E3%83%83%E3%82%AF-%E4%BC%8A%E8%97%A4-%E5%BA%84%E5%B9%B3-ebook/dp/B06WVVQ8MP/ref=sr_1_11?__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&dchild=1&keywords=Web%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3&qid=1606641413&s=digital-text&sr=1-11',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51bLoGOtPVL.jpg'
     },
     {
       id: 50,
       title: 'Webデザイン良質見本帳',
       link:
         'https://www.amazon.co.jp/Web%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3%E8%89%AF%E8%B3%AA%E8%A6%8B%E6%9C%AC%E5%B8%B3-%E7%9B%AE%E7%9A%84%E5%88%A5%E3%81%AB%E6%8E%A2%E3%81%9B%E3%81%A6%E3%80%81%E3%81%99%E3%81%90%E3%81%AB%E4%BD%BF%E3%81%88%E3%82%8B%E3%82%A2%E3%82%A4%E3%83%87%E3%82%A2%E9%9B%86-%E4%B9%85%E4%BF%9D%E7%94%B0-%E6%B6%BC%E5%AD%90-ebook/dp/B071KDLRGV/ref=bmx_1/356-7695742-9162748?_encoding=UTF8&pd_rd_i=B071KDLRGV&pd_rd_r=42655430-2631-494b-9f21-32cfe9c6aca7&pd_rd_w=gOKb4&pd_rd_wg=wjHzC&pf_rd_p=6ad035f2-0f1c-4b9e-a763-5321d5c2cd6e&pf_rd_r=V47SETK8N6ZWE5QTSQE9&psc=1&refRID=V47SETK8N6ZWE5QTSQE9',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/5172CqT83cL.jpg'
     },
     {
       id: 51,
       title: 'コンバージョンを上げるWebデザイン改善集 ',
       link:
         'https://www.amazon.co.jp/%E3%82%B3%E3%83%B3%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3%E3%82%92%E4%B8%8A%E3%81%92%E3%82%8BWeb%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3%E6%94%B9%E5%96%84%E9%9B%86-%E4%BA%95%E6%B0%B4%E5%A4%A7%E8%BC%94-ebook/dp/B08BHQXBKV/ref=sr_1_22?__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&dchild=1&keywords=Web%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3&qid=1606641413&s=digital-text&sr=1-22',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51B7ZG8IygL.jpg'
     },
     {
       id: 52,
       title: 'デザインの学校 これからはじめる Illustrator & Photoshopの本',
       link:
         'https://www.amazon.co.jp/%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3%E3%81%AE%E5%AD%A6%E6%A0%A1-%E3%81%93%E3%82%8C%E3%81%8B%E3%82%89%E3%81%AF%E3%81%98%E3%82%81%E3%82%8B-Illustrator-Photoshop%E3%81%AE%E6%9C%AC-2019%E5%B9%B4%E6%9C%80%E6%96%B0%E7%89%88/dp/4297105535/',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/51h9B6tFj1L._SX456_BO1,204,203,200_.jpg'
     },
     {
       id: 53,
@@ -901,48 +920,53 @@ const librariesForTrain = async () => {
         'Adobe XDではじめるWebデザイン＆プロトタイピング 一歩先行く現場のスキル',
       link:
         'https://www.amazon.co.jp/-/en/%E6%9D%BE%E4%B8%8B-%E7%B5%B5%E6%A2%A8-ebook/dp/B086MHH7NB/ref=sr_1_36?dchild=1&keywords=WEB%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3&qid=1620486581&sr=8-36',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51NF+Uea9uL.jpg'
     },
     {
       id: 54,
       title: 'Illustrator しっかり入門 増補改訂 第２版 ',
       link:
         'https://www.amazon.co.jp/-/en/%E9%AB%98%E9%87%8E-%E9%9B%85%E5%BC%98/dp/479739725X/ref=sr_1_57?dchild=1&keywords=WEB%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3&qid=1620486701&sr=8-57',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/41Wgf80ZiuL._SX366_BO1,204,203,200_.jpg'
     },
     {
       id: 55,
       title: 'いちばんよくわかるHTML5&CSS3デザインきちんと入門',
       link:
         'https://www.amazon.co.jp/dp/4797388544?tag=technote012-22&linkCode=ogi&th=1&psc=1',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/51cDHqLOl3L._SX353_BO1,204,203,200_.jpg'
     },
     {
       id: 56,
       title: '1冊ですべて身につくHTML ＆ CSSとWebデザイン入門講座',
       link:
         'https://www.amazon.co.jp/-/en/Mana-ebook/dp/B07PS1ZJN6/ref=sr_1_4?dchild=1&keywords=JavaScript&qid=1620484862&sr=8-4',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/41a8QSuhu7L.jpg'
     },
     {
       id: 57,
       title: 'スラスラわかるHTML&CSSのきほん',
       link: 'https://www.amazon.co.jp/dp/4797393157',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/61hswQTumaL._SX390_BO1,204,203,200_.jpg'
     },
     {
       id: 58,
       title: 'HTML5&CSS3デザインブック',
       link:
         'https://www.amazon.co.jp/dp/4883379647?tag=technote012-22&linkCode=ogi&th=1&psc=1',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/51A-tYY2DGL._SX393_BO1,204,203,200_.jpg'
     },
     {
       id: 59,
       title: 'HTML5&CSS3レッスンブック',
       link:
         'https://www.amazon.co.jp/-/en/%E3%82%A8%E3%83%93%E3%82%B9%E3%82%B3%E3%83%A0/dp/4883378721/ref=pd_bxgy_img_3/355-3902492-5842662?_encoding=UTF8&pd_rd_i=4883378721&pd_rd_r=95af91bb-9556-4027-9349-6bf6ed412baf&pd_rd_w=z7Ww2&pd_rd_wg=HWyQD&pf_rd_p=105d6769-bacf-43d4-85ea-a25cec858a3c&pf_rd_r=AYHHQ3GHJ059HQJG9KW8&psc=1&refRID=AYHHQ3GHJ059HQJG9KW8',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/51e-xYj018L._SX390_BO1,204,203,200_.jpg'
     },
     {
       id: 60,
@@ -950,28 +974,29 @@ const librariesForTrain = async () => {
         'HTML5/CSS3モダンコーディング フロントエンドエンジニアが教える3つの本格レイアウト',
       link:
         'https://www.amazon.co.jp/-/en/%E5%90%89%E7%94%B0-%E7%9C%9F%E9%BA%BB/dp/4798141577/ref=pd_bxgy_img_2/355-3902492-5842662?_encoding=UTF8&pd_rd_i=4798141577&pd_rd_r=95af91bb-9556-4027-9349-6bf6ed412baf&pd_rd_w=z7Ww2&pd_rd_wg=HWyQD&pf_rd_p=105d6769-bacf-43d4-85ea-a25cec858a3c&pf_rd_r=AYHHQ3GHJ059HQJG9KW8&psc=1&refRID=AYHHQ3GHJ059HQJG9KW8',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/41iMEJUOioL._SX363_BO1,204,203,200_.jpg'
     },
     {
       id: 61,
       title: 'Webデザインとコーディングのきほんのきほん',
       link:
         'https://www.amazon.co.jp/-/en/%E7%80%A7%E4%B8%8A-%E5%9C%92%E6%9E%9D-ebook/dp/B01LQ5H2F8/ref=sr_1_57?dchild=1&keywords=JavaScript&qid=1620485012&sr=8-57',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51symz2phJL.jpg'
     },
     {
       id: 62,
       title: 'Webデザイン必携。　プロにまなぶ現場の制作ルール84',
       link:
         'https://www.amazon.co.jp/-/en/%E5%8C%97%E6%9D%91-%E5%B4%87-ebook/dp/B01D1QX4N4/ref=sr_1_28?dchild=1&keywords=WEB%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3&qid=1620486581&sr=8-28',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51LvFnFByuL.jpg'
     },
     {
       id: 63,
       title: 'UXと理論で作る Webデザイン: デザイナーでなくてもわかる',
       link:
         'https://www.amazon.co.jp/-/en/%E5%B7%9D%E5%90%88-%E4%BF%8A%E8%BC%94-ebook/dp/B077D8NN3L/ref=sr_1_37?dchild=1&keywords=WEB%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3&qid=1620486581&sr=8-37',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51cN5mKXzOL.jpg'
     },
     {
       id: 64,
@@ -979,21 +1004,22 @@ const librariesForTrain = async () => {
         'Webデザイン・スタンダード 伝わるビジュアルづくりとクリエイティブの最新技法',
       link:
         'https://www.amazon.co.jp/-/en/%E5%A2%83-%E7%A5%90%E5%8F%B8/dp/4844367773/ref=sr_1_48?dchild=1&keywords=WEB%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3&qid=1620486581&sr=8-48',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/41vgae5BoHL._SX351_BO1,204,203,200_.jpg'
     },
     {
       id: 65,
       title: 'Photoshop ＆ Illustratorデザインテクニック大全',
       link:
         'https://www.amazon.co.jp/-/en/%E6%A5%A0%E7%94%B0-%E8%AB%AD%E5%8F%B2-ebook/dp/B07C88ZNBV/ref=sr_1_49?dchild=1&keywords=WEB%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3&qid=1620486701&sr=8-49',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51jQrqz+7DL.jpg'
     },
     {
       id: 66,
       title: 'Pythonで学ぶあたらしい統計学の教科書',
       link:
         'https://www.amazon.co.jp/Python%E3%81%A7%E5%AD%A6%E3%81%B6%E3%81%82%E3%81%9F%E3%82%89%E3%81%97%E3%81%84%E7%B5%B1%E8%A8%88%E5%AD%A6%E3%81%AE%E6%95%99%E7%A7%91%E6%9B%B8-%E9%A6%AC%E5%A0%B4-%E7%9C%9F%E5%93%89-ebook/dp/B07BHJGDHK',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51HzGbwzaTL.jpg'
     },
     {
       id: 67,
@@ -1001,35 +1027,37 @@ const librariesForTrain = async () => {
         'ゼロから作るDeep Learning ―Pythonで学ぶディープラーニングの理論と実装',
       link:
         'https://www.amazon.co.jp/-/en/%E6%96%8E%E8%97%A4-%E5%BA%B7%E6%AF%85/dp/4873117585/ref=sr_1_12?dchild=1&keywords=Python&qid=1620485663&sr=8-12',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/513J77QZHgL._SX350_BO1,204,203,200_.jpg'
     },
     {
       id: 68,
       title: 'AIセキュリティから学ぶ ディープラーニング［技術］入門 ',
       link:
         'https://www.amazon.co.jp/-/en/%E7%94%B0%E7%AF%AD-%E7%85%A7%E5%8D%9A-ebook/dp/B08QTTNFXV/ref=sr_1_5?dchild=1&keywords=Python&qid=1620485663&sr=8-5',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51HEF441qEL.jpg'
     },
     {
       id: 69,
       title: 'つくりながら学ぶ！PyTorchによる発展ディープラーニング',
       link:
         'https://www.amazon.co.jp/-/en/%E5%B0%8F%E5%B7%9D-%E9%9B%84%E5%A4%AA%E9%83%8E-ebook/dp/B07VPDVNKW/ref=sr_1_11?dchild=1&keywords=Python&qid=1620485663&sr=8-11',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/41eMi0Q6DOL.jpg'
     },
     {
       id: 70,
       title: 'Kaggleで勝つデータ分析の技術',
       link:
         'https://www.amazon.co.jp/-/en/%E9%96%80%E8%84%87-%E5%A4%A7%E8%BC%94-ebook/dp/B07YTDBC3Z/ref=sr_1_4?dchild=1&keywords=Python&qid=1620485663&sr=8-4',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/418YjfYRlhL.jpg'
     },
     {
       id: 71,
       title: 'Pythonデータサイエンスハンドブック',
       link:
         'https://www.amazon.co.jp/-/en/Jake-VanderPlas/dp/4873118417/ref=sr_1_18?dchild=1&keywords=Python&qid=1620485663&sr=8-18',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/51bYwxwQSLL._SX389_BO1,204,203,200_.jpg'
     },
     {
       id: 72,
@@ -1037,7 +1065,7 @@ const librariesForTrain = async () => {
         '現場で使える! Python機械学習入門 機械学習アルゴリズムの理論と実践',
       link:
         'https://www.amazon.co.jp/%E7%8F%BE%E5%A0%B4%E3%81%A7%E4%BD%BF%E3%81%88%E3%82%8B-Python%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92%E5%85%A5%E9%96%80-%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0%E3%81%AE%E7%90%86%E8%AB%96%E3%81%A8%E5%AE%9F%E8%B7%B5-AI-TECHNOLOGY/dp/4798150967',
-      img: null
+      img: 'https://images-na.ssl-images-amazon.com/images/I/71jb5xQzlJL.jpg'
     },
     {
       id: 73,
@@ -1045,28 +1073,29 @@ const librariesForTrain = async () => {
         '現場で使える！PyTorch開発入門 深層学習モデルの作成とアプリケーションへの実装',
       link:
         'https://www.amazon.co.jp/%E7%8F%BE%E5%A0%B4%E3%81%A7%E4%BD%BF%E3%81%88%E3%82%8B%EF%BC%81PyTorch%E9%96%8B%E7%99%BA%E5%85%A5%E9%96%80-%E6%B7%B1%E5%B1%A4%E5%AD%A6%E7%BF%92%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E4%BD%9C%E6%88%90%E3%81%A8%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%B8%E3%81%AE%E5%AE%9F%E8%A3%85-%E6%9D%9C-%E4%B8%96%E6%A9%8B-ebook/dp/B07FTJPL31',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51PpVvyPRrL.jpg'
     },
     {
       id: 74,
       title: 'Pythonによるデータ分析入門 第2版',
       link:
         'https://www.amazon.co.jp/-/en/Wes-McKinney/dp/487311845X/ref=sr_1_58?dchild=1&keywords=Python&qid=1620485975&sr=8-58',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/51NjGkPfTQL._SX389_BO1,204,203,200_.jpg'
     },
     {
       id: 75,
       title: 'Pythonによるあたらしいデータ分析の教科書',
       link:
         'https://www.amazon.co.jp/Python%E3%81%AB%E3%82%88%E3%82%8B%E3%81%82%E3%81%9F%E3%82%89%E3%81%97%E3%81%84%E3%83%87%E3%83%BC%E3%82%BF%E5%88%86%E6%9E%90%E3%81%AE%E6%95%99%E7%A7%91%E6%9B%B8-%E5%AF%BA%E7%94%B0-%E5%AD%A6-ebook/dp/B07G39T2B7',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/511-yU+1i7L.jpg'
     },
     {
       id: 76,
       title: 'Python実践データ分析100本ノック',
       link:
         'https://www.amazon.co.jp/%E4%B8%8B%E5%B1%B1%E8%BC%9D%E6%98%8C-ebook/dp/B07ZSGSN9S/ref=sr_1_49_sspa?dchild=1&keywords=Python&qid=1620485663&sr=8-49-spons&psc=1&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUFQRUtLNlVHS0FCMk4mZW5jcnlwdGVkSWQ9QTAyMTg0NjQyUjg3U1VITDNJTVA1JmVuY3J5cHRlZEFkSWQ9QTJXRFc2SFgyR0tLME0md2lkZ2V0TmFtZT1zcF9idGYmYWN0aW9uPWNsaWNrUmVkaXJlY3QmZG9Ob3RMb2dDbGljaz10cnVl',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/412kXJbs0XL.jpg'
     },
     {
       id: 77,
@@ -1074,7 +1103,8 @@ const librariesForTrain = async () => {
         'Pythonではじめる機械学習 ―scikit-learnで学ぶ特徴量エンジニアリングと機械学習の基礎',
       link:
         'https://www.amazon.co.jp/-/en/Andreas-C-Muller/dp/4873117984/ref=sr_1_21?dchild=1&keywords=Python&qid=1620485663&sr=8-21',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/51GQH7tZNlL._SX389_BO1,204,203,200_.jpg'
     },
     {
       id: 78,
@@ -1082,7 +1112,7 @@ const librariesForTrain = async () => {
         'Pythonで動かして学ぶ！あたらしい数学の教科書 機械学習・深層学習に必要な基礎知識',
       link:
         'https://www.amazon.co.jp/Python%E3%81%A7%E5%8B%95%E3%81%8B%E3%81%97%E3%81%A6%E5%AD%A6%E3%81%B6%EF%BC%81%E3%81%82%E3%81%9F%E3%82%89%E3%81%97%E3%81%84%E6%95%B0%E5%AD%A6%E3%81%AE%E6%95%99%E7%A7%91%E6%9B%B8-%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92%E3%83%BB%E6%B7%B1%E5%B1%A4%E5%AD%A6%E7%BF%92%E3%81%AB%E5%BF%85%E8%A6%81%E3%81%AA%E5%9F%BA%E7%A4%8E%E7%9F%A5%E8%AD%98-%E6%88%91%E5%A6%BB-%E5%B9%B8%E9%95%B7-ebook/dp/B07TZ57B5X',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/41vdRpC02iL._SY346_.jpg'
     },
     {
       id: 79,
@@ -1090,7 +1120,7 @@ const librariesForTrain = async () => {
         'Pythonで動かして学ぶ！あたらしい深層学習の教科書 機械学習の基本から深層学習まで',
       link:
         'https://www.amazon.co.jp/Python%E3%81%A7%E5%8B%95%E3%81%8B%E3%81%97%E3%81%A6%E5%AD%A6%E3%81%B6%EF%BC%81%E3%81%82%E3%81%9F%E3%82%89%E3%81%97%E3%81%84%E6%B7%B1%E5%B1%A4%E5%AD%A6%E7%BF%92%E3%81%AE%E6%95%99%E7%A7%91%E6%9B%B8-%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92%E3%81%AE%E5%9F%BA%E6%9C%AC%E3%81%8B%E3%82%89%E6%B7%B1%E5%B1%A4%E5%AD%A6%E7%BF%92%E3%81%BE%E3%81%A7-%E7%9F%B3%E5%B7%9D-%E8%81%A1%E5%BD%A6-ebook/dp/B07GW9RMLL',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/514FQ-lTmOL.jpg'
     },
     {
       id: 80,
@@ -1098,7 +1128,7 @@ const librariesForTrain = async () => {
         'Python機械学習プログラミング 達人データサイエンティストによる理論と実践',
       link:
         'https://www.amazon.co.jp/-/en/Sebastian-Raschka-ebook/dp/B07BF5QZ41/ref=sr_1_34?dchild=1&keywords=Python&qid=1620485663&sr=8-34',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51tinGCtkrL._SX260_.jpg'
     },
     {
       id: 81,
@@ -1106,7 +1136,8 @@ const librariesForTrain = async () => {
         '現場で使える！Python深層学習入門 Pythonの基本から深層学習の実践手法まで',
       link:
         'https://www.amazon.co.jp/%E7%8F%BE%E5%A0%B4%E3%81%A7%E4%BD%BF%E3%81%88%E3%82%8B-Python%E6%B7%B1%E5%B1%A4%E5%AD%A6%E7%BF%92%E5%85%A5%E9%96%80-Python%E3%81%AE%E5%9F%BA%E6%9C%AC%E3%81%8B%E3%82%89%E6%B7%B1%E5%B1%A4%E5%AD%A6%E7%BF%92%E3%81%AE%E5%AE%9F%E8%B7%B5%E6%89%8B%E6%B3%95%E3%81%BE%E3%81%A7-AI-TECHNOLOGY/dp/4798150975',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/51hurFnqy0L._SX350_BO1,204,203,200_.jpg'
     },
     {
       id: 82,
@@ -1114,7 +1145,8 @@ const librariesForTrain = async () => {
         '現場で使える！Python深層強化学習入門 強化学習と深層学習による探索と制御',
       link:
         'https://www.amazon.co.jp/%E7%8F%BE%E5%A0%B4%E3%81%A7%E4%BD%BF%E3%81%88%E3%82%8B%EF%BC%81Python%E6%B7%B1%E5%B1%A4%E5%BC%B7%E5%8C%96%E5%AD%A6%E7%BF%92%E5%85%A5%E9%96%80-%E5%BC%B7%E5%8C%96%E5%AD%A6%E7%BF%92%E3%81%A8%E6%B7%B1%E5%B1%A4%E5%AD%A6%E7%BF%92%E3%81%AB%E3%82%88%E3%82%8B%E6%8E%A2%E7%B4%A2%E3%81%A8%E5%88%B6%E5%BE%A1-AI-TECHNOLOGY-%E4%BC%8A%E8%97%A4/dp/4798159921',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/51PD-9c80GL._SX350_BO1,204,203,200_.jpg'
     },
     {
       id: 83,
@@ -1122,7 +1154,8 @@ const librariesForTrain = async () => {
         '現場で使える! NumPyデータ処理入門 機械学習・データサイエンスで役立つ高速処理手法',
       link:
         'https://www.amazon.co.jp/%E7%8F%BE%E5%A0%B4%E3%81%A7%E4%BD%BF%E3%81%88%E3%82%8B-NumPy%E3%83%87%E3%83%BC%E3%82%BF%E5%87%A6%E7%90%86%E5%85%A5%E9%96%80-%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92%E3%83%BB%E3%83%87%E3%83%BC%E3%82%BF%E3%82%B5%E3%82%A4%E3%82%A8%E3%83%B3%E3%82%B9%E3%81%A7%E5%BD%B9%E7%AB%8B%E3%81%A4%E9%AB%98%E9%80%9F%E5%87%A6%E7%90%86%E6%89%8B%E6%B3%95-AI-TECHNOLOGY/dp/4798155918',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/51RNBseTHrL._SX350_BO1,204,203,200_.jpg'
     },
     {
       id: 84,
@@ -1130,28 +1163,28 @@ const librariesForTrain = async () => {
         '現場で使える！TensorFlow開発入門 Kerasによる深層学習モデル構築手法',
       link:
         'https://www.amazon.co.jp/%E7%8F%BE%E5%A0%B4%E3%81%A7%E4%BD%BF%E3%81%88%E3%82%8B%EF%BC%81TensorFlow%E9%96%8B%E7%99%BA%E5%85%A5%E9%96%80-Keras%E3%81%AB%E3%82%88%E3%82%8B%E6%B7%B1%E5%B1%A4%E5%AD%A6%E7%BF%92%E3%83%A2%E3%83%87%E3%83%AB%E6%A7%8B%E7%AF%89%E6%89%8B%E6%B3%95-%E5%A4%AA%E7%94%B0-%E6%BA%80%E4%B9%85-ebook/dp/B07BHJZ19L',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51m55M2nP1L._SY346_.jpg'
     },
     {
       id: 85,
       title: 'ビジネスデータサイエンスの教科書',
       link:
         'https://www.amazon.co.jp/-/en/%E3%83%9E%E3%83%83%E3%83%88%E3%83%BB%E3%82%BF%E3%83%87%E3%82%A3-ebook/dp/B0894GP1RP/ref=sr_1_42?dchild=1&keywords=Python&qid=1620485663&sr=8-42',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/418gafRG+gL._SX260_.jpg'
     },
     {
       id: 86,
       title: 'SQLの絵本 第2版 データベースが好きになる新しい9つの扉',
       link:
         'https://www.amazon.co.jp/SQL%E3%81%AE%E7%B5%B5%E6%9C%AC-%E7%AC%AC2%E7%89%88-%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E3%81%8C%E5%A5%BD%E3%81%8D%E3%81%AB%E3%81%AA%E3%82%8B%E6%96%B0%E3%81%97%E3%81%849%E3%81%A4%E3%81%AE%E6%89%89-%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BE%E3%82%A2%E3%83%B3%E3%82%AF-ebook/dp/B07G787SCK',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51oH8DOHhzL.jpg'
     },
     {
       id: 87,
       title: 'マンガでわかるデータベース',
       link:
         'https://www.amazon.co.jp/-/en/%E9%AB%98%E6%A9%8B-%E9%BA%BB%E5%A5%88/dp/4274066312/ref=sr_1_8?dchild=1&keywords=%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9&qid=1620487098&sr=8-8',
-      img: null
+      img: 'https://images-na.ssl-images-amazon.com/images/I/61YJ47TXW0L.jpg'
     },
     {
       id: 88,
@@ -1159,28 +1192,28 @@ const librariesForTrain = async () => {
         'イラストでそこそこわかるSQL SELECT文と並び替え・集約のきほんのきまで',
       link:
         'https://www.amazon.co.jp/%E3%82%A4%E3%83%A9%E3%82%B9%E3%83%88%E3%81%A7%E3%81%9D%E3%81%93%E3%81%9D%E3%81%93%E3%82%8F%E3%81%8B%E3%82%8BSQL-SELECT%E6%96%87%E3%81%A8%E4%B8%A6%E3%81%B3%E6%9B%BF%E3%81%88%E3%83%BB%E9%9B%86%E7%B4%84%E3%81%AE%E3%81%8D%E3%81%BB%E3%82%93%E3%81%AE%E3%81%8D%E3%81%BE%E3%81%A7-%E5%9D%82%E4%B8%8B-%E5%A4%95%E9%87%8C-ebook/dp/B089SHQ4J2',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51BLykczCnL.jpg'
     },
     {
       id: 89,
       title: '図解まるわかり データベースのしくみ',
       link:
         'https://www.amazon.co.jp/%E5%9B%B3%E8%A7%A3%E3%81%BE%E3%82%8B%E3%82%8F%E3%81%8B%E3%82%8A-%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E3%81%AE%E3%81%97%E3%81%8F%E3%81%BF-%E5%9D%82%E4%B8%8A-%E5%B9%B8%E5%A4%A7-ebook/dp/B08PCGVG88',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51LaxNDPRHL._SY346_.jpg'
     },
     {
       id: 90,
       title: 'なぜ？がわかるデータベース',
       link:
         'https://www.amazon.co.jp/%E3%81%AA%E3%81%9C%EF%BC%9F%E3%81%8C%E3%82%8F%E3%81%8B%E3%82%8B%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9-%E5%B0%8F%E7%AC%A0%E5%8E%9F-%E7%A8%AE%E9%AB%98-ebook/dp/B07JHNDKJ2',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51qzvUfr5qL._SY346_.jpg'
     },
     {
       id: 91,
       title: 'おうちで学べるデータベースのきほん',
       link:
         'https://www.amazon.co.jp/%E3%81%8A%E3%81%86%E3%81%A1%E3%81%A7%E5%AD%A6%E3%81%B9%E3%82%8B%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E3%81%AE%E3%81%8D%E3%81%BB%E3%82%93-%E3%83%9F%E3%83%83%E3%82%AF-ebook/dp/B00TTRZFDC',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51cjUlZIynL._SY346_.jpg'
     },
     {
       id: 92,
@@ -1188,14 +1221,14 @@ const librariesForTrain = async () => {
         '[データベースの気持ちがわかる]SQLはじめの一歩 (WEB+DB PRESS plus)',
       link:
         'https://www.amazon.co.jp/-/en/%E6%9C%9D%E4%BA%95-%E6%B7%B3/dp/4774171824/ref=sr_1_29?dchild=1&keywords=%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9&qid=1620487098&sr=8-29',
-      img: null
+      img: 'https://images-na.ssl-images-amazon.com/images/I/71qeqomeW2L.jpg'
     },
     {
       id: 93,
       title: 'はじめてでもわかるSQLとデータ設計',
       link:
         'https://www.amazon.co.jp/-/en/%E8%A5%BF%E6%9D%91-%E3%82%81%E3%81%90%E3%81%BF/dp/4886486479/ref=sr_1_25?dchild=1&keywords=%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9&qid=1620487098&sr=8-25',
-      img: null
+      img: 'https://images-na.ssl-images-amazon.com/images/I/41u79hQWjjL.jpg'
     },
     {
       id: 94,
@@ -1203,7 +1236,8 @@ const librariesForTrain = async () => {
         '[改訂新版] これだけはおさえたい データベース基礎の基礎 (エンジニア“確実”養成講座)',
       link:
         'https://www.amazon.co.jp/-/en/%E8%B0%B7%E5%B0%BB-%E3%81%8B%E3%81%8A%E3%82%8A/dp/4774139939/ref=sr_1_4?dchild=1&keywords=%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9&qid=1620487098&sr=8-4',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/51lHlIy0PHL._SX298_BO1,204,203,200_.jpg'
     },
     {
       id: 95,
@@ -1211,63 +1245,64 @@ const librariesForTrain = async () => {
         'グラス片手にデータベース設計~販売管理システム編 (DBMagazine SELECTION)',
       link:
         'https://www.amazon.co.jp/-/en/%E6%A2%85%E7%94%B0-%E5%BC%98%E4%B9%8B/dp/479810566X/ref=sr_1_6?dchild=1&keywords=%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9&qid=1620487098&sr=8-6',
-      img: null
+      img: 'https://images-na.ssl-images-amazon.com/images/I/51539KX355L.jpg'
     },
     {
       id: 96,
       title: 'SQL 第2版 ゼロからはじめるデータベース操作',
       link:
         'https://www.amazon.co.jp/SQL-%E7%AC%AC2%E7%89%88-%E3%82%BC%E3%83%AD%E3%81%8B%E3%82%89%E3%81%AF%E3%81%98%E3%82%81%E3%82%8B%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E6%93%8D%E4%BD%9C-%E3%83%9F%E3%83%83%E3%82%AF-ebook/dp/B01HD5VWWO',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51N++ifzamL._SX260_.jpg'
     },
     {
       id: 97,
       title: '達人に学ぶSQL徹底指南書 第2版 初級者で終わりたくないあなたへ',
       link:
         'https://www.amazon.co.jp/%E9%81%94%E4%BA%BA%E3%81%AB%E5%AD%A6%E3%81%B6SQL%E5%BE%B9%E5%BA%95%E6%8C%87%E5%8D%97%E6%9B%B8-%E7%AC%AC2%E7%89%88-%E5%88%9D%E7%B4%9A%E8%80%85%E3%81%A7%E7%B5%82%E3%82%8F%E3%82%8A%E3%81%9F%E3%81%8F%E3%81%AA%E3%81%84%E3%81%82%E3%81%AA%E3%81%9F%E3%81%B8-CodeZine-BOOKS/dp/4798157821',
-      img: null
+      img: 'https://images-na.ssl-images-amazon.com/images/I/71eHIk9pqBL.jpg'
     },
     {
       id: 98,
       title: 'プログラマのためのSQL 第4版 すべてを知り尽くしたいあなたに',
       link:
         'https://www.amazon.co.jp/%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9E%E3%81%AE%E3%81%9F%E3%82%81%E3%81%AESQL-%E7%AC%AC4%E7%89%88-%E3%82%B8%E3%83%A7%E3%83%BC%E3%83%BB%E3%82%BB%E3%83%AB%E3%82%B3/dp/4798128023',
-      img: null
+      img: 'https://images-na.ssl-images-amazon.com/images/I/91v+XyB3GuL.jpg'
     },
     {
       id: 99,
       title: 'RDBMS解剖学 よくわかるリレーショナルデータベースの仕組み',
       link:
         'https://www.amazon.co.jp/-/en/%E9%88%B4%E6%9C%A8-%E5%B9%B8%E5%B8%82/dp/4798108642/ref=sr_1_16?dchild=1&keywords=%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9&qid=1620487098&sr=8-16',
-      img: null
+      img: 'https://images-na.ssl-images-amazon.com/images/I/413TE6PZPTL.jpg'
     },
     {
       id: 100,
       title: 'NOSQLの基礎知識 (ビッグデータを活かすデータベース技術)',
       link:
         'https://www.amazon.co.jp/-/en/%E6%9C%AC%E6%A9%8B%E4%BF%A1%E4%B9%9F/dp/4897978874/ref=sr_1_9?dchild=1&keywords=%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9&qid=1620487098&sr=8-9',
-      img: null
+      img:
+        'https://images-na.ssl-images-amazon.com/images/I/414k6Oiw9rL._SX350_BO1,204,203,200_.jpg'
     },
     {
       id: 101,
       title: 'データベースパフォーマンスアップの教科書 基本原理編',
       link:
         'https://www.amazon.co.jp/-/en/%E3%82%A8%E3%83%B3%E3%82%B3%E3%82%A2%E3%82%B3%E3%83%B3%E3%82%B5%E3%83%AB%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0/dp/4798111694/ref=sr_1_24?dchild=1&keywords=%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9&qid=1620487098&sr=8-24',
-      img: null
+      img: 'https://images-na.ssl-images-amazon.com/images/I/51MVVXVDT7L.jpg'
     },
     {
       id: 102,
       title: 'FileMaker データベース問題解決ガイド',
       link:
         'https://www.amazon.co.jp/-/en/%E6%9C%A8%E4%B8%8B-%E9%9B%84%E4%B8%80%E6%9C%97-ebook/dp/B00O4QJXOU/ref=sr_1_12?dchild=1&keywords=%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9&qid=1620487098&sr=8-12',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/51Cah4HoIGL.jpg'
     },
     {
       id: 103,
       title: 'Effective SQL',
       link:
         'https://www.amazon.co.jp/Effective-SQL-JohnL-Viescas-ebook/dp/B076Z8BC4Y',
-      img: null
+      img: 'https://m.media-amazon.com/images/I/41Q1L-qiHbL._SX260_.jpg'
     },
     {
       id: 104,
@@ -1275,14 +1310,14 @@ const librariesForTrain = async () => {
         'プログラマのためのSQLグラフ原論 リレーショナルデータベースで木と階層構造を扱うために',
       link:
         'https://www.amazon.co.jp/%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9E%E3%81%AE%E3%81%9F%E3%82%81%E3%81%AESQL%E3%82%B0%E3%83%A9%E3%83%95%E5%8E%9F%E8%AB%96-%E3%83%AA%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%8A%E3%83%AB%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E3%81%A7%E6%9C%A8%E3%81%A8%E9%9A%8E%E5%B1%A4%E6%A7%8B%E9%80%A0%E3%82%92%E6%89%B1%E3%81%86%E3%81%9F%E3%82%81%E3%81%AB-%E3%82%B8%E3%83%A7%E3%83%BC%E3%83%BB%E3%82%BB%E3%83%AB%E3%82%B3/dp/4798144576',
-      img: null
+      img: 'https://images-na.ssl-images-amazon.com/images/I/71O0QAmzuhL.jpg'
     },
     {
       id: 105,
       title: 'BIシステム構築実践入門',
       link:
         'https://www.amazon.co.jp/BI%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E6%A7%8B%E7%AF%89%E5%AE%9F%E8%B7%B5%E5%85%A5%E9%96%80-DB-Magazine-Selection-%E5%B9%B3%E4%BA%95/dp/4798109312',
-      img: null
+      img: 'https://images-na.ssl-images-amazon.com/images/I/51W2TKD0PPL.jpg'
     }
   ]
 
