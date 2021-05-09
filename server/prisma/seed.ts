@@ -223,14 +223,23 @@ const users = async () => {
   const inoue = await prisma.user.create({
     data: {
       id: 4,
-      name: 'いのうえともひろ',
-      email: 'tomoino925@dummy.com',
-      bio: 'エンジニアをやっています。<br>多趣味です。',
+      name: 'てすと ゆざ太郎',
+      email: 'test@dummy.com',
+      bio: 'こんにちは。ゆざ太郎です。',
       img:
-        'https://pbs.twimg.com/profile_images/1295946409175212032/URYBm_Cz_400x400.jpg',
-      twitterLink: 'https://twitter.com/tomoino925',
-      githubLink: 'https://github.com/tomoino',
+        'https://pbs.twimg.com/profile_images/1388752520659435522/ayy03jFq_400x400.jpg',
+      twitterLink: 'https://twitter.com/navict_papaya',
       firebaseUid: 'TODO: fill me baby!'
+      // FIXME: 上記はハッカソン用テストユーザー。ハッカソン終わったらしたのに戻す。
+      // id: 4,
+      // name: 'いのうえともひろ',
+      // email: 'tomoino925@dummy.com',
+      // bio: 'エンジニアをやっています。<br>多趣味です。',
+      // img:
+      //   'https://pbs.twimg.com/profile_images/1295946409175212032/URYBm_Cz_400x400.jpg',
+      // twitterLink: 'https://twitter.com/tomoino925',
+      // githubLink: 'https://github.com/tomoino',
+      // firebaseUid: 'TODO: fill me baby!'
     }
   })
 
