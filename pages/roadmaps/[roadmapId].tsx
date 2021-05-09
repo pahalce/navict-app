@@ -152,7 +152,7 @@ const Goal = ({ text }: GoalProps) => {
           <div className={`flex mb-5`}>
             <p
               className={`mr-9 text-$t2 text-$primary`}
-            >{`Python入門できた！`}</p>
+            >{`JavaScript入門できた！`}</p>
           </div>
           <p
             className={`text-$t5 text-$shade1`}
@@ -199,7 +199,7 @@ const RoadmapPage = () => {
       typeof roadmapId === 'string' ? +roadmapId : 0
     )
   )
-  if (error || !roadmap) return <div>failed to load</div>
+  if (error || !roadmap) return <div></div>
   let isMine = false
   if (auth?.user?.id === roadmap.userId) {
     isMine = true
