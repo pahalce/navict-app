@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { LibraryInfo, RecommendedLibraryInfo, StepReqBody } from '$/types/index'
 import ButtonSmall from '../button/ButtonSmall'
 import StepCard from '../list/StepCard'
@@ -67,6 +67,7 @@ const LibrarySearchResult = ({
 
 type LibrarySearchProps = {
   recommendations: RecommendedLibraryInfo[]
+  getRecommendation: () => void
   onAddLibrary: (
     title: string,
     link: string
@@ -82,6 +83,7 @@ type LibrarySearchProps = {
 
 const LibrarySearch = ({
   recommendations,
+  getRecommendation,
   libraries,
   onAddLibrary,
   onLibraryKeywordChange,
@@ -124,6 +126,7 @@ const LibrarySearch = ({
       setStepsWithLibs([...stepsWithLibs, currentStepWithLib])
       setKeyword('')
       setLinkUrl('')
+      getRecommendation()
     } catch (error) {
       console.error(error)
     }
@@ -139,6 +142,11 @@ const LibrarySearch = ({
     setKeyword(library.title)
     setLinkUrl(library.link || '')
   }
+  const handleClickRecommendation = (title: string, link: string) => {
+    setKeyword(title)
+    setLinkUrl(link)
+  }
+
   return (
     <div className="mt-10">
       <div>
@@ -162,7 +170,7 @@ const LibrarySearch = ({
         <input
           className="bg-$shade3 rounded-md text-$t4 px-4 py-2 w-full"
           type="text"
-          onChange={(e) => {
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             e.preventDefault()
             setLinkUrl(e.target.value)
           }}
@@ -174,7 +182,13 @@ const LibrarySearch = ({
         <div className="py-10">他の人は次にこのステップをやっています</div>
         {!recommendations && <div>loading...</div>}
         {recommendations?.map((r) => (
-          <div key={r.id} className="mb-6">
+          <div
+            key={r.id}
+            onClick={() => {
+              handleClickRecommendation(r.title, r.link || '')
+            }}
+            className="mb-6 cursor-pointer"
+          >
             <RecommendedLibraryCard
               href={r.link || ''}
               percent={parseFloat(r.scorePercent.toFixed(1))}
@@ -229,13 +243,17 @@ const StepSection = ({
     [] as StepWithLibrary[]
   )
 
+  const getRecommendation = async () => {
+    let libraryIds = stepsWithLibs.map((s) => s.libraryId).slice(-3)
+    while (libraryIds.length < 3) {
+      libraryIds = [0, ...libraryIds]
+    }
+    onOpenForm(libraryIds)
+  }
+
   const toggleShowForm = () => {
     if (!isFormShown) {
-      let libraryIds = stepsWithLibs.map((s) => s.libraryId).slice(-3)
-      while (libraryIds.length < 3) {
-        libraryIds = [0, ...libraryIds]
-      }
-      onOpenForm(libraryIds)
+      getRecommendation()
     }
     setIsFormShown(!isFormShown)
   }
@@ -276,6 +294,7 @@ const StepSection = ({
           {isFormShown && (
             <LibrarySearch
               recommendations={recommendations}
+              getRecommendation={getRecommendation}
               libraries={libraries?.slice(0, 5)}
               onAddLibrary={onAddLibrary}
               onLibraryKeywordChange={onLibraryKeywordChange}
@@ -305,12 +324,13 @@ const StepSection = ({
           </div>
           {isFormShown && (
             <LibrarySearch
+              recommendations={recommendations}
+              getRecommendation={getRecommendation}
               libraries={libraries?.slice(0, 5)}
               onAddLibrary={onAddLibrary}
               onLibraryKeywordChange={onLibraryKeywordChange}
               onLibrarySelect={onLibrarySelect}
               selectedLibrary={selectedLibrary}
-              recommendations={recommendations}
               onAddStep={onAddStep}
               stepsWithLibs={stepsWithLibs}
               setStepsWithLibs={(stepsWithLibs: StepWithLibrary[]) =>
