@@ -76,11 +76,11 @@ const createRoadmapsPage = () => {
   }
   const getRecommendatedLibraries = async (libraryIds: number[]) => {
     try {
-      const recommendedLibs = await apiClient.libraries.recommended.post({
-        body: libraryIds
+      const recommendedLibs = await apiClient.libraries.recommended.$post({
+        body: libraryIds.slice(0, 3) as [number, number, number]
       })
-      setRecommendations(recommendedLibs.body)
-      console.log(recommendedLibs.body)
+      // FIXME: anyにしてるから直す postだとだめかも
+      setRecommendations(recommendedLibs as any)
     } catch (error) {
       console.error(error)
     }
