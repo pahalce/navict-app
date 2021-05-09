@@ -11,5 +11,4 @@ RUN yarn install --cwd ./server
 COPY . .
 
 EXPOSE 8080
-CMD cd ./server/prisma/ && npx prisma db seed --preview-feature && cd ../../ && yarn build:server && yarn start:server
-# CMD cd ./server/prisma/ && npx prisma migrate deploy && cd ../../ && yarn build:server && yarn start:server
+CMD cd ./server/prisma/ && npx prisma migrate deploy && cd ../../ && yarn build:server && yarn start:server
