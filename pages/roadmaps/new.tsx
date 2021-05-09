@@ -5,7 +5,12 @@ import SetGoal from '~/components/roadmaps/SetGoal'
 import StepSection from '~/components/roadmaps/StepSection'
 import { apiClient } from '~/utils/apiClient'
 import { Tag } from '$prisma/client'
-import type { RoadmapInfo, LibraryInfo, StepReqBody } from '$/types/index'
+import type {
+  RoadmapInfo,
+  LibraryInfo,
+  StepReqBody,
+  RecommendedLibraryInfo
+} from '$/types/index'
 import type { RoadmapCreateReqBody } from '$/types/index'
 import { useRouter } from 'next/router'
 import { useAuth } from '~/contexts/AuthContext'
@@ -20,6 +25,9 @@ const createRoadmapsPage = () => {
   const [goal, setGoal] = useState<RoadmapInfo['goal']>(null)
   const [steps, setSteps] = useState<StepReqBody[]>([] as StepReqBody[])
   const [libraries, setLibraies] = useState<LibraryInfo[]>()
+  const [recommendations, setRecommendations] = useState<
+    RecommendedLibraryInfo[]
+  >([] as RecommendedLibraryInfo[])
   const [selectedLibrary, setSelectedLibrary] = useState<LibraryInfo | null>(
     null
   )
@@ -66,6 +74,19 @@ const createRoadmapsPage = () => {
     })
     setTags([...tags, result])
   }
+  const getRecommendatedLibraries = async (libraryIds: number[]) => {
+    try {
+      const recommendedLibs = await apiClient.libraries.recommended.post({
+        body: libraryIds
+      })
+      setRecommendations(recommendedLibs.body)
+      console.log(recommendedLibs.body)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  // getRecommendatedLibraries([0, 0, 0])
+
   const handleAddLibrary = async (title: string, link: string) => {
     try {
       const lib = await apiClient.libraries.$post({
@@ -163,6 +184,8 @@ const createRoadmapsPage = () => {
         steps={steps}
         onAddStep={handleAddStep}
         onDeleteStep={handleDeleteStep}
+        onOpenForm={getRecommendatedLibraries}
+        recommendations={recommendations}
         onAddLibrary={handleAddLibrary}
         libraries={libraries}
         selectedLibrary={selectedLibrary}
@@ -170,8 +193,8 @@ const createRoadmapsPage = () => {
         onLibraryKeywordChange={handleLibraryKeywordChange}
       />
       <SetGoal goal={goal} onGoalChange={handleGoalChange} />
-      <div className="flex flex-col justify-center items-center mt-40 mb-20 text-$accent2">
-        {!title && <div>タイトルは必須です</div>}
+      <div className="flex flex-col justify-center items-center mt-40 mb-20 ">
+        {!title && <div className="text-$accent2">タイトルは必須です</div>}
         <ButtonSmall
           onClick={handleSaveRoadmap}
           type="submit"

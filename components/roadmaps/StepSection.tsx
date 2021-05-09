@@ -1,12 +1,13 @@
 import Image from 'next/image'
 import { useState } from 'react'
-import { LibraryInfo, StepReqBody } from '$/types/index'
+import { LibraryInfo, RecommendedLibraryInfo, StepReqBody } from '$/types/index'
 import ButtonSmall from '../button/ButtonSmall'
 import StepCard from '../list/StepCard'
 import { Menu } from '@headlessui/react'
 import BarTop from '../parts/BarTop'
 import BarMiddle from '../parts/BarMiddle'
 import BarBottom from '../parts/BarBottom'
+import RecommendedLibraryCard from '../list/RecommendedLibraryCard'
 
 type LibrarySearchResultProps = {
   libraries: LibraryInfo[]
@@ -65,6 +66,7 @@ const LibrarySearchResult = ({
 }
 
 type LibrarySearchProps = {
+  recommendations: RecommendedLibraryInfo[]
   onAddLibrary: (
     title: string,
     link: string
@@ -79,6 +81,7 @@ type LibrarySearchProps = {
 }
 
 const LibrarySearch = ({
+  recommendations,
   libraries,
   onAddLibrary,
   onLibraryKeywordChange,
@@ -167,8 +170,26 @@ const LibrarySearch = ({
           placeholder="https://navict-app.vercel.app/"
         />
       </div>
-      <div className="py-10">他の人は次にこのステップをやっています</div>
-      <ButtonSmall onClick={handleAddStep} text="追加" />
+      <div>
+        <div className="py-10">他の人は次にこのステップをやっています</div>
+        {!recommendations && <div>loading...</div>}
+        {recommendations?.map((r) => (
+          <div key={r.id} className="mb-6">
+            <RecommendedLibraryCard
+              href={r.link || ''}
+              percent={parseFloat(r.scorePercent.toFixed(1))}
+              src={r.img || ''}
+              title={r.title}
+            />
+          </div>
+        ))}
+      </div>
+
+      <ButtonSmall
+        onClick={handleAddStep}
+        disabled={!keyword}
+        text={!keyword ? '本やサイトの名前を追加して下さい' : '追加'}
+      />
     </div>
   )
 }
@@ -177,6 +198,8 @@ type StepSectionProps = {
   steps: StepReqBody[]
   onAddStep: (step: StepReqBody) => void
   onDeleteStep: (step: StepReqBody) => void
+  onOpenForm: (libraryIds: number[]) => Promise<void>
+  recommendations: RecommendedLibraryInfo[]
   onAddLibrary: (
     title: string,
     link: string
@@ -193,6 +216,8 @@ const StepSection = ({
   steps,
   onAddStep,
   onDeleteStep,
+  onOpenForm,
+  recommendations,
   libraries,
   onAddLibrary,
   onLibraryKeywordChange,
@@ -205,13 +230,19 @@ const StepSection = ({
   )
 
   const toggleShowForm = () => {
+    if (!isFormShown) {
+      let libraryIds = stepsWithLibs.map((s) => s.libraryId).slice(-3)
+      while (libraryIds.length < 3) {
+        libraryIds = [0, ...libraryIds]
+      }
+      onOpenForm(libraryIds)
+    }
     setIsFormShown(!isFormShown)
   }
 
   const handleDeleteStep = (index: number) => {
     const newArray = stepsWithLibs.filter((s) => s !== stepsWithLibs[index])
     setStepsWithLibs(newArray)
-    console.log(index, newArray)
     onDeleteStep(steps[index])
   }
 
@@ -232,7 +263,7 @@ const StepSection = ({
         </div>
       ))}
       {steps.length === 0 && (
-        <div className="bg-$white text-$t2 text-center rounded-3xl text-$primary shadow-$rich w-full max-w-2xl py-14 px-10">
+        <div className="bg-$white text-$t2 text-center rounded-3xl text-$primary shadow-$rich w-full max-w-3xl py-14 px-10">
           <div onClick={toggleShowForm} className="cursor-pointer">
             最初のステップを決めてみよう{' '}
             <Image
@@ -244,6 +275,7 @@ const StepSection = ({
           </div>
           {isFormShown && (
             <LibrarySearch
+              recommendations={recommendations}
               libraries={libraries?.slice(0, 5)}
               onAddLibrary={onAddLibrary}
               onLibraryKeywordChange={onLibraryKeywordChange}
@@ -261,7 +293,7 @@ const StepSection = ({
       <BarBottom />
 
       {steps.length > 0 && (
-        <div className="bg-$white text-$t2 text-center rounded-3xl text-$primary shadow-$rich w-full max-w-2xl py-14 px-10 mt-20">
+        <div className="bg-$white text-$t2 text-center rounded-3xl text-$primary shadow-$rich w-full max-w-3xl py-14 px-10 mt-20">
           <div onClick={toggleShowForm} className="cursor-pointer">
             次のステップを決めてみよう{' '}
             <Image
@@ -278,6 +310,7 @@ const StepSection = ({
               onLibraryKeywordChange={onLibraryKeywordChange}
               onLibrarySelect={onLibrarySelect}
               selectedLibrary={selectedLibrary}
+              recommendations={recommendations}
               onAddStep={onAddStep}
               stepsWithLibs={stepsWithLibs}
               setStepsWithLibs={(stepsWithLibs: StepWithLibrary[]) =>
