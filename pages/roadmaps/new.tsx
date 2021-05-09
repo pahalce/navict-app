@@ -79,6 +79,7 @@ const createRoadmapsPage = () => {
       const recommendedLibs = await apiClient.libraries.recommended.$post({
         body: libraryIds.slice(0, 3) as [number, number, number]
       })
+      console.log(libraryIds.slice(0, 3) as [number, number, number])
       // FIXME: anyにしてるから直す postだとだめかも
       setRecommendations(recommendedLibs as any)
     } catch (error) {
