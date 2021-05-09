@@ -15,7 +15,9 @@ const ButtonSmall: React.FC<Props> = ({
   return (
     <button
       className={
-        (disabled ? 'bg-$primary2 text-$white' : 'bg-$accent1 text-$white') +
+        (disabled
+          ? 'bg-$primary2 text-$white cursor-default'
+          : 'bg-$accent1 text-$white') +
         ` text-$t3 rounded-md py-2 px-8 ${className}`
       }
       {...props}

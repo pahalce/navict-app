@@ -32,7 +32,7 @@ const AnimatedCircularProgressBar = ({
       <CircularProgressbar
         className={className}
         value={value}
-        text={text}
+        text={text.substr(0, 4)}
         styles={buildStyles({
           textColor: systemColorToColorCode('$primary'),
           pathColor: systemColorToColorCode(
