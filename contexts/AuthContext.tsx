@@ -92,23 +92,8 @@ export const AuthProvider = ({ children }: Props) => {
   }
   return (
     <AuthContext.Provider value={value}>
-      <NavictChan text={`一般公開までもう少し待っててね！`} />
-      {/* {loading && (
-        <div className={`flex justify-center items-center w-screen h-screen`}>
-          <div>
-            <Image
-              src={`/navict_chan.gif`}
-              width={323}
-              height={215}
-              className={`rounded-full`}
-            />
-            <p className={`text-$T2 text-$accent1 text-center mt-7`}>
-              LOADING...
-            </p>
-          </div>
-        </div>
-      )}
-      {!loading && children} */}
+      {loading && <NavictChan text={`LOADING...`} />}
+      {!loading && children}
     </AuthContext.Provider>
   )
 }
