@@ -67,7 +67,7 @@ const LibrarySearchResult = ({
 
 type LibrarySearchProps = {
   recommendations: RecommendedLibraryInfo[]
-  getRecommendation: () => void
+  getRecommendation: (stepsWithLibs: StepWithLibrary[]) => void
   onAddLibrary: (
     title: string,
     link: string
@@ -78,7 +78,7 @@ type LibrarySearchProps = {
   onLibraryKeywordChange: (keyword: string) => void
   onAddStep: (step: StepReqBody) => void
   stepsWithLibs: StepWithLibrary[]
-  setStepsWithLibs: (stepWithLibrary: StepWithLibrary[]) => void
+  setStepsWithLibs: React.Dispatch<React.SetStateAction<StepWithLibrary[]>>
 }
 
 const LibrarySearch = ({
@@ -123,10 +123,10 @@ const LibrarySearch = ({
         ...step,
         library: resultLib
       }
-      setStepsWithLibs([...stepsWithLibs, currentStepWithLib])
+      setStepsWithLibs(() => [...stepsWithLibs, currentStepWithLib])
       setKeyword('')
       setLinkUrl('')
-      getRecommendation()
+      await getRecommendation([...stepsWithLibs, currentStepWithLib])
     } catch (error) {
       console.error(error)
     }
@@ -243,7 +243,7 @@ const StepSection = ({
     [] as StepWithLibrary[]
   )
 
-  const getRecommendation = async () => {
+  const getRecommendation = async (stepsWithLibs: StepWithLibrary[]) => {
     let libraryIds = stepsWithLibs.map((s) => s.libraryId).slice(-3)
     while (libraryIds.length < 3) {
       libraryIds = [0, ...libraryIds]
@@ -251,11 +251,11 @@ const StepSection = ({
     onOpenForm(libraryIds)
   }
 
-  const toggleShowForm = () => {
+  const toggleShowForm = async () => {
     if (!isFormShown) {
-      getRecommendation()
+      await getRecommendation(stepsWithLibs)
     }
-    setIsFormShown(!isFormShown)
+    setIsFormShown((isFormShown) => !isFormShown)
   }
 
   const handleDeleteStep = (index: number) => {
@@ -277,11 +277,10 @@ const StepSection = ({
             canDelete
             onDeleteClick={() => handleDeleteStep(index)}
           />
-          {stepsWithLibs.length - 1 !== index && <BarMiddle />}
+          <BarMiddle />
         </div>
       ))}
-      {steps.length === 0 && (
-        <div className="bg-$white text-$t2 text-center rounded-3xl text-$primary shadow-$rich w-full max-w-3xl py-14 px-10">
+      {/* <div className="bg-$white text-$t2 text-center rounded-3xl text-$primary shadow-$rich w-full max-w-3xl py-14 px-10">
           <div onClick={toggleShowForm} className="cursor-pointer">
             最初のステップを決めてみよう{' '}
             <Image
@@ -291,55 +290,51 @@ const StepSection = ({
               layout="fixed"
             />
           </div>
-          {isFormShown && (
-            <LibrarySearch
-              recommendations={recommendations}
-              getRecommendation={getRecommendation}
-              libraries={libraries?.slice(0, 5)}
-              onAddLibrary={onAddLibrary}
-              onLibraryKeywordChange={onLibraryKeywordChange}
-              onLibrarySelect={onLibrarySelect}
-              selectedLibrary={selectedLibrary}
-              onAddStep={onAddStep}
-              stepsWithLibs={stepsWithLibs}
-              setStepsWithLibs={(stepsWithLibs: StepWithLibrary[]) =>
-                setStepsWithLibs(stepsWithLibs)
-              }
-            />
-          )}
+          <LibrarySearch
+            recommendations={recommendations}
+            getRecommendation={getRecommendation}
+            libraries={libraries?.slice(0, 5)}
+            onAddLibrary={onAddLibrary}
+            onLibraryKeywordChange={onLibraryKeywordChange}
+            onLibrarySelect={onLibrarySelect}
+            selectedLibrary={selectedLibrary}
+            onAddStep={onAddStep}
+            stepsWithLibs={stepsWithLibs}
+            setStepsWithLibs={(stepsWithLibs: StepWithLibrary[]) =>
+              setStepsWithLibs(stepsWithLibs)
+            }
+          />
         </div>
-      )}
-      <BarBottom />
+      <BarBottom /> */}
 
-      {steps.length > 0 && (
-        <div className="bg-$white text-$t2 text-center rounded-3xl text-$primary shadow-$rich w-full max-w-3xl py-14 px-10 mt-20">
-          <div onClick={toggleShowForm} className="cursor-pointer">
-            次のステップを決めてみよう{' '}
-            <Image
-              src={isFormShown ? '/minus.svg' : '/plus.svg'}
-              width="20"
-              height="20"
-              layout="fixed"
-            />
-          </div>
-          {isFormShown && (
-            <LibrarySearch
-              recommendations={recommendations}
-              getRecommendation={getRecommendation}
-              libraries={libraries?.slice(0, 5)}
-              onAddLibrary={onAddLibrary}
-              onLibraryKeywordChange={onLibraryKeywordChange}
-              onLibrarySelect={onLibrarySelect}
-              selectedLibrary={selectedLibrary}
-              onAddStep={onAddStep}
-              stepsWithLibs={stepsWithLibs}
-              setStepsWithLibs={(stepsWithLibs: StepWithLibrary[]) =>
-                setStepsWithLibs(stepsWithLibs)
-              }
-            />
-          )}
+      <div className="bg-$white text-$t2 text-center rounded-3xl text-$primary shadow-$rich w-full max-w-3xl py-14 px-10 ">
+        <div onClick={toggleShowForm} className="cursor-pointer">
+          {steps.length === 0
+            ? '最初のステップを決めてみよう'
+            : '次のステップを決めてみよう'}{' '}
+          <Image
+            src={isFormShown ? '/minus.svg' : '/plus.svg'}
+            width="20"
+            height="20"
+            layout="fixed"
+          />
         </div>
-      )}
+        {isFormShown && (
+          <LibrarySearch
+            recommendations={recommendations}
+            getRecommendation={getRecommendation}
+            libraries={libraries?.slice(0, 5)}
+            onAddLibrary={onAddLibrary}
+            onLibraryKeywordChange={onLibraryKeywordChange}
+            onLibrarySelect={onLibrarySelect}
+            selectedLibrary={selectedLibrary}
+            onAddStep={onAddStep}
+            stepsWithLibs={stepsWithLibs}
+            setStepsWithLibs={setStepsWithLibs}
+          />
+        )}
+      </div>
+      <BarBottom />
     </div>
   )
 }

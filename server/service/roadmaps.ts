@@ -16,6 +16,7 @@ export const createRoadmap = async (
   title: Roadmap['title'],
   description: Roadmap['description'],
   forkedRoadmapId: Roadmap['forkedRoadmapId'],
+  goal: Roadmap['goal'],
   userId: Roadmap['userId'],
   tags: Pick<Tag, 'name'>[],
   steps: Pick<Step, 'memo' | 'isDone' | 'libraryId'>[]
@@ -39,7 +40,8 @@ export const createRoadmap = async (
       title,
       description,
       forkedRoadmapId,
-      userId
+      userId,
+      goal
     }
   })
 
@@ -103,9 +105,7 @@ export const getPopularRoadmapInfos = async (): Promise<RoadmapInfo[]> => {
   const popularRoadmaps = (
     await prisma.roadmap.findMany({
       orderBy: {
-        likes: {
-          count: 'desc'
-        }
+        id: 'asc'
       }
     })
   ).slice(0, 10)

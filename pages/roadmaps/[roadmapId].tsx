@@ -16,6 +16,8 @@ import { RoadmapInfo, StepInfo } from '~/server/types'
 import { useAuth } from '~/contexts/AuthContext'
 import { comingSoon, formatDate } from '~/utils/utility'
 import StepCard from '~/components/list/StepCard'
+import AchieveModal from '~/components/modals/AchieveModal'
+import { useState } from 'react'
 
 type HeaderProps = {
   roadmap: RoadmapInfo
@@ -128,8 +130,10 @@ const Steps = ({ roadmap, isMine, onCheckClick }: StepsProps) => {
     </div>
   )
 }
-
-const Goal = () => {
+type GoalProps = {
+  text: string
+}
+const Goal = ({ text }: GoalProps) => {
   return (
     <div className={`pb-16`}>
       <div className={`flex items-center max-w-6xl mx-auto`}>
@@ -137,13 +141,20 @@ const Goal = () => {
         <p className={`text-$T1 text-$primary mx-11`}>GOAL!</p>
         <hr className={`border border-$shade1 flex-grow`} />
       </div>
-
+      {/* <div className={`my-16 max-w-2xl mx-auto`}>
+        {text && (
+          <div className="flex flex-col justify-center text-center align-middle bg-$white rounded-3xl shadow-$rich px-7 py-8">
+            <div className={`flex mb-5`}>楽しかった！</div>
+            <p className={`text-$t2 text-$primary1`}>{`${text}`}</p>
+          </div>
+        )}
+      </div> */}
       <div className={`my-16 max-w-2xl mx-auto`}>
         <div className="bg-$white rounded-3xl shadow-$rich px-7 py-8">
           <div className={`flex mb-5`}>
             <p
               className={`mr-9 text-$t2 text-$primary`}
-            >{`Python入門できた！`}</p>
+            >{`JavaScript入門できた！`}</p>
           </div>
           <p
             className={`text-$t5 text-$shade1`}
@@ -182,6 +193,7 @@ const ForkBtn = ({ isMine, onDoneClick, onForkClick }: ForkBtnProps) => {
 }
 
 const RoadmapPage = () => {
+  const [isOpen, setIsOpen] = useState<boolean>(false)
   const auth = useAuth()
   const router = useRouter()
   const { roadmapId } = router.query
@@ -190,7 +202,7 @@ const RoadmapPage = () => {
       typeof roadmapId === 'string' ? +roadmapId : 0
     )
   )
-  if (error || !roadmap) return <div>failed to load</div>
+  if (error || !roadmap) return <div></div>
   let isMine = false
   if (auth?.user?.id === roadmap.userId) {
     isMine = true
@@ -210,15 +222,16 @@ const RoadmapPage = () => {
   const handleDoneClick = async () => {
     await apiClient.roadmaps._roadmapId(roadmap.id).isDone.patch()
     revalidate()
+    setIsOpen(!isOpen)
   }
 
   const handleForkClick = async () => {
     // FIXME: 今度実装する
     comingSoon()
   }
-
+  console.log(roadmap)
   return (
-    <div>
+    <div className="relative">
       <div className={`my-16`}>
         <Header
           roadmap={roadmap}
@@ -234,7 +247,7 @@ const RoadmapPage = () => {
         />
       </div>
       <div className={`bg-$tint`}>
-        <Goal />
+        <Goal text={roadmap.goal || ''} />
       </div>
       <div className={`py-24`}>
         <ForkBtn
@@ -243,8 +256,8 @@ const RoadmapPage = () => {
           onForkClick={handleForkClick}
         />
       </div>
+      <AchieveModal setIsOpen={setIsOpen} isOpen={isOpen} />
     </div>
   )
 }
-
 export default RoadmapPage
