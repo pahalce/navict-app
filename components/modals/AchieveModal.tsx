@@ -21,7 +21,7 @@ const AchieveModal = ({ isOpen, setIsOpen }: Props) => {
       </div>
 
       <Dialog.Title className="text-$t2 text-$primary my-8">
-        ロードマップ感想おめでとうございます
+        ロードマップ完走おめでとうございます
       </Dialog.Title>
       <Image
         src="/achieveGoal.gif"
