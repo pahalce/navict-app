@@ -92,8 +92,9 @@ export const AuthProvider = ({ children }: Props) => {
   }
   return (
     <AuthContext.Provider value={value}>
-      {loading && <NavictChan text={`LOADING...`} />}
-      {!loading && children}
+      <NavictChan text={`一般公開までもう少し待っててね!`} />
+      {/* {loading && <NavictChan text={`LOADING...`} />}
+      {!loading && children} */}
     </AuthContext.Provider>
   )
 }
