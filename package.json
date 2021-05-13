@@ -28,6 +28,7 @@
     "@aspida/axios": "^1.7.0",
     "@aspida/swr": "^1.7.0",
     "@headlessui/react": "^1.1.1",
+    "@types/react-select": "^4.0.15",
     "axios": "^0.21.1",
     "class-validator": "^0.13.1",
     "firebase": "^8.4.3",
@@ -36,6 +37,7 @@
     "react-circular-progressbar": "^2.0.4",
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.5.2",
+    "react-select": "^4.3.1",
     "swr": "^0.5.5"
   },
   "devDependencies": {
