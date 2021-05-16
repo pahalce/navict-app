@@ -11,8 +11,11 @@ export const formatDate = (date: Date) => {
   }/${t.getDate()}  ${t.getHours()}:${t.getSeconds()}`
 }
 
-export const systemColorToColorCode = (systemColor: string): string => {
-  return theme.colors[systemColor] || ''
+const colors = { ...theme.colors } as const
+export const systemColorToColorCode = (
+  systemColor: keyof typeof colors
+): string => {
+  return theme.colors[systemColor]
 }
 
 export const getSystemColorFromPercentage = (percentage: number): string => {
