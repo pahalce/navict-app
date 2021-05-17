@@ -1,4 +1,5 @@
 import React from 'react'
+import { ControllerRenderProps, FieldValues } from 'react-hook-form'
 import {
   ActionMeta,
   GroupTypeBase,
@@ -16,11 +17,13 @@ const colourStyles: Partial<
   control: () => ({
     display: 'flex',
     backgroundColor: 'white',
+    color: systemColorToColorCode('$shade1'),
     borderColor: systemColorToColorCode('$shade2'),
     borderWidth: '4px',
     borderRadius: '10px',
     height: '3.875em',
-    padding: '0.2em'
+    padding: '0.2em',
+    cursor: 'text'
   }),
   menu: (styles) => ({
     ...styles,
@@ -75,18 +78,27 @@ type Props = {
     action: ActionMeta<OptionTypeBase>
   ) => void
   onInputChange?: (newValue: string, actionMeta: InputActionMeta) => void
+  field: ControllerRenderProps<FieldValues, string>
 }
 
-const MultiSelectForm = ({
+const MultiSelectInput = ({
   options,
   placeHolder = 'select',
   onSelect,
-  onInputChange
+  onInputChange,
+  field
 }: Props) => {
+  // console.log('object', field)
   return (
     <CreatableSelect
+      {...field}
       isMulti
-      onChange={onSelect}
+      onChange={(value, action) => {
+        field.onChange(value)
+        if (onSelect) {
+          onSelect(value, action)
+        }
+      }}
       onInputChange={onInputChange}
       options={options}
       styles={colourStyles}
@@ -95,4 +107,4 @@ const MultiSelectForm = ({
   )
 }
 
-export default MultiSelectForm
+export default MultiSelectInput
