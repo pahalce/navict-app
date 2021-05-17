@@ -11,7 +11,6 @@ type partialRoadmapInfo = Omit<
 
 const prisma = new PrismaClient()
 
-// FIXME: ここの実装適当すぎるからバグったら直す。
 export const createRoadmap = async (
   title: Roadmap['title'],
   description: Roadmap['description'],
@@ -21,22 +20,9 @@ export const createRoadmap = async (
   tags: Pick<Tag, 'name'>[],
   steps: Pick<Step, 'memo' | 'isDone' | 'libraryId'>[]
 ) => {
-  /**
-   * FIXME:
-   * "\nInvalid `prisma.roadmap.create()` invocation:\n\n\n  Unique constraint failed on the fields: (`id`)"
-   * 上記のエラーが出たのでしたのような実装になってる。
-   * 直したい。
-   */
-  const lastRoadmap = (
-    await prisma.roadmap.findMany({
-      orderBy: {
-        id: 'desc'
-      }
-    })
-  ).slice(0)[0]
+  // roadmap
   const roadmap = await prisma.roadmap.create({
     data: {
-      id: lastRoadmap.id + 1,
       title,
       description,
       forkedRoadmapId,
@@ -45,49 +31,41 @@ export const createRoadmap = async (
     }
   })
 
-  // FIXME: エラーでる…直して…。
-  // await prisma.roadmap.update({
-  //   where: {
-  //     id: roadmap.id
-  //   },
-  //   data: {
-  //     tags: {
-  //       connect: tags.map((t) => ({ name: t.name }))
-  //     }
-  //   }
-  // })
-
-  let lastStep = (
-    await prisma.step.findMany({
-      orderBy: {
-        id: 'desc'
+  // tags
+  await prisma.roadmap.update({
+    where: {
+      id: roadmap.id
+    },
+    data: {
+      tags: {
+        connect: tags
       }
-    })
-  ).slice(0)[0]
+    }
+  })
+
+  // steps
+  let nextStep: Step
   let nextStepId = null
   for (let i = 0; i < steps.length; i++) {
     const reqStep = steps[steps.length - i - 1]
-    lastStep = await prisma.step.create({
+    nextStep = await prisma.step.create({
       data: {
-        id: lastStep.id + 1,
         memo: reqStep.memo,
-        nextStepId: nextStepId,
+        nextStepId,
         isDone: reqStep.isDone,
         roadmapId: roadmap.id,
         libraryId: reqStep.libraryId
       }
     })
+    nextStepId = nextStep.id
     if (i === steps.length - 1) {
       // 最初のstep
       await prisma.roadmap.update({
         where: { id: roadmap.id },
         data: {
-          firstStepId: lastStep.id
+          firstStepId: nextStep.id
         }
       })
-    } else {
-      // それ以外のstep
-      nextStepId = lastStep.id
     }
   }
 
