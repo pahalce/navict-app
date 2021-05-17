@@ -32,6 +32,15 @@ export const createRoadmap = async (
   })
 
   // tags
+  // tagが既に無ければ作成
+  for (const tag of tags) {
+    await prisma.tag.upsert({
+      where: { name: tag.name },
+      update: {},
+      create: { name: tag.name }
+    })
+  }
+  // roadmapとtagを紐付け
   await prisma.roadmap.update({
     where: {
       id: roadmap.id
