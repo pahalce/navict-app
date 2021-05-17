@@ -111,8 +111,23 @@ $ npx prisma studio
 ```bash
 # at project root directory
 $ docker exec -i -t navict-app_db_1 /bin/bash
-$ psql -l # データベース一覧を取得
+$ psql -d navict-app-db -U root -h localhost
 ```
+
+参考: [PostgreSQL コマンドチートシート](https://qiita.com/Shitimi_613/items/bcd6a7f4134e6a8f0621)
+
+- テーブル一覧を見る
+  ```postgresql
+  =# \z
+  ```
+- テーブル定義を見る
+  ```postgresql
+  =# \d public."User"
+  ```
+- テーブルの中身を見る
+  ```postgresql
+  =# select * from public."User";
+  ```
 
 # Deploy する
 
