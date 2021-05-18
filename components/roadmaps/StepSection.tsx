@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import React, { useState } from 'react'
-import { LibraryInfo, RecommendedLibraryInfo, StepReqBody } from '$/types/index'
+import { Step } from '$prisma/client'
+import { LibraryInfo, RecommendedLibraryInfo } from '$/types/index'
 import ButtonSmall from '../button/ButtonSmall'
 import StepCard from '../list/StepCard'
 import { Menu } from '@headlessui/react'
@@ -8,6 +9,8 @@ import BarTop from '../parts/BarTop'
 import BarMiddle from '../parts/BarMiddle'
 import BarBottom from '../parts/BarBottom'
 import RecommendedLibraryCard from '../list/RecommendedLibraryCard'
+
+type StepReqBody = Pick<Step, 'memo' | 'nextStepId' | 'isDone' | 'libraryId'>
 
 type LibrarySearchResultProps = {
   libraries: LibraryInfo[]

@@ -5,15 +5,17 @@ import SetGoal from '~/components/roadmaps/SetGoal'
 import StepSection from '~/components/roadmaps/StepSection'
 import { apiClient } from '~/utils/apiClient'
 import { Tag } from '$prisma/client'
+import type { Step } from '$prisma/client'
 import type {
   RoadmapInfo,
   LibraryInfo,
-  StepReqBody,
   RecommendedLibraryInfo
 } from '$/types/index'
 import type { RoadmapCreateBody } from '$/types/index'
 import { useRouter } from 'next/router'
 import { useAuth } from '~/contexts/AuthContext'
+
+type StepReqBody = Pick<Step, 'memo' | 'nextStepId' | 'isDone' | 'libraryId'>
 
 const createRoadmapsPage = () => {
   const [

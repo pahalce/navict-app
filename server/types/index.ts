@@ -81,9 +81,3 @@ export type StepUpdateBody = Partial<
 
 /** toggle request body */
 export type LikeToggleBody = Pick<Like, 'userId' | 'roadmapId'>
-
-/** other */
-export type StepReqBody = Pick<
-  Step,
-  'memo' | 'nextStepId' | 'isDone' | 'libraryId'
->
