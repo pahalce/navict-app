@@ -97,10 +97,6 @@ const SelectInput = ({
       isMulti={multiple}
       onChange={(value, action) => {
         field.onChange(value)
-        if (onSelect) {
-          console.log('val:', value)
-          onSelect(value, action)
-        }
       }}
       onInputChange={onInputChange}
       options={options}

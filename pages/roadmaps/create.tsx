@@ -45,7 +45,6 @@ const createRoadmapsPageNew = () => {
     register,
     handleSubmit,
     control,
-    setValue,
     formState: { errors }
   } = useForm<RoadmapForm>()
 
@@ -71,20 +70,6 @@ const createRoadmapsPageNew = () => {
           label: library.title
         } as LibOption)
     )
-  }
-
-  const handleSelectTag = (
-    value: OptionsType<OptionTypeBase>,
-    action: ActionMeta<OptionTypeBase>
-  ) => {
-    if (action.action == 'create-option') {
-      const createdOption = value.slice(-1)[0]
-      apiClient.tags.$post({
-        body: {
-          name: createdOption.value
-        }
-      })
-    }
   }
 
   const handleSelectTagInputChange = (
@@ -175,7 +160,6 @@ const createRoadmapsPageNew = () => {
               field={field}
               options={options}
               placeholder={'関連するキーワードを入力してタグを作成'}
-              onSelect={handleSelectTag}
               onInputChange={handleSelectTagInputChange}
             />
           )}
