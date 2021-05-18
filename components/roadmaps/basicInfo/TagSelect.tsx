@@ -5,11 +5,11 @@ import {
   OptionsType,
   OptionTypeBase
 } from 'react-select'
-import MultiSelectInput from '../../parts/MultiSelectInput'
+import SelectInput from '../../parts/SelectInput'
 
 type Props = {
   options: { value: string; label: string }[]
-  placeHolder: string
+  placeholder: string
   onSelect?: (
     value: OptionsType<OptionTypeBase>,
     action: ActionMeta<OptionTypeBase>
@@ -20,16 +20,17 @@ type Props = {
 
 const TagSelect = ({
   options,
-  placeHolder = 'タグを作成',
+  placeholder = 'タグを作成',
   onSelect,
   onInputChange,
   field
 }: Props) => {
   return (
-    <MultiSelectInput
+    <SelectInput
       field={field}
       options={options}
-      placeHolder={placeHolder}
+      placeholder={placeholder}
+      multiple={true}
       onSelect={onSelect}
       onInputChange={onInputChange}
     />

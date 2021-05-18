@@ -5,7 +5,8 @@ import type {
   LibraryInfo,
   StepReqBody,
   RecommendedLibraryInfo,
-  TagInfo
+  TagInfo,
+  StepInfo
 } from '$/types/index'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import {
@@ -18,6 +19,13 @@ import ButtonSmall from '~/components/button/ButtonSmall'
 import TagSelect from '~/components/roadmaps/basicInfo/TagSelect'
 import RHFInput from '~/components/parts/RHFInput'
 import RHFTextarea from '~/components/parts/RHFTextarea'
+import BarTop from '~/components/parts/BarTop'
+import BarBottom from '~/components/parts/BarBottom'
+import OpenStepForm from '~/components/roadmaps/step/OpenStepForm'
+import StepCard from '~/components/list/StepCard'
+import BarMiddle from '~/components/parts/BarMiddle'
+import StepForm from '~/components/roadmaps/step/StepForm'
+import { LibOption } from '~/components/roadmaps/step/LibrarySelect'
 
 type RoadmapForm = {
   title?: RoadmapInfo['title']
@@ -29,10 +37,15 @@ const createRoadmapsPageNew = () => {
   const [options, setOptions] = useState<{ value: string; label: string }[]>(
     [] as { value: string; label: string }[]
   )
+  const [libOptions, setLibOptions] = useState<LibOption[]>([] as LibOption[])
+  const [steps, setSteps] = useState<StepInfo[]>([] as StepInfo[])
+  const [isStepFormOpen, setIsStepFormOpen] = useState<boolean>(false)
+
   const {
     register,
     handleSubmit,
     control,
+    setValue,
     formState: { errors }
   } = useForm<RoadmapForm>()
 
@@ -46,6 +59,19 @@ const createRoadmapsPageNew = () => {
       label: tag.name
     }))
   }
+  const searchLibrary = async (keyword: string) => {
+    const result = await apiClient.libraries.searchByTitle
+      ._title(keyword)
+      .$get()
+    return result.map(
+      (library) =>
+        ({
+          id: library.id,
+          value: { title: library.title, link: library.link },
+          label: library.title
+        } as LibOption)
+    )
+  }
 
   const handleSelectTag = (
     value: OptionsType<OptionTypeBase>,
@@ -53,21 +79,21 @@ const createRoadmapsPageNew = () => {
   ) => {
     if (action.action == 'create-option') {
       const createdOption = value.slice(-1)[0]
-      apiClient.tags
-        .$post({
-          body: {
-            name: createdOption.value
-          }
-        })
-        .then((tag) => console.log(tag, ':created'))
+      apiClient.tags.$post({
+        body: {
+          name: createdOption.value
+        }
+      })
     }
   }
 
-  const handleInputChange = (value: string, action: InputActionMeta) => {
+  const handleSelectTagInputChange = (
+    value: string,
+    action: InputActionMeta
+  ) => {
     if (value.length === 1) {
       searchTags(value).then((resultTags) => {
         setOptions(resultTags)
-        console.log(resultTags)
       })
     }
     if (value.length === 0) {
@@ -75,18 +101,67 @@ const createRoadmapsPageNew = () => {
     }
   }
 
+  const addStep = (step: StepInfo) => {
+    setSteps([...steps, step])
+  }
+
+  const deleteStep = (stepId: StepInfo['id']) => {
+    const newSteps = steps.filter((step) => step.id !== stepId)
+    setSteps(newSteps)
+  }
+
+  const toggleShowForm = () => {
+    setIsStepFormOpen(!isStepFormOpen)
+  }
+
+  const createLibrary = async (
+    title: LibraryInfo['title'],
+    link: LibraryInfo['link']
+  ) => {
+    const result = await apiClient.libraries.$post({
+      body: {
+        title,
+        link
+      }
+    })
+    return result
+  }
+
+  // const handleSelectLibrary = (
+  //   value: LibOption,
+  //   action: ActionMeta<OptionTypeBase>
+  // ) => {
+  //   if (action.action !== 'create-option') {
+  //     // setValue(name:'')
+  //     console.log(value.value.title, value.value.link)
+  //   } else {
+  //     console.log('c:', value.value)
+  //   }
+  // }
+
+  const handleSelectLibraryInputChange = (
+    value: string,
+    action: InputActionMeta
+  ) => {
+    if (value.length === 1) {
+      searchLibrary(value).then((resultLib) => {
+        setLibOptions(resultLib)
+      })
+    }
+    if (value.length === 0) {
+      setLibOptions([])
+    }
+  }
+
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="max-w-3xl mx-auto text-$primary text-$t4"
-    >
+    <form onSubmit={handleSubmit(onSubmit)} className=" text-$primary text-$t4">
       {/* basic info section */}
-      <div className="w-full my-16">
+      <div className="max-w-3xl mx-auto my-16">
         <RHFInput
           className="py-2 text-$t1 text-center w-full mb-6"
           name="title"
           register={register}
-          placeHolder="タイトルを入力"
+          placeholder="タイトルを入力"
           required
         />
         {errors.title && <span>This field is required</span>}
@@ -99,9 +174,9 @@ const createRoadmapsPageNew = () => {
             <TagSelect
               field={field}
               options={options}
-              placeHolder={'関連するキーワードを入力してタグを作成'}
+              placeholder={'関連するキーワードを入力してタグを作成'}
               onSelect={handleSelectTag}
-              onInputChange={handleInputChange}
+              onInputChange={handleSelectTagInputChange}
             />
           )}
         />
@@ -109,10 +184,44 @@ const createRoadmapsPageNew = () => {
           className="w-full bg-$shade3 rounded-lg text-$t4 py-2 px-3 mt-6"
           name="description"
           register={register}
-          placeHolder="概要を入力"
+          placeholder="概要を入力"
         />
-        <ButtonSmall text="送信" type="submit" />
       </div>
+      {/* create step section */}
+      <div className="bg-$tint py-16 w-full flex items-center flex-col">
+        <BarTop />
+        {steps.map((step) => (
+          <div key={step.id} className="w-full max-w-3xl">
+            <StepCard
+              href={step.library.link || ''}
+              src={step.library.img || ''}
+              memo={''}
+              title={step.library.title}
+              canDelete
+              onDeleteClick={() => deleteStep(step.id)}
+            />
+            <BarMiddle />
+          </div>
+        ))}
+        <OpenStepForm
+          onClick={toggleShowForm}
+          isOpen={isStepFormOpen}
+          text={
+            steps.length === 0
+              ? '最初のステップを決めてみよう'
+              : '次のステップを決めてみよう'
+          }
+        >
+          <StepForm
+            // onSelectLibrary={handleSelectLibrary}
+            createLibrary={createLibrary}
+            onSelectLibraryInputChange={handleSelectLibraryInputChange}
+            options={libOptions}
+          />
+        </OpenStepForm>
+        <BarBottom />
+      </div>
+      <ButtonSmall text="送信" type="submit" />
     </form>
   )
 }
