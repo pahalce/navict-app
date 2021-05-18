@@ -11,7 +11,7 @@ import type {
   StepReqBody,
   RecommendedLibraryInfo
 } from '$/types/index'
-import type { RoadmapCreateReqBody } from '$/types/index'
+import type { RoadmapCreateBody } from '$/types/index'
 import { useRouter } from 'next/router'
 import { useAuth } from '~/contexts/AuthContext'
 
@@ -20,9 +20,9 @@ const createRoadmapsPage = () => {
     alreadySelectedLibraryNames,
     setAlreadySelectedLibraryNames
   ] = useState<string[]>([])
-  const [title, setTitle] = useState<RoadmapCreateReqBody['title']>('')
+  const [title, setTitle] = useState<RoadmapCreateBody['title']>('')
   const [description, setDescription] = useState<
-    RoadmapCreateReqBody['description']
+    RoadmapCreateBody['description']
   >(null)
   const [tags, setTags] = useState([] as Tag[])
   const [selectedTags, setSelectedTags] = useState<Tag[]>()
@@ -42,11 +42,11 @@ const createRoadmapsPage = () => {
     console.log('you have to be logged in')
     router.push('/')
   }
-  const handleTitleChange = (title: RoadmapCreateReqBody['title']) => {
+  const handleTitleChange = (title: RoadmapCreateBody['title']) => {
     setTitle(title)
   }
   const handleDescriptionChange = (
-    description: RoadmapCreateReqBody['description']
+    description: RoadmapCreateBody['description']
   ) => {
     setDescription(description)
   }
@@ -154,7 +154,7 @@ const createRoadmapsPage = () => {
           const name = selectedTag.name
           return { name }
         }) || []
-      const reqBody: RoadmapCreateReqBody = {
+      const reqBody: RoadmapCreateBody = {
         userId,
         title,
         tags: tagNames,

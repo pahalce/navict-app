@@ -1,3 +1,4 @@
+import { TagCreateBody } from '$/types'
 import type { Tag } from '$prisma/client'
 
 export type Methods = {
@@ -6,7 +7,7 @@ export type Methods = {
    * * POST /tags
    */
   post: {
-    reqBody: Pick<Tag, 'name'>
+    reqBody: TagCreateBody
     resBody: Tag
   }
 }

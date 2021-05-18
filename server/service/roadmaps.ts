@@ -1,8 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import type { Roadmap, Step, Tag, User } from '$prisma/client'
-import type { RoadmapInfo, StepInfo } from '$/types'
+import type { RoadmapInfo, RoadmapUpdateBody, StepInfo } from '$/types'
 import { partialRoadmapInfoInclude } from '$/prisma/options'
-import type { UpdateRoadmapReqBody } from '$/api/roadmaps/_roadmapId@number/index'
 
 type partialRoadmapInfo = Omit<
   RoadmapInfo,
@@ -142,7 +141,7 @@ export const getRoadmapById = (id: Roadmap['id']) =>
 // FIXME: ここの実装適当すぎるからバグったら直す。
 export const updateRoadmap = async (
   id: Roadmap['id'],
-  body: UpdateRoadmapReqBody
+  body: RoadmapUpdateBody
 ) => {
   const roadmap = await prisma.roadmap.update({
     where: { id },
