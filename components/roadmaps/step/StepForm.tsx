@@ -20,16 +20,16 @@ import { Library } from '$prisma/client'
 import LibrarySelect, { LibOption } from './LibrarySelect'
 
 type LibraryForm = {
-  titleSelect: LibraryInfo['title']
+  titleSelect: LibOption
   link?: LibraryInfo['link']
 }
 
 type StepFormProps = {
   options: LibOption[]
-  // onSelectLibrary: (
-  //   value: LibOption,
-  //   action: ActionMeta<OptionTypeBase>
-  // ) => void
+  onSelectLibrary?: (
+    value: LibOption,
+    action: ActionMeta<OptionTypeBase>
+  ) => void
   createLibrary: (
     title: LibraryInfo['title'],
     link: LibraryInfo['link']
@@ -43,7 +43,7 @@ type StepFormProps = {
 const StepForm = ({
   options,
   createLibrary,
-  // onSelectLibrary,
+  onSelectLibrary,
   onSelectLibraryInputChange
 }: StepFormProps) => {
   const {
@@ -58,6 +58,7 @@ const StepForm = ({
     value: LibOption,
     action: ActionMeta<OptionTypeBase>
   ) => {
+    console.log(action)
     if (action.action !== 'create-option') {
       setValue('link', value.value.link)
     }
@@ -65,9 +66,26 @@ const StepForm = ({
   }
 
   const onSubmit: SubmitHandler<LibraryForm> = (data) => {
-    // if
-    // createLibrary()
-    console.log({ ...data })
+    const titleSelect = data.titleSelect
+    const formLink = data.link || ''
+    const selectedLink = titleSelect.value.link
+    let result
+    if (formLink === selectedLink) {
+      console.group('selected exitsting lib:')
+      result = {
+        id: titleSelect.id,
+        title: titleSelect.value.title,
+        link: data.link
+      }
+    } else {
+      console.group('created new lib:')
+      result = {
+        title: titleSelect.value.title,
+        link: data.link
+      }
+    }
+    console.log(result)
+    console.groupEnd()
   }
   return (
     <div className="mt-10 w-full">
@@ -76,7 +94,7 @@ const StepForm = ({
           name="titleSelect"
           control={control}
           defaultValue={''}
-          rules={{ required: false }}
+          rules={{ required: true }}
           render={({ field }) => (
             <LibrarySelect
               className="w-full"
@@ -92,13 +110,12 @@ const StepForm = ({
         />
       </div>
       <RHFInput
-        className="py-2 text-$t1 text-center w-full mb-6 bg-$shade3"
+        className="py-2 text-center w-full mb-6 bg-$shade3"
         register={(register as unknown) as UseFormRegister<FieldValues>}
         name="link"
-        required
         placeholder="https://navict-app.vercel.app/"
       />
-      {errors.link ? (
+      {errors.titleSelect ? (
         <ButtonSmall disabled={true} text="本やサイトの名前を追加して下さい" />
       ) : (
         <ButtonSmall onClick={handleSubmit(onSubmit)} text="追加" />

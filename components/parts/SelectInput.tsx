@@ -95,7 +95,10 @@ const SelectInput = ({
     <CreatableSelect
       {...field}
       isMulti={multiple}
-      onChange={(value, action) => {
+      onChange={(value: LibOption, action) => {
+        if (onSelect) {
+          onSelect((value as unknown) as OptionsType<OptionTypeBase>, action)
+        }
         field.onChange(value)
       }}
       onInputChange={onInputChange}
