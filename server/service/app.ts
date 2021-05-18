@@ -29,8 +29,10 @@ export const init = (serverFactory?: FastifyServerFactory) => {
     })
   }
   app.register(fastifyJwt, { secret: API_JWT_SECRET })
-  app.addHook('onError', (req, reply, err) => {
+  app.addHook('onError', (req, reply, err, done) => {
+    // TODO: 500の内容をクライアントに返さないほうがいいかも。
     console.error(err.stack)
+    done()
   })
   server(app, { basePath: API_BASE_PATH })
   return app
