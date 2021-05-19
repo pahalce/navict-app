@@ -1,5 +1,6 @@
 import type { User, Tag, Roadmap, Like, Step, Library } from '$prisma/client'
 
+// FIXME: 多分要らないから消す
 export type AuthHeader = {
   authorization: string
 }

@@ -18,7 +18,10 @@ export type Methods = {
     resBody: UserWithoutPersonal
   }
 
-  // delete a user
+  /**
+   * delete a user
+   * ** DELETE /users/_userId@number
+   */
   delete: {
     status: 204
   }
