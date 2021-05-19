@@ -5,6 +5,12 @@ export type AuthHeader = {
   authorization: string
 }
 
+export type AuthUserAdditionalRequest = {
+  user: {
+    id: number
+  }
+}
+
 /** response body */
 export type UserWithoutPersonal = Omit<User, 'email' | 'firebaseUid'>
 export type LikeInfo = Like

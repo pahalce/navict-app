@@ -1,12 +1,9 @@
 import { defineController, defineHooks } from './$relay'
 import { deleteUser, getUserInfoById, updateUser } from '$/service/users'
 import { checkAuthz, checkAuthn } from '$/service/auth'
+import { AuthUserAdditionalRequest } from '$/types'
 
-export type AdditionalRequest = {
-  user: {
-    id: number
-  }
-}
+export type AdditionalRequest = AuthUserAdditionalRequest
 
 export const hooks = defineHooks(() => ({
   onRequest: [
@@ -34,8 +31,7 @@ export default defineController(() => ({
   put: async ({ body, params }) => {
     return { status: 200, body: await updateUser(params.userId, body) }
   },
-  delete: async ({ params, user }) => {
-    console.log(user)
+  delete: async ({ params }) => {
     await deleteUser(params.userId)
     return { status: 204 }
   }
