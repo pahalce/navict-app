@@ -1,5 +1,6 @@
 import { defineController, defineHooks } from './$relay'
 import { deleteUser, getUserInfoById, updateUser } from '$/service/users'
+import { checkAuthz, checkAuthn } from '$/service/auth'
 
 export type AdditionalRequest = {
   user: {
@@ -9,21 +10,16 @@ export type AdditionalRequest = {
 
 export const hooks = defineHooks(() => ({
   onRequest: [
-    (req, reply, done) => {
-      if (!['PUT', 'DELETE'].includes(req.method)) return done()
-      return req.jwtVerify().catch((err) => {
-        console.log({
-          err
-        })
-        return reply.send(err)
-      })
-    },
-    (req, reply, done) => {
-      if (!['PUT', 'DELETE'].includes(req.method)) return done()
-      if ((req.params as { userId: number }).userId != req.user.id)
-        return reply.status(403).send()
-      done()
-    }
+    (req, reply, done) => checkAuthz(req, reply, done, ['PUT', 'DELETE']),
+    (req, reply, done) =>
+      checkAuthn(
+        req,
+        reply,
+        done,
+        ['PUT', 'DELETE'],
+        (req.params as { userId: number }).userId,
+        req.user.id
+      )
   ]
 }))
 
@@ -38,7 +34,8 @@ export default defineController(() => ({
   put: async ({ body, params }) => {
     return { status: 200, body: await updateUser(params.userId, body) }
   },
-  delete: async ({ params }) => {
+  delete: async ({ params, user }) => {
+    console.log(user)
     await deleteUser(params.userId)
     return { status: 204 }
   }
