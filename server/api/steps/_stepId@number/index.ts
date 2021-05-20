@@ -4,7 +4,7 @@ import type { Step } from '$prisma/client'
 export type Methods = {
   /**
    * update a step
-   * ** PUT /steps/_stepId@number
+   * [jz] PUT /steps/_stepId@number
    */
   put: {
     reqBody: StepUpdateBody
@@ -13,7 +13,7 @@ export type Methods = {
 
   /**
    * delete a step
-   * ** DELETE /steps/_stepId@number
+   * [jz] DELETE /steps/_stepId@number
    */
   delete: {
     status: 204

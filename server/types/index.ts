@@ -83,7 +83,7 @@ export type RoadmapUpdateBody = Partial<
   }
 >
 export type StepUpdateBody = Partial<
-  Pick<Step, 'memo' | 'nextStepId' | 'roadmapId' | 'libraryId'>
+  Pick<Step, 'memo' | 'nextStepId' | 'isDone' | 'roadmapId' | 'libraryId'>
 >
 
 /** toggle request body */

@@ -4,6 +4,7 @@ TODO:
 
 - [ ] 自動生成されるようにする
 - [ ] j, n, z ってわかりづらい… もっとわかりやすくしたい…
+- [ ] n, z は hooks じゃなくて service で制御した方がいいかも
 
 ```txt
 j: jwtのチェックをする
@@ -73,22 +74,22 @@ toggle a like
 
 ```txt
 create a step
-[] POST /steps
+[jz] POST /steps
 
 update a step
-[] PUT /steps/_stepId@number
+[jz] PUT /steps/_stepId@number
 
 change a step's memo
-[] PATCH /steps/_stepId@number/memo/_memo@string
+[jz] PATCH /steps/_stepId@number/memo/_memo@string
 
 change a step's nextStepId
-[] PATCH /steps/_stepId@number/nextStepId/_nextStepId@number
+[jz] PATCH /steps/_stepId@number/nextStepId/_nextStepId@number
 
 toggle isDone
-[] PATCH /steps/_stepId@number/isDone
+[jz] PATCH /steps/_stepId@number/isDone
 
 delete a step
-[] DELETE /steps/_stepId@number
+[jz] DELETE /steps/_stepId@number
 ```
 
 ## libraries

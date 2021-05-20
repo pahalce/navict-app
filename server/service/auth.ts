@@ -9,6 +9,7 @@ import {
 import { RouteGenericInterface } from 'fastify/types/route'
 import { IncomingMessage, Server, ServerResponse } from 'node:http'
 import { getUserIdByRoadmapId } from './roadmaps'
+import { getUserIdByStepId } from './steps'
 
 export const checkJwt = (
   req: FastifyRequest<RouteGenericInterface, Server, IncomingMessage>,
@@ -52,6 +53,24 @@ export const checkAuthzByRoadmapId = async (
   roadmapId: number
 ) => {
   const userId = await getUserIdByRoadmapId(roadmapId)
+  if (!userId || userId !== req.user.id) return reply.status(403).send()
+  done()
+}
+
+export const checkAuthzByStepId = async (
+  req: FastifyRequest<RouteGenericInterface, Server, IncomingMessage> &
+    Partial<AuthUserAdditionalRequest>,
+  reply: FastifyReply<
+    Server,
+    IncomingMessage,
+    ServerResponse,
+    RouteGenericInterface,
+    unknown
+  >,
+  done: HookHandlerDoneFunction,
+  stepId: number
+) => {
+  const userId = await getUserIdByStepId(stepId)
   if (!userId || userId !== req.user.id) return reply.status(403).send()
   done()
 }
