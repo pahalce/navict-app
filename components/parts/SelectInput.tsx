@@ -1,16 +1,10 @@
 import React from 'react'
 import { ControllerRenderProps, FieldValues } from 'react-hook-form'
-import {
-  ActionMeta,
-  GroupTypeBase,
-  InputActionMeta,
-  OptionTypeBase,
-  Styles
-} from 'react-select'
+import { ActionMeta, GroupTypeBase, OptionTypeBase, Styles } from 'react-select'
 import CreatableSelect from 'react-select/creatable'
 import { systemColorToColorCode } from 'utils/utility'
 export type SelectOption = {
-  index: number
+  index?: number
   value: string
   label: string
 }
@@ -18,8 +12,8 @@ type Props = {
   options: SelectOption[]
   placeholder: string
   multiple: boolean
-  onSelectOption: (value: SelectOption | SelectOption[]) => void
-  onCreateOption: (option: SelectOption | SelectOption[]) => void
+  onSelectOption?: (value: SelectOption | SelectOption[]) => void
+  onCreateOption?: (value: SelectOption | SelectOption[]) => void
   onInputChange?: (keyword: string) => void
   field: ControllerRenderProps<FieldValues, string>
 }
@@ -94,13 +88,13 @@ const SelectInput = ({
 
   const handleChange = (
     value: SelectOption | SelectOption[],
-    action: ActionMeta<any>
+    action: ActionMeta<any> // eslint-disable-line @typescript-eslint/no-explicit-any
   ) => {
     field.onChange(value)
     if (action.action == 'select-option') {
-      onSelectOption(value)
+      if (onSelectOption) onSelectOption(value)
     } else if (action.action == 'create-option') {
-      onCreateOption(value)
+      if (onCreateOption) onCreateOption(value)
     }
   }
 
