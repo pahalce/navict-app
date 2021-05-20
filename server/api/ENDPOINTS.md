@@ -95,7 +95,7 @@ delete a step
 
 ```txt
 create a library
-[] POST /libraries
+[j] POST /libraries
 
 get recommended libraries
 POST /libriries/recommended
