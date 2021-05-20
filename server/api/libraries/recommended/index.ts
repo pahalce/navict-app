@@ -1,5 +1,4 @@
-import type { Library } from '$prisma/client'
-import type { RecommendedLibraryInfo } from '$/types'
+import type { RecommendedLibraryInfo, RecommendedLibraryGetBody } from '$/types'
 
 export type Methods = {
   /**
@@ -7,7 +6,7 @@ export type Methods = {
    * POST /libraries/recommended
    */
   post: {
-    reqBody: [Library['id'], Library['id'], Library['id']]
+    reqBody: RecommendedLibraryGetBody
     resBody: RecommendedLibraryInfo[]
   }
 }

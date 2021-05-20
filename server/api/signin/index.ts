@@ -1,9 +1,10 @@
 import type { User } from '$prisma/client'
 
-type SigninReqBody = {
+type reqBody = {
   accessToken: string
 }
-type SigninResBody = {
+
+type resBody = {
   token: string
   user: User
 }
@@ -14,7 +15,7 @@ export type Methods = {
    * POST /signin
    */
   post: {
-    reqBody: SigninReqBody
-    resBody: SigninResBody
+    reqBody: reqBody
+    resBody: resBody
   }
 }

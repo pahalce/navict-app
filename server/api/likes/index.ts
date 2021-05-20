@@ -1,4 +1,4 @@
-import type { Like } from '$prisma/client'
+import { LikeToggleBody } from '$/types'
 
 export type Methods = {
   /**
@@ -6,7 +6,7 @@ export type Methods = {
    * ** POST /likes
    */
   post: {
-    reqBody: Pick<Like, 'userId' | 'roadmapId'>
+    reqBody: LikeToggleBody
     status: 204
   }
 }

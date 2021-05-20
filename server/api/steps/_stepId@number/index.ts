@@ -1,3 +1,4 @@
+import { StepUpdateBody } from '$/types'
 import type { Step } from '$prisma/client'
 
 export type Methods = {
@@ -6,9 +7,7 @@ export type Methods = {
    * ** PUT /steps/_stepId@number
    */
   put: {
-    reqBody: Partial<
-      Pick<Step, 'memo' | 'nextStepId' | 'roadmapId' | 'libraryId'>
-    >
+    reqBody: StepUpdateBody
     resBody: Step
   }
 

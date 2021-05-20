@@ -1,3 +1,4 @@
+import { LibraryCreateBody } from '$/types'
 import type { Library } from '$prisma/client'
 
 export type Methods = {
@@ -6,7 +7,7 @@ export type Methods = {
    * * POST /libraries
    */
   post: {
-    reqBody: Pick<Library, 'title' | 'link'>
+    reqBody: LibraryCreateBody
     resBody: Library
   }
 }

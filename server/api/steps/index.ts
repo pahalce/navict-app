@@ -1,3 +1,4 @@
+import { StepCreateBody } from '$/types'
 import type { Step } from '$prisma/client'
 
 export type Methods = {
@@ -6,7 +7,7 @@ export type Methods = {
    * ** POST /steps
    */
   post: {
-    reqBody: Pick<Step, 'memo' | 'nextStepId' | 'roadmapId' | 'libraryId'>
+    reqBody: StepCreateBody
     resBody: Step
   }
 }
