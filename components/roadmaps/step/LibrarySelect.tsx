@@ -9,7 +9,7 @@ import { LibraryInfo } from '~/server/types'
 import SelectInput from '../../parts/SelectInput'
 
 export type LibOption = {
-  id?: number
+  id?: number | null
   value: { title: LibraryInfo['title']; link: LibraryInfo['link'] }
   label: string
 }

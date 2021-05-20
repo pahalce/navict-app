@@ -3,7 +3,6 @@ import { apiClient } from '~/utils/apiClient'
 import type {
   RoadmapInfo,
   LibraryInfo,
-  StepReqBody,
   RecommendedLibraryInfo,
   TagInfo,
   StepInfo
@@ -49,7 +48,7 @@ const createRoadmapsPageNew = () => {
   } = useForm<RoadmapForm>()
 
   const onSubmit: SubmitHandler<RoadmapForm> = (data) =>
-    console.log({ ...data })
+    console.log({ ...data, steps })
 
   const searchTags = async (keyword: string) => {
     const result = await apiClient.tags.search._name(keyword).$get()
@@ -112,6 +111,9 @@ const createRoadmapsPageNew = () => {
     return result
   }
 
+  const getLibraryFromId = (id: LibraryInfo['id']) => {
+    return apiClient.libraries.$post({ body: {} })
+  }
   // const handleSelectLibrary = (
   //   value: LibOption,
   //   action: ActionMeta<OptionTypeBase>
@@ -201,6 +203,7 @@ const createRoadmapsPageNew = () => {
             createLibrary={createLibrary}
             onSelectLibraryInputChange={handleSelectLibraryInputChange}
             options={libOptions}
+            addStep={addStep}
           />
         </OpenStepForm>
         <BarBottom />

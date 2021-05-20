@@ -90,15 +90,26 @@ const SelectInput = ({
       }
     })
   }
-  // console.log('object', field)
   return (
     <CreatableSelect
       {...field}
       isMulti={multiple}
       onChange={(value: LibOption, action) => {
+        console.log(value)
         if (onSelect) {
           onSelect((value as unknown) as OptionsType<OptionTypeBase>, action)
         }
+
+        // createしたときはvalueが{label:string, value:string}になるのでそろえる
+        //FIXME: この処理はLibrarySelectでしかいらないものだからこうなるならコンポーネント分けたほうがいい。どうせ実装かわるから一旦このまま
+        if (!value.id) {
+          value.id = null
+        }
+
+        if (typeof value.value === 'string') {
+          value.value = { title: value.value, link: null }
+        }
+
         field.onChange(value)
       }}
       onInputChange={onInputChange}

@@ -15,7 +15,7 @@ import {
 } from 'react-select'
 import ButtonSmall from '~/components/button/ButtonSmall'
 import RHFInput from '~/components/parts/RHFInput'
-import { LibraryInfo } from '~/server/types'
+import { LibraryInfo, StepInfo } from '~/server/types'
 import { Library } from '$prisma/client'
 import LibrarySelect, { LibOption } from './LibrarySelect'
 
@@ -38,13 +38,15 @@ type StepFormProps = {
     newValue: string,
     actionMeta: InputActionMeta
   ) => void
+  addStep: (step: StepInfo) => void
 }
 
 const StepForm = ({
   options,
   createLibrary,
   onSelectLibrary,
-  onSelectLibraryInputChange
+  onSelectLibraryInputChange,
+  addStep
 }: StepFormProps) => {
   const {
     register,
@@ -58,19 +60,20 @@ const StepForm = ({
     value: LibOption,
     action: ActionMeta<OptionTypeBase>
   ) => {
-    console.log(action)
+    // console.log(action)
+
     if (action.action !== 'create-option') {
       setValue('link', value.value.link)
     }
     // onSelectLibrary(value, action)
   }
 
-  const onSubmit: SubmitHandler<LibraryForm> = (data) => {
+  const onSubmit: SubmitHandler<LibraryForm> = async (data) => {
     const titleSelect = data.titleSelect
     const formLink = data.link || ''
     const selectedLink = titleSelect.value.link
-    let result
-    if (formLink === selectedLink) {
+    let result, lib: LibraryInfo
+    if (titleSelect.id) {
       console.group('selected exitsting lib:')
       result = {
         id: titleSelect.id,
@@ -78,14 +81,17 @@ const StepForm = ({
         link: data.link
       }
     } else {
-      console.group('created new lib:')
       result = {
         title: titleSelect.value.title,
         link: data.link
       }
+      lib = await createLibrary(result.title, result.link || null)
+      console.group('created new lib:', lib)
+      // createLibrary(titleSelect.value, result.link || '')
     }
     console.log(result)
     console.groupEnd()
+    // addStep({})
   }
   return (
     <div className="mt-10 w-full">
