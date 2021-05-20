@@ -12,7 +12,7 @@ export type Methods = {
 
   /**
    * update a roadmap
-   * PUT /roadmaps/_roadmapId@number
+   * [jnz] PUT /roadmaps/_roadmapId@number
    */
   put: {
     reqBody: RoadmapUpdateBody
@@ -21,7 +21,7 @@ export type Methods = {
 
   /**
    * delete a roadmap
-   * ** DELETE /roadmaps/_roadmapId@number
+   * [jz] DELETE /roadmaps/_roadmapId@number
    */
   delete: {
     status: 204

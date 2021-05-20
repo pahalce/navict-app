@@ -1,15 +1,16 @@
 // FIXME: middleware化してapp.tsでregisterできたら完璧。
 
+import { AuthUserAdditionalRequest } from '$/types'
 import {
   FastifyReply,
   FastifyRequest,
-  HookHandlerDoneFunction,
-  HTTPMethods
+  HookHandlerDoneFunction
 } from 'fastify/fastify'
 import { RouteGenericInterface } from 'fastify/types/route'
 import { IncomingMessage, Server, ServerResponse } from 'node:http'
+import { getUserIdByRoadmapId } from './roadmaps'
 
-export const checkAuthz = (
+export const checkJwt = (
   req: FastifyRequest<RouteGenericInterface, Server, IncomingMessage>,
   reply: FastifyReply<
     Server,
@@ -17,18 +18,12 @@ export const checkAuthz = (
     ServerResponse,
     RouteGenericInterface,
     unknown
-  >,
-  done: HookHandlerDoneFunction,
-  methods: HTTPMethods[]
-) => {
-  if (!methods.includes(req.method as HTTPMethods)) return done()
-  return req.jwtVerify().catch((err) => {
-    return reply.send(err)
-  })
-}
+  >
+) => req.jwtVerify().catch((err) => reply.send(err))
 
 export const checkAuthn = (
-  req: FastifyRequest<RouteGenericInterface, Server, IncomingMessage>,
+  req: FastifyRequest<RouteGenericInterface, Server, IncomingMessage> &
+    Partial<AuthUserAdditionalRequest>,
   reply: FastifyReply<
     Server,
     IncomingMessage,
@@ -37,11 +32,26 @@ export const checkAuthn = (
     unknown
   >,
   done: HookHandlerDoneFunction,
-  methods: HTTPMethods[],
-  paramUserId: number,
-  authUserId: number
+  userId: number
 ) => {
-  if (!methods.includes(req.method as HTTPMethods)) return done()
-  if (+paramUserId !== +authUserId) return reply.status(403).send()
+  if (userId !== req.user.id) return reply.status(403).send()
+  done()
+}
+
+export const checkAuthzByRoadmapId = async (
+  req: FastifyRequest<RouteGenericInterface, Server, IncomingMessage> &
+    Partial<AuthUserAdditionalRequest>,
+  reply: FastifyReply<
+    Server,
+    IncomingMessage,
+    ServerResponse,
+    RouteGenericInterface,
+    unknown
+  >,
+  done: HookHandlerDoneFunction,
+  roadmapId: number
+) => {
+  const userId = await getUserIdByRoadmapId(roadmapId)
+  if (!userId || userId !== req.user.id) return reply.status(403).send()
   done()
 }

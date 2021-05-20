@@ -1,9 +1,13 @@
 import { defineController, defineHooks } from './$relay'
+import { checkJwt } from '$/service/auth'
 import { createTag } from '$/service/tags'
-import { checkAuthz } from '$/service/auth'
+import { isInMethods } from '$/service/http'
 
 export const hooks = defineHooks(() => ({
-  onRequest: [(req, reply, done) => checkAuthz(req, reply, done, ['POST'])]
+  onRequest: (req, reply, done) => {
+    if (!isInMethods(req.method, ['POST'])) return done()
+    return checkJwt(req, reply)
+  }
 }))
 
 export default defineController(() => ({

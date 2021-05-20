@@ -1,23 +1,25 @@
 import { defineController, defineHooks } from './$relay'
-import { deleteUser, getUserInfoById, updateUser } from '$/service/users'
-import { checkAuthz, checkAuthn } from '$/service/auth'
 import { AuthUserAdditionalRequest } from '$/types'
+import { checkJwt, checkAuthn } from '$/service/auth'
+import { deleteUser, getUserInfoById, updateUser } from '$/service/users'
+import { isInMethods } from '$/service/http'
 
 export type AdditionalRequest = AuthUserAdditionalRequest
 
 export const hooks = defineHooks(() => ({
-  onRequest: [
-    (req, reply, done) => checkAuthz(req, reply, done, ['PUT', 'DELETE']),
-    (req, reply, done) =>
-      checkAuthn(
-        req,
-        reply,
-        done,
-        ['PUT', 'DELETE'],
-        (req.params as { userId: number }).userId,
-        req.user.id
-      )
-  ]
+  onRequest: (req, reply, done) => {
+    if (!isInMethods(req.method, ['PUT', 'DELETE'])) return done()
+    return checkJwt(req, reply)
+  },
+  preHandler: (req, reply, done) => {
+    if (!isInMethods(req.method, ['PUT', 'DELETE'])) return done()
+    return checkAuthn(
+      req,
+      reply,
+      done,
+      (req.params as { userId: number }).userId
+    )
+  }
 }))
 
 export default defineController(() => ({

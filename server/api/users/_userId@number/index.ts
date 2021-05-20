@@ -11,7 +11,7 @@ export type Methods = {
 
   /**
    * update a user
-   * ** PUT /users/_userId@number
+   * [jn] PUT /users/_userId@number
    */
   put: {
     reqBody: UserUpdateBody
@@ -20,7 +20,7 @@ export type Methods = {
 
   /**
    * delete a user
-   * ** DELETE /users/_userId@number
+   * [jn] DELETE /users/_userId@number
    */
   delete: {
     status: 204

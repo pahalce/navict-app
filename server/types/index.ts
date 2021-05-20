@@ -76,10 +76,10 @@ export type UserUpdateBody = Partial<
 export type RoadmapUpdateBody = Partial<
   Pick<
     Roadmap,
-    'title' | 'description' | 'forkedRoadmapId' | 'firstStepId' | 'userId'
+    'title' | 'description' | 'goal' | 'forkedRoadmapId' | 'userId'
   > & {
     tags: Pick<Tag, 'name'>[]
-    steps: Pick<Step, 'memo' | 'nextStepId' | 'isDone' | 'libraryId'>[]
+    steps: Pick<Step, 'memo' | 'isDone' | 'libraryId'>[]
   }
 >
 export type StepUpdateBody = Partial<
