@@ -1,4 +1,4 @@
-// FIXME: nextStepIdが自分のものかチェックする
+// FIXME: nextStepIdが自分のものかチェックする(後回しで大丈夫)
 
 import { PrismaClient } from '@prisma/client'
 import type { Prisma, Step } from '$prisma/client'

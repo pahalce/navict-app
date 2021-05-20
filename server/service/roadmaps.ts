@@ -1,3 +1,5 @@
+// FIXME: firstStepIdが自分のものかチェックする(後回しで大丈夫)
+
 import { PrismaClient } from '@prisma/client'
 import type { Roadmap, Step, Tag, User } from '$prisma/client'
 import type { RoadmapInfo, RoadmapUpdateBody, StepInfo } from '$/types'
