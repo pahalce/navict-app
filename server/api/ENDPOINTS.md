@@ -1,6 +1,9 @@
 # エンドポイント一覧
 
-TODO: 自動生成されるようにする
+TODO:
+
+- [ ] 自動生成されるようにする
+- [ ] j, n, z ってわかりづらい… もっとわかりやすくしたい…
 
 ```txt
 j: jwtのチェックをする
@@ -63,7 +66,7 @@ delete a roadmap
 
 ```txt
 toggle a like
-[] POST /likes
+[jn] POST /likes
 ```
 
 ## steps
