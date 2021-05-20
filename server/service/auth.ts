@@ -1,3 +1,5 @@
+// FIXME: middleware化してapp.tsでregisterできたら完璧。
+
 import {
   FastifyReply,
   FastifyRequest,
