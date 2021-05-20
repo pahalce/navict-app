@@ -4,22 +4,22 @@ import {
   ActionMeta,
   GroupTypeBase,
   InputActionMeta,
-  OptionsType,
   OptionTypeBase,
   Styles
 } from 'react-select'
 import CreatableSelect from 'react-select/creatable'
 import { systemColorToColorCode } from 'utils/utility'
-import { LibOption } from '../roadmaps/step/LibrarySelect'
-
+export type SelectOption = {
+  index: number
+  value: string
+  label: string
+}
 type Props = {
-  options: { value: string; label: string }[] | LibOption[]
+  options: SelectOption[]
   placeholder: string
   multiple: boolean
-  onSelect?: (
-    value: OptionsType<OptionTypeBase>,
-    action: ActionMeta<OptionTypeBase>
-  ) => void
+  onSelectOption: (index: number) => void
+  onCreateOption: (option: SelectOption) => void
   onInputChange?: (newValue: string, actionMeta: InputActionMeta) => void
   field: ControllerRenderProps<FieldValues, string>
 }
@@ -28,7 +28,8 @@ const SelectInput = ({
   options,
   placeholder = 'select',
   multiple,
-  onSelect,
+  onSelectOption,
+  onCreateOption,
   onInputChange,
   field
 }: Props) => {
@@ -90,28 +91,19 @@ const SelectInput = ({
       }
     })
   }
+
+  const handleChange = (value: SelectOption, action: ActionMeta<any>) => {
+    if (action.action == 'select-option') {
+      onSelectOption(value.index)
+    } else if (action.action == 'create-option') {
+      onCreateOption(value)
+    }
+  }
   return (
     <CreatableSelect
       {...field}
       isMulti={multiple}
-      onChange={(value: LibOption, action) => {
-        console.log(value)
-        if (onSelect) {
-          onSelect((value as unknown) as OptionsType<OptionTypeBase>, action)
-        }
-
-        // createしたときはvalueが{label:string, value:string}になるのでそろえる
-        //FIXME: この処理はLibrarySelectでしかいらないものだからこうなるならコンポーネント分けたほうがいい。どうせ実装かわるから一旦このまま
-        if (!value.id) {
-          value.id = null
-        }
-
-        if (typeof value.value === 'string') {
-          value.value = { title: value.value, link: null }
-        }
-
-        field.onChange(value)
-      }}
+      onChange={handleChange}
       onInputChange={onInputChange}
       options={options}
       styles={colourStyles}
