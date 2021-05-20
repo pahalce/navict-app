@@ -18,9 +18,9 @@ type Props = {
   options: SelectOption[]
   placeholder: string
   multiple: boolean
-  onSelectOption: (index: number) => void
-  onCreateOption: (option: SelectOption) => void
-  onInputChange?: (newValue: string, actionMeta: InputActionMeta) => void
+  onSelectOption: (value: SelectOption | SelectOption[]) => void
+  onCreateOption: (option: SelectOption | SelectOption[]) => void
+  onInputChange?: (keyword: string) => void
   field: ControllerRenderProps<FieldValues, string>
 }
 
@@ -92,13 +92,18 @@ const SelectInput = ({
     })
   }
 
-  const handleChange = (value: SelectOption, action: ActionMeta<any>) => {
+  const handleChange = (
+    value: SelectOption | SelectOption[],
+    action: ActionMeta<any>
+  ) => {
+    field.onChange(value)
     if (action.action == 'select-option') {
-      onSelectOption(value.index)
+      onSelectOption(value)
     } else if (action.action == 'create-option') {
       onCreateOption(value)
     }
   }
+
   return (
     <CreatableSelect
       {...field}
