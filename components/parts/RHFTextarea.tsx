@@ -7,6 +7,8 @@ type Props = {
   placeholder?: string
   required?: string | ValidationRule<boolean>
   className?: string
+  cols?: number
+  rows?: number
 }
 
 const RHFTextarea = ({
@@ -14,15 +16,17 @@ const RHFTextarea = ({
   name,
   placeholder,
   required,
-  className
+  className,
+  cols,
+  rows
 }: Props) => {
   return (
     <textarea
       className={`placeholder-$shade1 text-$primary ${className}`}
       placeholder={placeholder}
       {...register(name, { required })}
-      cols={30}
-      rows={10}
+      cols={cols}
+      rows={rows}
     ></textarea>
   )
 }

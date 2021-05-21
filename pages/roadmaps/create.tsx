@@ -218,6 +218,8 @@ const BasicInfo = ({
         name="description"
         register={(register as unknown) as UseFormRegister<FieldValues>}
         placeholder="概要を入力"
+        cols={30}
+        rows={8}
       />
     </div>
   )

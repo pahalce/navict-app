@@ -1,5 +1,4 @@
 import { FieldValues, UseFormRegister } from 'react-hook-form'
-import RHFInput from '~/components/parts/RHFInput'
 import RHFTextarea from '~/components/parts/RHFTextarea'
 
 type Props = {
@@ -8,10 +7,10 @@ type Props = {
 
 const GoalForm = ({ register }: Props) => {
   return (
-    <div className="bg-$tint p-4 px-16">
+    <div className="flex  flex-col bg-$tint p-4 px-16 ">
       <p className="text-$t1 text-center">ゴール</p>
       <RHFTextarea
-        className="w-full my-6 text-$t3 rounded-3xl shadow-$rich p-8"
+        className="w-3/5 my-6 mx-auto text-$t3 rounded-3xl shadow-$rich p-8"
         register={register}
         name="goal"
         placeholder="ゴールをここに書いてみよう"
