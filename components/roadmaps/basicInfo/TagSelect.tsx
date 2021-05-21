@@ -18,6 +18,17 @@ type Props = {
   field: ControllerRenderProps<FieldValues, string>
 }
 
+const setSelectedValue = (options: SelectOption[]) => {
+  setValue('select', options)
+}
+const handleCreateOption = (option: SelectOption) => {
+  console.log(option)
+  setValue('select', option)
+}
+const handleInputChange = (keyword) => {
+  console.log(keyword)
+}
+
 const TagSelect = ({
   options,
   placeholder = 'タグを作成',

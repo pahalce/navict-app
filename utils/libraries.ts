@@ -3,12 +3,12 @@ import { apiClient } from './apiClient'
 
 export const createLibrary = (
   title: LibraryInfo['title'],
-  link: LibraryInfo['link']
+  link?: LibraryInfo['link']
 ) =>
   apiClient.libraries.$post({
     body: {
       title,
-      link
+      link: link || null
     }
   })
 

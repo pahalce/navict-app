@@ -99,15 +99,17 @@ const SelectInput = ({
   }
 
   return (
-    <CreatableSelect
-      {...field}
-      isMulti={multiple}
-      onChange={handleChange}
-      onInputChange={onInputChange}
-      options={options}
-      styles={colourStyles}
-      placeholder={placeholder}
-    />
+    <div className="w-full">
+      <CreatableSelect
+        {...field}
+        isMulti={multiple}
+        onChange={handleChange}
+        onInputChange={onInputChange}
+        options={options}
+        styles={colourStyles}
+        placeholder={placeholder}
+      />
+    </div>
   )
 }
 

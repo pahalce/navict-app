@@ -1,21 +1,8 @@
 import React, { useState } from 'react'
-import { apiClient } from '~/utils/apiClient'
-import type {
-  RoadmapInfo,
-  LibraryInfo,
-  RecommendedLibraryInfo,
-  TagInfo,
-  StepInfo
-} from '$/types/index'
+import type { RoadmapInfo, LibraryInfo, TagInfo } from '$/types/index'
+import { Step } from '$prisma/client'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
-import {
-  ActionMeta,
-  InputActionMeta,
-  OptionsType,
-  OptionTypeBase
-} from 'react-select'
 import ButtonSmall from '~/components/button/ButtonSmall'
-import TagSelect from '~/components/roadmaps/basicInfo/TagSelect'
 import RHFInput from '~/components/parts/RHFInput'
 import RHFTextarea from '~/components/parts/RHFTextarea'
 import BarTop from '~/components/parts/BarTop'
@@ -24,20 +11,26 @@ import OpenStepForm from '~/components/roadmaps/step/OpenStepForm'
 import StepCard from '~/components/list/StepCard'
 import BarMiddle from '~/components/parts/BarMiddle'
 import StepForm from '~/components/roadmaps/step/StepForm'
-import { LibOption } from '~/components/roadmaps/step/LibrarySelect'
+import SelectInput, { SelectOption } from '~/components/parts/SelectInput'
+import { searchTags } from '~/utils/tags'
+import { makeLibTitleOptions, searchLibraries } from '~/utils/libraries'
 
 type RoadmapForm = {
   title?: RoadmapInfo['title']
-  tagSelect?: { value: string; label: string }[]
+  tagSelect?: SelectOption[]
   description?: RoadmapInfo['description']
 }
 
+export type StepWithLib = Pick<
+  Step,
+  'memo' | 'nextStepId' | 'isDone' | 'libraryId'
+> & { library: LibraryInfo }
+
 const createRoadmapsPageNew = () => {
-  const [options, setOptions] = useState<{ value: string; label: string }[]>(
-    [] as { value: string; label: string }[]
-  )
-  const [libOptions, setLibOptions] = useState<LibOption[]>([] as LibOption[])
-  const [steps, setSteps] = useState<StepInfo[]>([] as StepInfo[])
+  const [tagOptions, setTagOptions] = useState<SelectOption[]>([])
+  const [libTitleOptions, setLibTitleOptions] = useState<SelectOption[]>([])
+  const [libs, setLibs] = useState<LibraryInfo[]>([])
+  const [steps, setSteps] = useState<StepWithLib[]>([] as StepWithLib[])
   const [isStepFormOpen, setIsStepFormOpen] = useState<boolean>(false)
 
   const {
@@ -50,47 +43,30 @@ const createRoadmapsPageNew = () => {
   const onSubmit: SubmitHandler<RoadmapForm> = (data) =>
     console.log({ ...data, steps })
 
-  const searchTags = async (keyword: string) => {
-    const result = await apiClient.tags.search._name(keyword).$get()
-    return result.map((tag) => ({
+  const handleTagInputChange = (keyword: string) => {
+    if (keyword.length === 1) {
+      searchTags(keyword).then((tags) => {
+        const newTagOptions = makeTagOptions(tags)
+        setTagOptions(newTagOptions)
+      })
+    }
+    if (keyword.length === 0) {
+      setTagOptions([])
+    }
+  }
+  const makeTagOptions = (tags: TagInfo[]) => {
+    return tags.map((tag) => ({
       value: tag.name,
       label: tag.name
     }))
   }
-  const searchLibrary = async (keyword: string) => {
-    const result = await apiClient.libraries.searchByTitle
-      ._title(keyword)
-      .$get()
-    return result.map(
-      (library) =>
-        ({
-          id: library.id,
-          value: { title: library.title, link: library.link },
-          label: library.title
-        } as LibOption)
-    )
-  }
 
-  const handleSelectTagInputChange = (
-    value: string,
-    action: InputActionMeta
-  ) => {
-    if (value.length === 1) {
-      searchTags(value).then((resultTags) => {
-        setOptions(resultTags)
-      })
-    }
-    if (value.length === 0) {
-      setOptions([])
-    }
-  }
-
-  const addStep = (step: StepInfo) => {
+  const addStep = (step: StepWithLib) => {
     setSteps([...steps, step])
   }
 
-  const deleteStep = (stepId: StepInfo['id']) => {
-    const newSteps = steps.filter((step) => step.id !== stepId)
+  const deleteStep = (index: number) => {
+    const newSteps = steps.filter((step, i) => i !== index)
     setSteps(newSteps)
   }
 
@@ -98,45 +74,16 @@ const createRoadmapsPageNew = () => {
     setIsStepFormOpen(!isStepFormOpen)
   }
 
-  const createLibrary = async (
-    title: LibraryInfo['title'],
-    link: LibraryInfo['link']
-  ) => {
-    const result = await apiClient.libraries.$post({
-      body: {
-        title,
-        link
-      }
-    })
-    return result
-  }
-
-  const getLibraryFromId = (id: LibraryInfo['id']) => {
-    return apiClient.libraries.$post({ body: {} })
-  }
-  // const handleSelectLibrary = (
-  //   value: LibOption,
-  //   action: ActionMeta<OptionTypeBase>
-  // ) => {
-  //   if (action.action !== 'create-option') {
-  //     // setValue(name:'')
-  //     console.log(value.value.title, value.value.link)
-  //   } else {
-  //     console.log('c:', value.value)
-  //   }
-  // }
-
-  const handleSelectLibraryInputChange = (
-    value: string,
-    action: InputActionMeta
-  ) => {
-    if (value.length === 1) {
-      searchLibrary(value).then((resultLib) => {
-        setLibOptions(resultLib)
+  const handleLibInputChange = (keyword: string) => {
+    if (keyword.length === 1) {
+      searchLibraries(keyword).then((libraries) => {
+        const newLibraryOptions = makeLibTitleOptions(libraries)
+        setLibTitleOptions(newLibraryOptions)
+        setLibs(libraries)
       })
     }
-    if (value.length === 0) {
-      setLibOptions([])
+    if (keyword.length === 0) {
+      setLibTitleOptions([])
     }
   }
 
@@ -158,11 +105,12 @@ const createRoadmapsPageNew = () => {
           defaultValue={''}
           rules={{ required: false }}
           render={({ field }) => (
-            <TagSelect
+            <SelectInput
               field={field}
-              options={options}
+              options={tagOptions}
               placeholder={'関連するキーワードを入力してタグを作成'}
-              onInputChange={handleSelectTagInputChange}
+              onInputChange={handleTagInputChange}
+              multiple={true}
             />
           )}
         />
@@ -176,15 +124,15 @@ const createRoadmapsPageNew = () => {
       {/* create step section */}
       <div className="bg-$tint py-16 w-full flex items-center flex-col">
         <BarTop />
-        {steps.map((step) => (
-          <div key={step.id} className="w-full max-w-3xl">
+        {steps.map((step, index) => (
+          <div key={index} className="w-full max-w-3xl">
             <StepCard
               href={step.library.link || ''}
               src={step.library.img || ''}
-              memo={''}
+              memo={step.memo || ''}
               title={step.library.title}
               canDelete
-              onDeleteClick={() => deleteStep(step.id)}
+              onDeleteClick={() => deleteStep(index)}
             />
             <BarMiddle />
           </div>
@@ -199,10 +147,9 @@ const createRoadmapsPageNew = () => {
           }
         >
           <StepForm
-            // onSelectLibrary={handleSelectLibrary}
-            createLibrary={createLibrary}
-            onSelectLibraryInputChange={handleSelectLibraryInputChange}
-            options={libOptions}
+            libs={libs}
+            handleLibInputChange={handleLibInputChange}
+            libTitleOptions={libTitleOptions}
             addStep={addStep}
           />
         </OpenStepForm>

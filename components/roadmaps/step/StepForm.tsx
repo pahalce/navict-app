@@ -7,45 +7,29 @@ import {
   useForm,
   UseFormRegister
 } from 'react-hook-form'
-import {
-  ActionMeta,
-  InputActionMeta,
-  OptionsType,
-  OptionTypeBase
-} from 'react-select'
 import ButtonSmall from '~/components/button/ButtonSmall'
 import RHFInput from '~/components/parts/RHFInput'
 import { LibraryInfo, StepInfo } from '~/server/types'
-import { Library } from '$prisma/client'
-import LibrarySelect, { LibOption } from './LibrarySelect'
+import SelectInput, { SelectOption } from '~/components/parts/SelectInput'
+import { createLibrary } from '~/utils/libraries'
+import { StepWithLib } from '~/pages/roadmaps/create'
 
 type LibraryForm = {
-  titleSelect: LibOption
+  titleSelect: SelectOption
   link?: LibraryInfo['link']
 }
 
 type StepFormProps = {
-  options: LibOption[]
-  onSelectLibrary?: (
-    value: LibOption,
-    action: ActionMeta<OptionTypeBase>
-  ) => void
-  createLibrary: (
-    title: LibraryInfo['title'],
-    link: LibraryInfo['link']
-  ) => Promise<Library>
-  onSelectLibraryInputChange: (
-    newValue: string,
-    actionMeta: InputActionMeta
-  ) => void
-  addStep: (step: StepInfo) => void
+  libTitleOptions: SelectOption[]
+  libs: LibraryInfo[]
+  handleLibInputChange: (keyword: string) => void
+  addStep: (step: StepWithLib) => void
 }
 
 const StepForm = ({
-  options,
-  createLibrary,
-  onSelectLibrary,
-  onSelectLibraryInputChange,
+  libTitleOptions,
+  libs,
+  handleLibInputChange,
   addStep
 }: StepFormProps) => {
   const {
@@ -56,43 +40,40 @@ const StepForm = ({
     formState: { errors }
   } = useForm<LibraryForm>()
 
-  const handleSelectLibrary = (
-    value: LibOption,
-    action: ActionMeta<OptionTypeBase>
-  ) => {
-    // console.log(action)
-
-    if (action.action !== 'create-option') {
-      setValue('link', value.value.link)
-    }
-    // onSelectLibrary(value, action)
-  }
-
   const onSubmit: SubmitHandler<LibraryForm> = async (data) => {
-    const titleSelect = data.titleSelect
-    const formLink = data.link || ''
-    const selectedLink = titleSelect.value.link
-    let result, lib: LibraryInfo
-    if (titleSelect.id) {
-      console.group('selected exitsting lib:')
-      result = {
-        id: titleSelect.id,
-        title: titleSelect.value.title,
-        link: data.link
-      }
-    } else {
-      result = {
-        title: titleSelect.value.title,
-        link: data.link
-      }
-      lib = await createLibrary(result.title, result.link || null)
-      console.group('created new lib:', lib)
-      // createLibrary(titleSelect.value, result.link || '')
+    let createLib = true
+    let library
+    // user selected library
+    if (data.titleSelect.index) {
+      library = libs.find((lib) => lib.id === data.titleSelect.index)
+      console.log(library?.link, library)
+      // set createdLib to true if user changed link
+      createLib = library?.link !== data.link
     }
-    console.log(result)
-    console.groupEnd()
-    // addStep({})
+    if (createLib) {
+      library = await createLibrary(data.titleSelect.value, data.link)
+      console.log('create:', library)
+    }
+    if (!library) throw Error('failed to get library')
+    const libraryId = library.id
+
+    console.log({ ...data })
+    const step: StepWithLib = {
+      libraryId,
+      library: library,
+      memo: null,
+      nextStepId: null,
+      isDone: false
+    }
+    addStep(step)
   }
+
+  const handleSelectLibTitleOption = (value: SelectOption | SelectOption[]) => {
+    const v = value as SelectOption
+    const library = libs.find((lib) => lib.id === v.index)
+    setValue('link', library?.link || null)
+  }
+
   return (
     <div className="mt-10 w-full">
       <div className="w-full flex mb-4">
@@ -102,15 +83,15 @@ const StepForm = ({
           defaultValue={''}
           rules={{ required: true }}
           render={({ field }) => (
-            <LibrarySelect
-              className="w-full"
+            <SelectInput
               field={
                 (field as unknown) as ControllerRenderProps<FieldValues, string>
               }
-              options={options}
+              options={libTitleOptions}
               placeholder={'本の名前やサイトの名前を入力してみよう'}
-              onSelect={handleSelectLibrary}
-              onInputChange={onSelectLibraryInputChange}
+              multiple={false}
+              onInputChange={handleLibInputChange}
+              onSelectOption={handleSelectLibTitleOption}
             />
           )}
         />
