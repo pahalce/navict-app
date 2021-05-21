@@ -52,8 +52,8 @@ const createRoadmapsPageNew = () => {
   const {
     register,
     handleSubmit,
-    control,
-    formState: { errors }
+    control
+    // formState: { errors } TODO: errorバリデーション
   } = useForm<RoadmapForm>()
 
   const onSubmit: SubmitHandler<RoadmapForm> = async (data) => {
@@ -75,7 +75,6 @@ const createRoadmapsPageNew = () => {
       goal: data.goal || null
     }
     console.log(await createRoadmap(reqBody))
-    // console.log({ ...data, steps })
   }
 
   const handleTagInputChange = (keyword: string) => {

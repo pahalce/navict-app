@@ -11,3 +11,6 @@ const TestPage = () => {
   if (userError || !user) return <div>failed to load</div>
 
   return <div></div>
+}
+
+export default TestPage
