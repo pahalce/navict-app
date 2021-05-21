@@ -9,7 +9,7 @@ import {
 } from 'react-hook-form'
 import ButtonSmall from '~/components/button/ButtonSmall'
 import RHFInput from '~/components/parts/RHFInput'
-import { LibraryInfo, StepInfo } from '~/server/types'
+import { LibraryInfo } from '~/server/types'
 import SelectInput, { SelectOption } from '~/components/parts/SelectInput'
 import { createLibrary } from '~/utils/libraries'
 import { StepWithLib } from '~/pages/roadmaps/create'
@@ -46,18 +46,15 @@ const StepForm = ({
     // user selected library
     if (data.titleSelect.index) {
       library = libs.find((lib) => lib.id === data.titleSelect.index)
-      console.log(library?.link, library)
       // set createdLib to true if user changed link
       createLib = library?.link !== data.link
     }
     if (createLib) {
       library = await createLibrary(data.titleSelect.value, data.link)
-      console.log('create:', library)
     }
     if (!library) throw Error('failed to get library')
     const libraryId = library.id
 
-    console.log({ ...data })
     const step: StepWithLib = {
       libraryId,
       library: library,

@@ -7,7 +7,7 @@ import NavictChan from '~/components/NavictChan'
 
 // TODO:Loginなどのメッセージをログじゃなくてちゃんと作る
 // TODO:loginを必要になったとき実装する
-// TODO: console.log全部消す
+// TODO: placeholder全部消す
 
 export type SigninMethod = 'google' | 'twitter'
 type AuthContext = {
@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }: Props) => {
         throw Error('signin method not specified.')
       }
     } catch (error) {
-      console.error(error.message)
+      placeholder(error.message)
     }
   }
 
@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }: Props) => {
     try {
       await auth.signOut()
       setIsLoggedIn(false)
-      console.log('logged out')
+      placeholder('logged out')
     } catch (error) {
       console.error(error.message)
     }
@@ -75,7 +75,7 @@ export const AuthProvider = ({ children }: Props) => {
         const user = res.body.user
         setUser(user)
         setIsLoggedIn(true)
-        console.log(`hello ${user.name}`)
+        placeholder(`hello ${user.name}`)
         setLoading(false)
       } catch (error) {
         console.error('error:useEffect:', error)
