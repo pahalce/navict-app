@@ -7,6 +7,7 @@ import type {
 } from '$/types/index'
 import { Step } from '$prisma/client'
 import {
+  Control,
   Controller,
   ControllerRenderProps,
   FieldValues,
@@ -124,39 +125,12 @@ const createRoadmapsPageNew = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className=" text-$primary text-$t4">
       {/* basic info section */}
-      <div className="max-w-3xl mx-auto my-16">
-        <RHFInput
-          className="py-2 text-$t1 text-center w-full mb-6"
-          name="title"
-          register={(register as unknown) as UseFormRegister<FieldValues>}
-          placeholder="タイトルを入力"
-          required
-        />
-        {/* {errors.title && <span>This field is required</span>} */}
-        <Controller
-          name="tagSelect"
-          control={control}
-          defaultValue={''}
-          rules={{ required: false }}
-          render={({ field }) => (
-            <SelectInput
-              field={
-                (field as unknown) as ControllerRenderProps<FieldValues, string>
-              }
-              options={tagOptions}
-              placeholder={'関連するキーワードを入力してタグを作成'}
-              onInputChange={handleTagInputChange}
-              multiple={true}
-            />
-          )}
-        />
-        <RHFTextarea
-          className="w-full bg-$shade3 rounded-lg text-$t4 py-2 px-3 mt-6"
-          name="description"
-          register={(register as unknown) as UseFormRegister<FieldValues>}
-          placeholder="概要を入力"
-        />
-      </div>
+      <BasicInfo
+        register={register}
+        tagOptions={tagOptions}
+        control={control}
+        onTagInputChange={handleTagInputChange}
+      />
       {/* create step section */}
       <div className="bg-$tint py-16 w-full flex items-center flex-col">
         <BarTop />
@@ -197,6 +171,55 @@ const createRoadmapsPageNew = () => {
       />
       <ButtonSmall text="送信" type="submit" />
     </form>
+  )
+}
+
+type BasicInfoProps = {
+  register: UseFormRegister<RoadmapForm>
+  control: Control<RoadmapForm>
+  tagOptions: SelectOption[]
+  onTagInputChange: (keyword: string) => void
+}
+const BasicInfo = ({
+  register,
+  control,
+  tagOptions,
+  onTagInputChange
+}: BasicInfoProps) => {
+  return (
+    <div className="max-w-3xl mx-auto my-16">
+      <RHFInput
+        className="py-2 text-$t1 text-center w-full mb-6"
+        name="title"
+        register={(register as unknown) as UseFormRegister<FieldValues>}
+        placeholder="タイトルを入力"
+        required
+      />
+      {/* {errors.title && <span>This field is required</span>} */}
+      <Controller
+        name="tagSelect"
+        control={control}
+        defaultValue={''}
+        rules={{ required: false }}
+        render={({ field }) => (
+          <SelectInput
+            field={
+              (field as unknown) as ControllerRenderProps<FieldValues, string>
+            }
+            options={tagOptions}
+            placeholder={'関連するキーワードを入力してタグを作成'}
+            onInputChange={onTagInputChange}
+            multiple={true}
+          />
+        )}
+      />
+      <RHFTextarea
+        className="w-full bg-$shade3 rounded-lg text-$t4 py-2 px-3 mt-6"
+        name="description"
+        register={(register as unknown) as UseFormRegister<FieldValues>}
+        placeholder="概要を入力"
+      />
+    </div>
   )
 }
 
