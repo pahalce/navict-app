@@ -1,7 +1,19 @@
 import React, { useState } from 'react'
-import type { RoadmapInfo, LibraryInfo, TagInfo } from '$/types/index'
+import type {
+  RoadmapInfo,
+  LibraryInfo,
+  TagInfo,
+  RoadmapCreateBody
+} from '$/types/index'
 import { Step } from '$prisma/client'
-import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import {
+  Controller,
+  ControllerRenderProps,
+  FieldValues,
+  SubmitHandler,
+  useForm,
+  UseFormRegister
+} from 'react-hook-form'
 import ButtonSmall from '~/components/button/ButtonSmall'
 import RHFInput from '~/components/parts/RHFInput'
 import RHFTextarea from '~/components/parts/RHFTextarea'
@@ -14,11 +26,14 @@ import StepForm from '~/components/roadmaps/step/StepForm'
 import SelectInput, { SelectOption } from '~/components/parts/SelectInput'
 import { searchTags } from '~/utils/tags'
 import { makeLibTitleOptions, searchLibraries } from '~/utils/libraries'
+import { createRoadmap } from '~/utils/roadmaps'
+import GoalForm from '~/components/roadmaps/goal/GoalForm'
 
 type RoadmapForm = {
-  title?: RoadmapInfo['title']
+  title: RoadmapInfo['title']
   tagSelect?: SelectOption[]
   description?: RoadmapInfo['description']
+  goal?: RoadmapInfo['goal']
 }
 
 export type StepWithLib = Pick<
@@ -40,8 +55,27 @@ const createRoadmapsPageNew = () => {
     formState: { errors }
   } = useForm<RoadmapForm>()
 
-  const onSubmit: SubmitHandler<RoadmapForm> = (data) =>
-    console.log({ ...data, steps })
+  const onSubmit: SubmitHandler<RoadmapForm> = async (data) => {
+    const tags: RoadmapCreateBody['tags'] = tagOptions.map((tagOption) => ({
+      name: tagOption.label
+    }))
+    const reqSteps: RoadmapCreateBody['steps'] = steps.map((step) => ({
+      isDone: step.isDone,
+      memo: step.memo,
+      libraryId: step.libraryId
+    }))
+    const reqBody: RoadmapCreateBody = {
+      title: data.title,
+      tags,
+      description: data.description || null,
+      forkedRoadmapId: null,
+      steps: reqSteps,
+      userId: 1, //FIXME:ちゃんとauthContextからとってくる
+      goal: data.goal || null
+    }
+    console.log(await createRoadmap(reqBody))
+    // console.log({ ...data, steps })
+  }
 
   const handleTagInputChange = (keyword: string) => {
     if (keyword.length === 1) {
@@ -94,11 +128,11 @@ const createRoadmapsPageNew = () => {
         <RHFInput
           className="py-2 text-$t1 text-center w-full mb-6"
           name="title"
-          register={register}
+          register={(register as unknown) as UseFormRegister<FieldValues>}
           placeholder="タイトルを入力"
           required
         />
-        {errors.title && <span>This field is required</span>}
+        {/* {errors.title && <span>This field is required</span>} */}
         <Controller
           name="tagSelect"
           control={control}
@@ -106,7 +140,9 @@ const createRoadmapsPageNew = () => {
           rules={{ required: false }}
           render={({ field }) => (
             <SelectInput
-              field={field}
+              field={
+                (field as unknown) as ControllerRenderProps<FieldValues, string>
+              }
               options={tagOptions}
               placeholder={'関連するキーワードを入力してタグを作成'}
               onInputChange={handleTagInputChange}
@@ -117,7 +153,7 @@ const createRoadmapsPageNew = () => {
         <RHFTextarea
           className="w-full bg-$shade3 rounded-lg text-$t4 py-2 px-3 mt-6"
           name="description"
-          register={register}
+          register={(register as unknown) as UseFormRegister<FieldValues>}
           placeholder="概要を入力"
         />
       </div>
@@ -155,6 +191,10 @@ const createRoadmapsPageNew = () => {
         </OpenStepForm>
         <BarBottom />
       </div>
+      {/* goal section */}
+      <GoalForm
+        register={(register as unknown) as UseFormRegister<FieldValues>}
+      />
       <ButtonSmall text="送信" type="submit" />
     </form>
   )

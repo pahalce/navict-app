@@ -41,6 +41,9 @@ const SelectInput = ({
       padding: '0.2em',
       cursor: 'text'
     }),
+    placeholder: () => ({
+      color: systemColorToColorCode('$shade1')
+    }),
     menu: (styles) => ({
       ...styles,
       padding: '0.8em 2em'
