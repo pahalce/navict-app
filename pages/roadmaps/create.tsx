@@ -3,7 +3,8 @@ import type {
   RoadmapInfo,
   LibraryInfo,
   TagInfo,
-  RoadmapCreateBody
+  RoadmapCreateBody,
+  RecommendedLibraryInfo
 } from '$/types/index'
 import { Step } from '$prisma/client'
 import {
@@ -25,7 +26,11 @@ import BarMiddle from '~/components/parts/BarMiddle'
 import StepForm from '~/components/roadmaps/step/StepForm'
 import SelectInput, { SelectOption } from '~/components/parts/SelectInput'
 import { searchTags } from '~/utils/tags'
-import { makeLibTitleOptions, searchLibraries } from '~/utils/libraries'
+import {
+  getRecommendedLibraries,
+  makeLibTitleOptions,
+  searchLibraries
+} from '~/utils/libraries'
 import { createRoadmap } from '~/utils/roadmaps'
 import GoalForm from '~/components/roadmaps/goal/GoalForm'
 import Opener from '~/components/parts/Opener'
@@ -48,6 +53,7 @@ const createRoadmapsPageNew = () => {
   const [libs, setLibs] = useState<LibraryInfo[]>([])
   const [steps, setSteps] = useState<StepWithLib[]>([] as StepWithLib[])
   const [isStepFormOpen, setIsStepFormOpen] = useState<boolean>(false)
+  const [recLibs, setRecLibs] = useState<RecommendedLibraryInfo[]>([])
 
   const {
     register,
@@ -121,6 +127,17 @@ const createRoadmapsPageNew = () => {
     }
   }
 
+  const getCurrentRecLibs = async () => {
+    let ids = libs.slice(-3).map((lib) => lib.id)
+    while (ids.length < 3) {
+      ids = [0, ...ids]
+    }
+    const result = await getRecommendedLibraries(
+      ids as [number, number, number]
+    )
+    setRecLibs(result)
+  }
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className=" text-$primary text-$t4">
       {/* basic info section */}
@@ -160,6 +177,8 @@ const createRoadmapsPageNew = () => {
             handleLibInputChange={handleLibInputChange}
             libTitleOptions={libTitleOptions}
             addStep={addStep}
+            recLibs={recLibs}
+            onMount={getCurrentRecLibs}
           />
         </Opener>
         <BarBottom />

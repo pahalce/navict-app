@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   Controller,
   ControllerRenderProps,
@@ -9,14 +9,22 @@ import {
 } from 'react-hook-form'
 import ButtonSmall from '~/components/button/ButtonSmall'
 import RHFInput from '~/components/parts/RHFInput'
-import { LibraryInfo } from '~/server/types'
+import {
+  LibraryCreateBody,
+  LibraryInfo,
+  RecommendedLibraryInfo,
+  StepCreateBody
+} from '~/server/types'
 import SelectInput, { SelectOption } from '~/components/parts/SelectInput'
 import { createLibrary } from '~/utils/libraries'
 import { StepWithLib } from '~/pages/roadmaps/create'
+import RecommendedLibrarySection from './RecommendedLibrarySection'
+import RHFTextarea from '~/components/parts/RHFTextarea'
 
-type LibraryForm = {
+export type LibraryForm = {
   titleSelect: SelectOption
-  link?: LibraryInfo['link']
+  link?: LibraryCreateBody['link']
+  memo?: StepCreateBody['memo']
 }
 
 type StepFormProps = {
@@ -24,13 +32,17 @@ type StepFormProps = {
   libs: LibraryInfo[]
   handleLibInputChange: (keyword: string) => void
   addStep: (step: StepWithLib) => void
+  recLibs: RecommendedLibraryInfo[]
+  onMount: () => void | Promise<void>
 }
 
 const StepForm = ({
   libTitleOptions,
   libs,
   handleLibInputChange,
-  addStep
+  addStep,
+  recLibs,
+  onMount
 }: StepFormProps) => {
   const {
     register,
@@ -40,16 +52,26 @@ const StepForm = ({
     formState: { errors }
   } = useForm<LibraryForm>()
 
+  useEffect(() => {
+    onMount()
+  }, [])
+
   const onSubmit: SubmitHandler<LibraryForm> = async (data) => {
     let createLib = true
     let library
     // user selected library
     if (data.titleSelect.index) {
+      console.log('selected')
       library = libs.find((lib) => lib.id === data.titleSelect.index)
+      // user selected from recommended library
+      if (!library) {
+        library = recLibs.find((lib) => lib.id === data.titleSelect.index)
+      }
       // set createdLib to true if user changed link
       createLib = library?.link !== data.link
     }
     if (createLib) {
+      console.log('create new')
       library = await createLibrary(data.titleSelect.value, data.link)
     }
     if (!library) throw Error('failed to get library')
@@ -58,7 +80,7 @@ const StepForm = ({
     const step: StepWithLib = {
       libraryId,
       library: library,
-      memo: null,
+      memo: data.memo || null,
       nextStepId: null,
       isDone: false
     }
@@ -73,6 +95,7 @@ const StepForm = ({
 
   return (
     <div className="mt-10 w-full">
+      <RecommendedLibrarySection recLibs={recLibs} setValue={setValue} />
       <div className="w-full flex mb-4">
         <Controller
           name="titleSelect"
@@ -98,6 +121,14 @@ const StepForm = ({
         register={(register as unknown) as UseFormRegister<FieldValues>}
         name="link"
         placeholder="https://navict-app.vercel.app/"
+      />
+      <RHFTextarea
+        className="p-4 w-full mb-6 bg-$shade3"
+        register={(register as unknown) as UseFormRegister<FieldValues>}
+        name="memo"
+        placeholder="メモを追加しよう"
+        rows={8}
+        cols={20}
       />
       {errors.titleSelect ? (
         <ButtonSmall disabled={true} text="本やサイトの名前を追加して下さい" />

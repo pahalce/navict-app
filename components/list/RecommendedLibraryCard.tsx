@@ -5,12 +5,16 @@ import { shortenText, getSystemColorFromPercentage } from '~/utils/utility'
 type RecommendedLibraryCardProps = {
   src: string
   title: string
+  maxTitleLength: number
+  maxLinkLength: number
   href: string
   percent: number
 }
 const RecommendedLibraryCard = ({
   src,
   title,
+  maxTitleLength,
+  maxLinkLength,
   href,
   percent
 }: RecommendedLibraryCardProps) => {
@@ -32,21 +36,23 @@ const RecommendedLibraryCard = ({
   //   .catch()
 
   return (
-    <div className="flex items-center bg-$white rounded-3xl shadow-$rich px-10 py-6">
+    <div className="flex items-start flex-col bg-$white rounded-3xl shadow-$rich p-6">
       <div
         className={`flex items-center justify-center h-24 w-16 rounded-md overflow-hidden mr-8`}
       >
         <img
-          className={`object-cover h-full w-full block`}
+          className={`object-contain h-full w-full block`}
           src={src || '/no-source.png'}
         />
       </div>
 
       <div className={`flex-grow`}>
-        <p className="text-$t2 text-$primary mb-1">{title}</p>
+        <p className="text-$t3 text-$primary mb-1">
+          {shortenText(title, maxTitleLength)}
+        </p>
         <Link href={href}>
           <p className={`text-$T6 text-$indigo cursor-pointer`}>
-            {shortenText(decodeURI(href), 40)}
+            {shortenText(decodeURI(href), maxLinkLength)}
           </p>
         </Link>
       </div>
