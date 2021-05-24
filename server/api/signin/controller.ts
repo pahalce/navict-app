@@ -10,7 +10,7 @@ export default defineController((fastify) => ({
 
     // unauthorized user
     if (!verifiedUser) {
-      console.log('unauthorized')
+      console.error('unauthorized')
       return {
         status: 401
       }
@@ -22,7 +22,6 @@ export default defineController((fastify) => ({
 
     // user already exists
     if (user) {
-      console.log('user exists')
       return {
         status: 201,
         body: { token: fastify.jwt.sign({ id: user.id }), user }
@@ -37,7 +36,6 @@ export default defineController((fastify) => ({
       verifiedUser.uid
     )
 
-    console.log('created new user')
     return {
       status: 201,
       body: { token: fastify.jwt.sign({ id: newUser.id }), user: newUser }

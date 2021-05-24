@@ -14,7 +14,7 @@ const UserIconMenu = () => {
       await auth?.logout()
       router.reload()
     } catch (error) {
-      console.log(error.message)
+      console.error(error.message)
     }
   }
   return (
