@@ -20,7 +20,6 @@ import RHFInput from '~/components/parts/RHFInput'
 import RHFTextarea from '~/components/parts/RHFTextarea'
 import BarTop from '~/components/parts/BarTop'
 import BarBottom from '~/components/parts/BarBottom'
-import OpenStepForm from '~/components/roadmaps/step/OpenStepForm'
 import StepCard from '~/components/list/StepCard'
 import BarMiddle from '~/components/parts/BarMiddle'
 import StepForm from '~/components/roadmaps/step/StepForm'
@@ -29,6 +28,7 @@ import { searchTags } from '~/utils/tags'
 import { makeLibTitleOptions, searchLibraries } from '~/utils/libraries'
 import { createRoadmap } from '~/utils/roadmaps'
 import GoalForm from '~/components/roadmaps/goal/GoalForm'
+import Opener from '~/components/parts/Opener'
 
 type RoadmapForm = {
   title: RoadmapInfo['title']
@@ -146,7 +146,7 @@ const createRoadmapsPageNew = () => {
             <BarMiddle />
           </div>
         ))}
-        <OpenStepForm
+        <Opener
           onClick={toggleShowForm}
           isOpen={isStepFormOpen}
           text={
@@ -161,7 +161,7 @@ const createRoadmapsPageNew = () => {
             libTitleOptions={libTitleOptions}
             addStep={addStep}
           />
-        </OpenStepForm>
+        </Opener>
         <BarBottom />
       </div>
       {/* goal section */}
