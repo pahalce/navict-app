@@ -20,7 +20,7 @@ const RecommendedLibrarySection = ({ recLibs, setValue }: Props) => {
   }
 
   return (
-    <div className="bg-$tint w-full">
+    <div className="w-full">
       <p className="text-$t2 text-left">
         他の人は次にこのステップをやっています
       </p>

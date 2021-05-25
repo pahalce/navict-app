@@ -32,7 +32,9 @@ const StepCard = ({
 
       <div>
         <div className={`flex mb-1`}>
-          <p className="text-$t2 text-$primary mr-8">{title}</p>
+          <p className="text-$t2 text-$primary mr-8 overflow-ellipsis whitespace-nowrap overflow-hidden">
+            {title}
+          </p>
           {canDelete ? <Trash onClick={onDeleteClick} /> : <></>}
         </div>
         <div>
