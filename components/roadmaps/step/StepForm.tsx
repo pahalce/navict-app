@@ -63,7 +63,6 @@ const StepForm = ({
     let library
     // user selected library
     if (data.titleSelect.index) {
-      console.log('selected')
       library = libs.find((lib) => lib.id === data.titleSelect.index)
       // user selected from recommended library
       if (recLibs && !library) {
@@ -73,7 +72,6 @@ const StepForm = ({
       createLib = library?.link !== data.link
     }
     if (createLib) {
-      console.log('create new')
       library = await createLibrary(data.titleSelect.value, data.link)
     }
     if (!library) throw Error('failed to get library')
