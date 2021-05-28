@@ -2,6 +2,7 @@ import { Dialog } from '@headlessui/react'
 import { SetStateAction } from 'react'
 import { StepWithLib } from '~/pages/roadmaps/create'
 import { LibraryInfo } from '~/server/types'
+import { Library } from '$prisma/client'
 import { SelectOption } from '../parts/SelectInput'
 import UpdateStepForm from '../roadmaps/step/UpdateStepForm'
 
@@ -11,6 +12,11 @@ type Props = {
   libTitleOptions: SelectOption[]
   libs: LibraryInfo[]
   handleLibInputChange: (keyword: string) => void
+  onSearchLibraries: (keyword: string) => Promise<Library[]>
+  onCreateLibrary: (
+    title: string,
+    link?: string | null | undefined
+  ) => Promise<Library>
   steps: StepWithLib[]
   stepIndex: number
   updateStep: (index: number, step: StepWithLib) => void
@@ -20,6 +26,8 @@ const UpdateStepFormModal = ({
   isOpen,
   setIsOpen,
   handleLibInputChange,
+  onSearchLibraries,
+  onCreateLibrary,
   libTitleOptions,
   libs,
   stepIndex,
@@ -42,6 +50,8 @@ const UpdateStepFormModal = ({
       </Dialog.Title>
       <UpdateStepForm
         handleLibInputChange={handleLibInputChange}
+        onSearchLibraries={onSearchLibraries}
+        onCreateLibrary={onCreateLibrary}
         libTitleOptions={libTitleOptions}
         libs={libs}
         onSubmitStep={handleSubmitStep}

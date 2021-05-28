@@ -27,6 +27,7 @@ import StepForm from '~/components/roadmaps/step/StepForm'
 import SelectInput, { SelectOption } from '~/components/parts/SelectInput'
 import { searchTags } from '~/utils/tags'
 import {
+  createLibrary,
   getRecommendedLibraries,
   makeLibTitleOptions,
   searchLibraries
@@ -194,6 +195,8 @@ const createRoadmapsPageNew = () => {
             setIsOpen={setIsUpdateStepFormOpen}
             libs={updateStepLibs}
             handleLibInputChange={handleUpdateStepLibInputChange}
+            onSearchLibraries={searchLibraries}
+            onCreateLibrary={createLibrary}
             libTitleOptions={updateStepLibTitleOptions}
             steps={steps}
             stepIndex={updateStepIndex}
@@ -232,6 +235,8 @@ const createRoadmapsPageNew = () => {
             onSubmitStep={addStep}
             recLibs={recLibs}
             onMount={getCurrentRecLibs}
+            onCreateLibrary={createLibrary}
+            onSearchLibraries={searchLibraries}
           />
         </Opener>
         <BarBottom />

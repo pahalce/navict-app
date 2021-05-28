@@ -12,7 +12,6 @@ import ButtonSmall from '~/components/button/ButtonSmall'
 import RHFInput from '~/components/parts/RHFInput'
 import { LibraryCreateBody, LibraryInfo, StepCreateBody } from '~/server/types'
 import SelectInput, { SelectOption } from '~/components/parts/SelectInput'
-import { createLibrary } from '~/utils/libraries'
 import { StepWithLib } from '~/pages/roadmaps/create'
 import RHFTextarea from '~/components/parts/RHFTextarea'
 
@@ -27,6 +26,11 @@ type UpdateStepFormProps = {
   libTitleOptions: SelectOption[]
   libs: LibraryInfo[]
   handleLibInputChange: (keyword: string) => void
+  onSearchLibraries: (keyword: string) => Promise<Library[]>
+  onCreateLibrary: (
+    title: string,
+    link?: string | null | undefined
+  ) => Promise<Library>
   onSubmitStep: (step: StepWithLib) => void
   onMount?: () => void | Promise<void>
   onClickCloseButton: () => void
@@ -37,6 +41,8 @@ const UpdateStepForm = ({
   libTitleOptions,
   libs,
   handleLibInputChange,
+  onSearchLibraries,
+  onCreateLibrary,
   onSubmitStep,
   onMount,
   onClickCloseButton
@@ -62,24 +68,47 @@ const UpdateStepForm = ({
   const onSubmit: SubmitHandler<LibraryForm> = async (data) => {
     let library: Library | undefined = step.library
     let createLib = false
-    // user changed library
-    if (data.titleSelect.index !== step.libraryId) {
-      library = libs.find((lib) => lib.id === data.titleSelect.index)
+
+    try {
+      // user changed library
+      if (data.titleSelect.index !== step.libraryId) {
+        library = libs.find((lib) => lib.id === data.titleSelect.index)
+      }
+      createLib = library?.link !== data.link
+      if (createLib) {
+        library = await onCreateLibrary(data.titleSelect.value, data.link)
+      }
+      if (!library) throw Error('failed to get library')
+      const libraryId = library.id
+      const newStep: StepWithLib = {
+        libraryId,
+        library: library,
+        memo: data.memo || null,
+        nextStepId: null,
+        isDone: false
+      }
+      onSubmitStep(newStep)
+    } catch (err) {
+      // unique constraint error of prisma (title + link must be unique)
+      if (err.response.data.code === 'P2002') {
+        try {
+          const existingLibs = await onSearchLibraries(data.titleSelect.value)
+          const lib = existingLibs.find(
+            (exitstingLib) => exitstingLib.link === data.link
+          ) as Library
+          const step: StepWithLib = {
+            libraryId: lib?.id,
+            library: lib,
+            memo: data.memo || null,
+            nextStepId: null,
+            isDone: false
+          }
+          onSubmitStep(step)
+        } catch (err) {
+          console.error(err)
+        }
+      }
     }
-    createLib = library?.link !== data.link
-    if (createLib) {
-      library = await createLibrary(data.titleSelect.value, data.link)
-    }
-    if (!library) throw Error('failed to get library')
-    const libraryId = library.id
-    const newStep: StepWithLib = {
-      libraryId,
-      library: library,
-      memo: data.memo || null,
-      nextStepId: null,
-      isDone: false
-    }
-    onSubmitStep(newStep)
   }
 
   const handleSelectLibTitleOption = (value: SelectOption | SelectOption[]) => {
