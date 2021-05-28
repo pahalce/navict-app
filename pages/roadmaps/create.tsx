@@ -206,14 +206,14 @@ const createRoadmapsPageNew = () => {
         <BarTop />
         {steps.map((step, index) => (
           <div key={index} className="w-full max-w-screen-lg">
-            <p onClick={() => openUpdateStepModal(index)}>toggle</p>
             <StepCard
               href={step.library.link || ''}
               src={step.library.img || ''}
               memo={step.memo || ''}
               title={step.library.title}
-              canDelete
+              isOwner
               onDeleteClick={() => deleteStep(index)}
+              onEditClick={() => openUpdateStepModal(index)}
             />
             <BarMiddle />
           </div>
