@@ -41,7 +41,7 @@ const createRoadmapsPage = () => {
   const router = useRouter()
   const auth = useAuth()
   if (!auth?.user) {
-    console.log('you have to be logged in')
+    console.error('you have to be logged in')
     router.push('/')
   }
   const handleTitleChange = (title: RoadmapCreateBody['title']) => {
@@ -105,7 +105,7 @@ const createRoadmapsPage = () => {
       setSelectedLibrary(lib)
       return lib
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
   const handleAddStep = (step: StepReqBody) => {

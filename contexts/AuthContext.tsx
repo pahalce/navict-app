@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }: Props) => {
         throw Error('signin method not specified.')
       }
     } catch (error) {
-      console.log(error.message)
+      console.error(error.message)
     }
   }
 
@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }: Props) => {
       setIsLoggedIn(false)
       console.log('logged out')
     } catch (error) {
-      console.log(error.message)
+      console.error(error.message)
     }
   }
 
@@ -82,7 +82,7 @@ export const AuthProvider = ({ children }: Props) => {
         console.log(`hello ${user.name}`)
         setLoading(false)
       } catch (error) {
-        console.log('error:useEffect:', error)
+        console.error('error:useEffect:', error)
       }
     })
     return unsubscribe
