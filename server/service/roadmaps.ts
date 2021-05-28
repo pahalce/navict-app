@@ -12,6 +12,7 @@ type partialRoadmapInfo = Omit<
 
 const prisma = new PrismaClient()
 
+// FIXME: prisma.$transaction() 使えるようにリファクタする
 export const createRoadmap = async (
   title: Roadmap['title'],
   description: Roadmap['description'],
@@ -141,6 +142,7 @@ export const getRoadmapById = (id: Roadmap['id']) =>
   prisma.roadmap.findUnique({ where: { id } })
 
 // FIXME: 処理がcreateRoadmap()とかなり重複してるので、関数化して切り出す。
+// FIXME: prisma.$transaction() 使えるようにリファクタする
 export const updateRoadmap = async (
   id: Roadmap['id'],
   body: RoadmapUpdateBody
