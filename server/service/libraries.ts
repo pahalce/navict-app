@@ -6,7 +6,16 @@ import { RecommendedLibraryInfo } from '$/types'
 const prisma = new PrismaClient()
 
 export const createLibrary = (title: Library['title'], link: Library['link']) =>
-  prisma.library.create({ data: { title, link } })
+  prisma.library.upsert({
+    where: {
+      title_link: {
+        title,
+        link: link || ''
+      }
+    },
+    update: { title, link },
+    create: { title, link }
+  })
 
 export const getRecommendedLibraryInfos = async (ids: Library['id'][]) => {
   try {
