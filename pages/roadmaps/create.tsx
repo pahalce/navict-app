@@ -229,12 +229,13 @@ const createRoadmapsPageNew = () => {
           }
         >
           <StepForm
+            steps={steps}
             libs={libs}
             handleLibInputChange={handleLibInputChange}
             libTitleOptions={libTitleOptions}
             onSubmitStep={addStep}
             recLibs={recLibs}
-            onMount={getCurrentRecLibs}
+            onGetCurrentRecLibs={getCurrentRecLibs}
             onCreateLibrary={createLibrary}
             onSearchLibraries={searchLibraries}
           />

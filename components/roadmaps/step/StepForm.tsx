@@ -28,6 +28,7 @@ export type LibraryForm = {
 }
 
 type StepFormProps = {
+  steps: StepWithLib[]
   libTitleOptions: SelectOption[]
   libs: LibraryInfo[]
   handleLibInputChange: (keyword: string) => void
@@ -38,10 +39,11 @@ type StepFormProps = {
   ) => Promise<Library>
   onSubmitStep: (step: StepWithLib) => void
   recLibs?: RecommendedLibraryInfo[]
-  onMount?: () => void | Promise<void>
+  onGetCurrentRecLibs: () => void | Promise<void>
 }
 
 const StepForm = ({
+  steps,
   libTitleOptions,
   libs,
   handleLibInputChange,
@@ -49,7 +51,7 @@ const StepForm = ({
   onSearchLibraries,
   onSubmitStep,
   recLibs,
-  onMount
+  onGetCurrentRecLibs
 }: StepFormProps) => {
   const {
     register,
@@ -60,10 +62,8 @@ const StepForm = ({
   } = useForm<LibraryForm>()
 
   useEffect(() => {
-    if (onMount) {
-      onMount()
-    }
-  }, [])
+    onGetCurrentRecLibs()
+  }, [steps])
 
   const onSubmit: SubmitHandler<LibraryForm> = async (data) => {
     let createLib = true
