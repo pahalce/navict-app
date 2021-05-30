@@ -4,7 +4,7 @@ import type { Step } from '$prisma/client'
 export type Methods = {
   /**
    * create a step
-   * ** POST /steps
+   * [jz] POST /steps
    */
   post: {
     reqBody: StepCreateBody

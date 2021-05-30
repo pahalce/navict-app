@@ -1,7 +1,9 @@
 import type { User, Tag, Roadmap, Like, Step, Library } from '$prisma/client'
 
-export type AuthHeader = {
-  authorization: string
+export type AuthUserAdditionalRequest = {
+  user: {
+    id: number
+  }
 }
 
 /** response body */
@@ -69,14 +71,14 @@ export type UserUpdateBody = Partial<
 export type RoadmapUpdateBody = Partial<
   Pick<
     Roadmap,
-    'title' | 'description' | 'forkedRoadmapId' | 'firstStepId' | 'userId'
+    'title' | 'description' | 'goal' | 'forkedRoadmapId' | 'userId'
   > & {
     tags: Pick<Tag, 'name'>[]
-    steps: Pick<Step, 'memo' | 'nextStepId' | 'isDone' | 'libraryId'>[]
+    steps: Pick<Step, 'memo' | 'isDone' | 'libraryId'>[]
   }
 >
 export type StepUpdateBody = Partial<
-  Pick<Step, 'memo' | 'nextStepId' | 'roadmapId' | 'libraryId'>
+  Pick<Step, 'memo' | 'nextStepId' | 'isDone' | 'roadmapId' | 'libraryId'>
 >
 
 /** toggle request body */

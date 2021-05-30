@@ -4,7 +4,7 @@ import type { RoadmapCreateBody } from '$/types/index'
 export type Methods = {
   /**
    * create a roadmap
-   * ** POST /roadmaps
+   * [jn] POST /roadmaps
    */
   post: {
     reqBody: RoadmapCreateBody
