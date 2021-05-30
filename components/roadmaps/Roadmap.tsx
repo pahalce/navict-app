@@ -1,3 +1,9 @@
+/*
+TODO:
+ロードマップのcreateとupdateによって処理を分岐してるのがみづらいので、
+コンポーネント分割方法見直す。
+mount時のuseEffectとhandleSubmitで処理の分岐あり
+*/
 import React, { useEffect, useState } from 'react'
 import type {
   RoadmapInfo,
@@ -33,7 +39,7 @@ import {
   makeLibTitleOptions,
   searchLibraries
 } from '~/utils/libraries'
-import { createRoadmap } from '~/utils/roadmaps'
+import { createRoadmap, updateRoadmap } from '~/utils/roadmaps'
 import GoalForm from '~/components/roadmaps/goal/GoalForm'
 import Opener from '~/components/parts/Opener'
 import UpdateStepFormModal from '../modals/UpdateStepFormModal'
@@ -105,28 +111,33 @@ const Roadmap = ({ defaultRoadmap }: RoadmapProps) => {
       // create new roadmap
       const reqTags = createReqTags(data.tagSelect as SelectOption[])
       const reqSteps = createReqSteps()
-      const reqBody: RoadmapCreateBody = {
+      const createBody: RoadmapCreateBody = {
         title: data.title,
         tags: reqTags,
         description: data.description || null,
         forkedRoadmapId: null,
         steps: reqSteps,
-        userId: auth.user?.id, //FIXME:ちゃんとauthContextからとってくる
+        userId: auth.user?.id,
         goal: data.goal || null
       }
-      const result = await createRoadmap(auth.token || '', reqBody)
+      const result = await createRoadmap(auth.token || '', createBody)
       router.push(`edit/${result.id}`)
     } else {
       // edit
-      //   const changedTitle = defaultRoadmap.title !== data.title
-      //   const changedDescription = defaultRoadmap.description !== data.description
-      //   const changedGoal = defaultRoadmap.goal !== data.goal
-      //   const updateBody: RoadmapUpdateBody = {
-      //     title: changedTitle ? data.title : undefined,
-      //     tags: createReqTags(),
-      //     description: changedDescription ? data.description : undefined,
-      //     steps: createReqSteps(),
-      //   }
+      const changedTitle = defaultRoadmap.title !== data.title
+      const changedDescription = defaultRoadmap.description !== data.description
+      const changedGoal = defaultRoadmap.goal !== data.goal
+      const updateBody: RoadmapUpdateBody = {
+        userId: auth.user?.id,
+        title: changedTitle ? data.title : undefined,
+        tags: createReqTags(data.tagSelect as SelectOption[]),
+        description: changedDescription ? data.description : undefined,
+        steps: createReqSteps(),
+        goal: changedGoal ? data.goal : undefined
+      }
+      console.log(
+        await updateRoadmap(auth.token || '', defaultRoadmap.id, updateBody)
+      )
     }
   }
 
