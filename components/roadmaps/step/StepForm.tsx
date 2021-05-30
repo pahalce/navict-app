@@ -17,9 +17,9 @@ import {
 } from '~/server/types'
 import { Library } from '$prisma/client'
 import SelectInput, { SelectOption } from '~/components/parts/SelectInput'
-import { StepWithLib } from '~/pages/roadmaps/create'
 import RecommendedLibrarySection from './RecommendedLibrarySection'
 import RHFTextarea from '~/components/parts/RHFTextarea'
+import { StepWithLib } from '../Roadmap'
 
 export type LibraryForm = {
   titleSelect: SelectOption
@@ -28,12 +28,14 @@ export type LibraryForm = {
 }
 
 type StepFormProps = {
+  token: string
   steps: StepWithLib[]
   libTitleOptions: SelectOption[]
   libs: LibraryInfo[]
   handleLibInputChange: (keyword: string) => void
   onSearchLibraries: (keyword: string) => Promise<Library[]>
   onCreateLibrary: (
+    token: string,
     title: string,
     link?: string | null | undefined
   ) => Promise<Library>
@@ -43,6 +45,7 @@ type StepFormProps = {
 }
 
 const StepForm = ({
+  token,
   steps,
   libTitleOptions,
   libs,
@@ -80,7 +83,11 @@ const StepForm = ({
         createLib = library?.link !== data.link
       }
       if (createLib) {
-        library = await onCreateLibrary(data.titleSelect.value, data.link)
+        library = await onCreateLibrary(
+          token,
+          data.titleSelect.value,
+          data.link
+        )
       }
       if (!library) throw Error('failed to get library')
       const libraryId = library.id

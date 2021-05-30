@@ -12,8 +12,8 @@ import ButtonSmall from '~/components/button/ButtonSmall'
 import RHFInput from '~/components/parts/RHFInput'
 import { LibraryCreateBody, LibraryInfo, StepCreateBody } from '~/server/types'
 import SelectInput, { SelectOption } from '~/components/parts/SelectInput'
-import { StepWithLib } from '~/pages/roadmaps/create'
 import RHFTextarea from '~/components/parts/RHFTextarea'
+import { StepWithLib } from '../Roadmap'
 
 export type LibraryForm = {
   titleSelect: SelectOption
@@ -22,12 +22,14 @@ export type LibraryForm = {
 }
 
 type UpdateStepFormProps = {
+  token: string
   step: StepWithLib
   libTitleOptions: SelectOption[]
   libs: LibraryInfo[]
   handleLibInputChange: (keyword: string) => void
   onSearchLibraries: (keyword: string) => Promise<Library[]>
   onCreateLibrary: (
+    token: string,
     title: string,
     link?: string | null | undefined
   ) => Promise<Library>
@@ -37,6 +39,7 @@ type UpdateStepFormProps = {
 }
 
 const UpdateStepForm = ({
+  token,
   step,
   libTitleOptions,
   libs,
@@ -76,7 +79,11 @@ const UpdateStepForm = ({
       }
       createLib = library?.link !== data.link
       if (createLib) {
-        library = await onCreateLibrary(data.titleSelect.value, data.link)
+        library = await onCreateLibrary(
+          token,
+          data.titleSelect.value,
+          data.link
+        )
       }
       if (!library) throw Error('failed to get library')
       const libraryId = library.id
