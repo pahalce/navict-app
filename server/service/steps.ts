@@ -1,3 +1,5 @@
+// FIXME: nextStepIdが自分のものかチェックする(後回しで大丈夫)
+
 import { PrismaClient } from '@prisma/client'
 import type { Prisma, Step } from '$prisma/client'
 
@@ -6,9 +8,13 @@ const prisma = new PrismaClient()
 export const createStep = (
   memo: Step['memo'],
   nextStepId: Step['nextStepId'],
+  isDone: Step['isDone'],
   roadmapId: Step['roadmapId'],
   libraryId: Step['libraryId']
-) => prisma.step.create({ data: { memo, nextStepId, roadmapId, libraryId } })
+) =>
+  prisma.step.create({
+    data: { memo, nextStepId, isDone, roadmapId, libraryId }
+  })
 
 export const updateStep = (
   id: Step['id'],
@@ -40,5 +46,17 @@ export const changeNextStepId = (
 
 export const toggleIsDone = async (id: Step['id']) => {
   const step = await prisma.step.findUnique({ where: { id } })
-  await prisma.step.update({ where: { id }, data: { isDone: !step?.isDone } })
+  if (!step) return
+  await prisma.step.update({
+    where: { id: step.id },
+    data: { isDone: !step.isDone }
+  })
+}
+
+export const getUserIdByStepId = async (id: Step['id']) => {
+  const step = await prisma.step.findUnique({
+    where: { id },
+    include: { roadmap: true }
+  })
+  return step?.roadmap.userId
 }

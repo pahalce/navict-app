@@ -3,7 +3,7 @@ import { LikeToggleBody } from '$/types'
 export type Methods = {
   /**
    * toggle a like
-   * ** POST /likes
+   * [jn] POST /likes
    */
   post: {
     reqBody: LikeToggleBody
