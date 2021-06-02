@@ -1,6 +1,6 @@
 import useAspidaSWR from '@aspida/swr'
 import RoadmapCard, { RoadmapCardType } from '$components/list/RoadmapCard'
-import { apiClient } from '~/utils/apiClient'
+import { apiClient, headersAuthz } from '~/utils/apiClient'
 import { useAuth } from '~/contexts/AuthContext'
 import RoadmapsInProgress from '~/components/list/RoadmapsInProgress'
 import Image from 'next/image'
@@ -74,7 +74,10 @@ const Home = () => {
 
   const handleLikeClick = async (roadmapId: RoadmapInfo['id']) => {
     if (!auth?.user?.id) return
-    await apiClient.likes.post({ body: { userId: auth.user.id, roadmapId } })
+    await apiClient.likes.post({
+      body: { userId: auth.user.id, roadmapId },
+      config: { ...headersAuthz(auth.token) }
+    })
   }
 
   return (

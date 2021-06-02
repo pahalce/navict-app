@@ -15,6 +15,7 @@ type AuthContext = {
   logout: () => Promise<void>
   isLoggedIn: boolean
   user: User | null | undefined
+  token: string | undefined
 }
 
 type Props = {
@@ -30,6 +31,7 @@ export const AuthProvider = ({ children }: Props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [loading, setLoading] = useState(true)
   const [user, setUser] = useState<AuthContext['user']>()
+  const [token, setToken] = useState<AuthContext['token']>()
 
   const signup = async (method: SigninMethod) => {
     try {
@@ -73,8 +75,10 @@ export const AuthProvider = ({ children }: Props) => {
         })
 
         const user = res.body.user
+        const token = res.body.token
         setUser(user)
         setIsLoggedIn(true)
+        setToken(token)
         console.log(`hello ${user.name}`)
         setLoading(false)
       } catch (error) {
@@ -88,7 +92,8 @@ export const AuthProvider = ({ children }: Props) => {
     signup,
     logout,
     isLoggedIn,
-    user
+    user,
+    token
   }
   return (
     <AuthContext.Provider value={value}>
