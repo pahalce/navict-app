@@ -13,7 +13,7 @@ type Props = {
 const Opener = ({ onClick, isOpen, text, children, className }: Props) => {
   return (
     <div
-      className={`${className} bg-$white text-$t2 text-center rounded-3xl text-$primary shadow-$rich w-full max-w-3xl py-14 px-10 select-none`}
+      className={`bg-$white text-$t2 text-center rounded-3xl text-$primary shadow-$rich w-full max-w-3xl py-14 px-10 select-none ${className}`}
     >
       <div onClick={onClick} className="cursor-pointer">
         {text}{' '}

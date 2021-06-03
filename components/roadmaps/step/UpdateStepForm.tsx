@@ -34,7 +34,6 @@ type UpdateStepFormProps = {
     link?: string | null | undefined
   ) => Promise<Library>
   onSubmitStep: (step: StepWithLib) => void
-  onMount?: () => void | Promise<void>
   onClickCloseButton: () => void
 }
 
@@ -47,7 +46,6 @@ const UpdateStepForm = ({
   onSearchLibraries,
   onCreateLibrary,
   onSubmitStep,
-  onMount,
   onClickCloseButton
 }: UpdateStepFormProps) => {
   const {
