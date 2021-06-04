@@ -3,7 +3,8 @@ import type {
   RoadmapInfo,
   LibraryInfo,
   TagInfo,
-  RoadmapCreateBody
+  RoadmapCreateBody,
+  RecommendedLibraryInfo
 } from '$/types/index'
 import { Step } from '$prisma/client'
 import {
@@ -25,10 +26,16 @@ import BarMiddle from '~/components/parts/BarMiddle'
 import StepForm from '~/components/roadmaps/step/StepForm'
 import SelectInput, { SelectOption } from '~/components/parts/SelectInput'
 import { searchTags } from '~/utils/tags'
-import { makeLibTitleOptions, searchLibraries } from '~/utils/libraries'
+import {
+  createLibrary,
+  getRecommendedLibraries,
+  makeLibTitleOptions,
+  searchLibraries
+} from '~/utils/libraries'
 import { createRoadmap } from '~/utils/roadmaps'
 import GoalForm from '~/components/roadmaps/goal/GoalForm'
 import Opener from '~/components/parts/Opener'
+import UpdateStepFormModal from '~/components/modals/UpdateStepFormModal'
 
 type RoadmapForm = {
   title: RoadmapInfo['title']
@@ -48,6 +55,18 @@ const createRoadmapsPageNew = () => {
   const [libs, setLibs] = useState<LibraryInfo[]>([])
   const [steps, setSteps] = useState<StepWithLib[]>([] as StepWithLib[])
   const [isStepFormOpen, setIsStepFormOpen] = useState<boolean>(false)
+  const [isUpdateStepFormOpen, setIsUpdateStepFormOpen] = useState<boolean>(
+    false
+  )
+  const [recLibs, setRecLibs] = useState<RecommendedLibraryInfo[]>([])
+  const [updateStepLibTitleOptions, setUpdateStepLibTitleOptions] = useState<
+    SelectOption[]
+  >([])
+  const [updateStepLibs, setUpdateStepLibs] = useState<LibraryInfo[]>([])
+
+  const [updateStepIndex, setUpdateStepIndex] = useState<number | undefined>(
+    undefined
+  )
 
   const {
     register,
@@ -120,33 +139,87 @@ const createRoadmapsPageNew = () => {
       setLibTitleOptions([])
     }
   }
+  const handleUpdateStepLibInputChange = (keyword: string) => {
+    if (keyword.length === 1) {
+      searchLibraries(keyword).then((libraries) => {
+        const newLibraryOptions = makeLibTitleOptions(libraries)
+        setUpdateStepLibTitleOptions(newLibraryOptions)
+        setUpdateStepLibs(libraries)
+      })
+    }
+    if (keyword.length === 0) {
+      setUpdateStepLibTitleOptions([])
+    }
+  }
+
+  const getCurrentRecLibs = async () => {
+    let ids = steps.slice(-3).map((step) => step.libraryId)
+    while (ids.length < 3) {
+      ids = [0, ...ids]
+    }
+    const result = await getRecommendedLibraries(
+      ids as [number, number, number]
+    )
+    setRecLibs(result)
+  }
+
+  const openUpdateStepModal = (index: number) => {
+    setUpdateStepIndex(index)
+    setIsUpdateStepFormOpen(true)
+  }
+  const updateStep = (index: number, step: StepWithLib) => {
+    const newSteps = [...steps]
+    newSteps[index] = { ...step }
+    setSteps(newSteps)
+  }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className=" text-$primary text-$t4">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col items-center text-$primary text-$t4"
+    >
       {/* basic info section */}
-      <BasicInfo
-        register={register}
-        tagOptions={tagOptions}
-        control={control}
-        onTagInputChange={handleTagInputChange}
-      />
+      <div className="max-w-screen-lg w-full">
+        <BasicInfo
+          register={register}
+          tagOptions={tagOptions}
+          control={control}
+          onTagInputChange={handleTagInputChange}
+        />
+      </div>
       {/* create step section */}
       <div className="bg-$tint py-16 w-full flex items-center flex-col">
+        {updateStepIndex !== undefined && (
+          <UpdateStepFormModal
+            isOpen={isUpdateStepFormOpen}
+            setIsOpen={setIsUpdateStepFormOpen}
+            libs={updateStepLibs}
+            handleLibInputChange={handleUpdateStepLibInputChange}
+            onSearchLibraries={searchLibraries}
+            onCreateLibrary={createLibrary}
+            libTitleOptions={updateStepLibTitleOptions}
+            steps={steps}
+            stepIndex={updateStepIndex}
+            updateStep={updateStep}
+          />
+        )}
         <BarTop />
         {steps.map((step, index) => (
-          <div key={index} className="w-full max-w-3xl">
+          <div key={index} className="w-full max-w-screen-lg">
             <StepCard
               href={step.library.link || ''}
               src={step.library.img || ''}
               memo={step.memo || ''}
               title={step.library.title}
-              canDelete
+              isOwner
               onDeleteClick={() => deleteStep(index)}
+              onEditClick={() => openUpdateStepModal(index)}
             />
             <BarMiddle />
           </div>
         ))}
         <Opener
+          className="shadow-$rich"
           onClick={toggleShowForm}
           isOpen={isStepFormOpen}
           text={
@@ -156,19 +229,28 @@ const createRoadmapsPageNew = () => {
           }
         >
           <StepForm
+            steps={steps}
             libs={libs}
             handleLibInputChange={handleLibInputChange}
             libTitleOptions={libTitleOptions}
-            addStep={addStep}
+            onSubmitStep={addStep}
+            recLibs={recLibs}
+            onGetCurrentRecLibs={getCurrentRecLibs}
+            onCreateLibrary={createLibrary}
+            onSearchLibraries={searchLibraries}
           />
         </Opener>
         <BarBottom />
       </div>
       {/* goal section */}
-      <GoalForm
-        register={(register as unknown) as UseFormRegister<FieldValues>}
-      />
-      <ButtonSmall text="送信" type="submit" />
+      <div className="flex flex-col items-center w-full bg-$tint pb-8">
+        <div className="max-w-screen-lg">
+          <GoalForm
+            register={(register as unknown) as UseFormRegister<FieldValues>}
+          />
+        </div>
+      </div>
+      <ButtonSmall className="w-$max-content my-16" text="保存" type="submit" />
     </form>
   )
 }
@@ -186,7 +268,7 @@ const BasicInfo = ({
   onTagInputChange
 }: BasicInfoProps) => {
   return (
-    <div className="max-w-3xl mx-auto my-16">
+    <div className="w-full mx-auto my-16">
       <RHFInput
         className="py-2 text-$t1 text-center w-full mb-6"
         name="title"

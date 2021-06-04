@@ -29,6 +29,6 @@ export const getSystemColorFromPercentage = (percentage: number): string => {
 }
 
 export const shortenText = (text: string, count: number) =>
-  `${text.slice(0, count)} ...`
+  text.length > count ? `${text.slice(0, count)} ...` : text
 
 export const comingSoon = () => alert('coming soon ...')

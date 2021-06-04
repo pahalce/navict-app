@@ -7,18 +7,12 @@ import {
   useForm,
   UseFormRegister
 } from 'react-hook-form'
+import { Library } from '$prisma/client'
 import ButtonSmall from '~/components/button/ButtonSmall'
 import RHFInput from '~/components/parts/RHFInput'
-import {
-  LibraryCreateBody,
-  LibraryInfo,
-  RecommendedLibraryInfo,
-  StepCreateBody
-} from '~/server/types'
-import { Library } from '$prisma/client'
+import { LibraryCreateBody, LibraryInfo, StepCreateBody } from '~/server/types'
 import SelectInput, { SelectOption } from '~/components/parts/SelectInput'
 import { StepWithLib } from '~/pages/roadmaps/create'
-import RecommendedLibrarySection from './RecommendedLibrarySection'
 import RHFTextarea from '~/components/parts/RHFTextarea'
 
 export type LibraryForm = {
@@ -27,8 +21,8 @@ export type LibraryForm = {
   memo?: StepCreateBody['memo']
 }
 
-type StepFormProps = {
-  steps: StepWithLib[]
+type UpdateStepFormProps = {
+  step: StepWithLib
   libTitleOptions: SelectOption[]
   libs: LibraryInfo[]
   handleLibInputChange: (keyword: string) => void
@@ -38,21 +32,19 @@ type StepFormProps = {
     link?: string | null | undefined
   ) => Promise<Library>
   onSubmitStep: (step: StepWithLib) => void
-  recLibs?: RecommendedLibraryInfo[]
-  onGetCurrentRecLibs: () => void | Promise<void>
+  onClickCloseButton: () => void
 }
 
-const StepForm = ({
-  steps,
+const UpdateStepForm = ({
+  step,
   libTitleOptions,
   libs,
   handleLibInputChange,
-  onCreateLibrary,
   onSearchLibraries,
+  onCreateLibrary,
   onSubmitStep,
-  recLibs,
-  onGetCurrentRecLibs
-}: StepFormProps) => {
+  onClickCloseButton
+}: UpdateStepFormProps) => {
   const {
     register,
     handleSubmit,
@@ -62,37 +54,38 @@ const StepForm = ({
   } = useForm<LibraryForm>()
 
   useEffect(() => {
-    onGetCurrentRecLibs()
-  }, [steps])
+    setValue('link', step.library.link)
+    setValue('titleSelect', {
+      index: step.libraryId,
+      label: step.library.title,
+      value: step.library.title
+    })
+    setValue('memo', step.memo)
+  }, [])
 
   const onSubmit: SubmitHandler<LibraryForm> = async (data) => {
-    let createLib = true
-    let library
+    let library: Library | undefined = step.library
+    let createLib = false
+
     try {
-      // user selected library
-      if (data.titleSelect.index) {
+      // user changed library
+      if (data.titleSelect.index !== step.libraryId) {
         library = libs.find((lib) => lib.id === data.titleSelect.index)
-        // user selected from recommended library
-        if (recLibs && !library) {
-          library = recLibs.find((lib) => lib.id === data.titleSelect.index)
-        }
-        // set createdLib to true if user changed link
-        createLib = library?.link !== data.link
       }
+      createLib = library?.link !== data.link
       if (createLib) {
         library = await onCreateLibrary(data.titleSelect.value, data.link)
       }
       if (!library) throw Error('failed to get library')
       const libraryId = library.id
-
-      const step: StepWithLib = {
+      const newStep: StepWithLib = {
         libraryId,
         library: library,
         memo: data.memo || null,
         nextStepId: null,
         isDone: false
       }
-      onSubmitStep(step)
+      onSubmitStep(newStep)
     } catch (err) {
       // unique constraint error of prisma (title + link must be unique)
       if (err.response.data.code === 'P2002') {
@@ -124,11 +117,8 @@ const StepForm = ({
 
   return (
     <div className="mt-10 w-full">
-      {recLibs && (
-        <RecommendedLibrarySection recLibs={recLibs} setValue={setValue} />
-      )}
-      <p className="text-$t3 text-left pl-4 mb-4 text-$shade1">教材</p>
-      <div className="w-full flex mb-4 text-$t4">
+      <div className="flex flex-col w-full mb-4">
+        <p className="text-$t4 text-$shade1">教材</p>
         <Controller
           name="titleSelect"
           control={control}
@@ -149,28 +139,38 @@ const StepForm = ({
         />
       </div>
       <RHFInput
-        className="py-2 pl-4 w-full mb-6 bg-$shade3 text-$t4"
+        className="p-2 text-left w-full mb-6 bg-$shade3"
         register={(register as unknown) as UseFormRegister<FieldValues>}
         name="link"
         placeholder="https://navict-app.vercel.app/"
       />
-      <p className="text-$t3 text-left pl-4 mb-4 text-$shade1">メモ</p>
+      <p className="text-$t4 text-$shade1">メモ</p>
 
       <RHFTextarea
-        className="p-4 w-full mb-6 bg-$shade3 text-$t4"
+        className="p-4 w-full mb-6 bg-$shade3"
         register={(register as unknown) as UseFormRegister<FieldValues>}
         name="memo"
         placeholder="メモを追加しよう"
         rows={8}
         cols={20}
       />
-      {errors.titleSelect ? (
-        <ButtonSmall disabled={true} text="本やサイトの名前を追加して下さい" />
-      ) : (
-        <ButtonSmall onClick={handleSubmit(onSubmit)} text="追加" />
-      )}
+      <div className="flex justify-evenly">
+        {errors.titleSelect ? (
+          <ButtonSmall
+            disabled={true}
+            text="本やサイトの名前を追加して下さい"
+          />
+        ) : (
+          <ButtonSmall onClick={handleSubmit(onSubmit)} text="編集" />
+        )}
+        <ButtonSmall
+          text="閉じる"
+          className="bg-$accent2"
+          onClick={onClickCloseButton}
+        />
+      </div>
     </div>
   )
 }
 
-export default StepForm
+export default UpdateStepForm

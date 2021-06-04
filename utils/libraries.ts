@@ -1,4 +1,4 @@
-import { LibraryInfo } from '~/server/types'
+import { LibraryInfo, RecommendedLibraryGetBody } from '~/server/types'
 import { apiClient } from './apiClient'
 
 export const createLibrary = (
@@ -13,7 +13,6 @@ export const createLibrary = (
   })
 
 export const searchLibraries = (keyword: string) => {
-  console.log(encodeURIComponent(keyword))
   return apiClient.libraries.searchByTitle
     ._title(encodeURIComponent(keyword))
     .$get()
@@ -26,3 +25,6 @@ export const makeLibTitleOptions = (libraries: LibraryInfo[]) => {
     label: library.title
   }))
 }
+
+export const getRecommendedLibraries = (body: RecommendedLibraryGetBody) =>
+  apiClient.libraries.recommended.$post({ body })
