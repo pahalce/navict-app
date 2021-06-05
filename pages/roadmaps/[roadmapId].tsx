@@ -18,6 +18,7 @@ import { comingSoon, formatDate } from '~/utils/utility'
 import StepCard from '~/components/list/StepCard'
 import AchieveModal from '~/components/modals/AchieveModal'
 import { useState } from 'react'
+import { pushSigninWithPrevUrl } from '~/utils/auth'
 
 type HeaderProps = {
   roadmap: RoadmapInfo
@@ -167,10 +168,26 @@ const Goal = ({ text }: GoalProps) => {
 
 type ForkBtnProps = {
   isMine: boolean
+  isLoggedIn: boolean
   onDoneClick: () => void
   onForkClick: () => void
 }
-const ForkBtn = ({ isMine, onDoneClick, onForkClick }: ForkBtnProps) => {
+const ForkBtn = ({
+  isMine,
+  isLoggedIn,
+  onDoneClick,
+  onForkClick
+}: ForkBtnProps) => {
+  const router = useRouter()
+
+  const handleForkClick = () => {
+    if (isLoggedIn) {
+      onForkClick()
+    } else {
+      pushSigninWithPrevUrl(router)
+    }
+  }
+
   let btn
   if (isMine) {
     btn = (
@@ -185,7 +202,7 @@ const ForkBtn = ({ isMine, onDoneClick, onForkClick }: ForkBtnProps) => {
       <Button
         bgColor={`$accent1`}
         text={`このロードマップを始める！`}
-        onClick={onForkClick}
+        onClick={handleForkClick}
       />
     )
   }
@@ -252,6 +269,7 @@ const RoadmapPage = () => {
       <div className={`py-24`}>
         <ForkBtn
           isMine={isMine}
+          isLoggedIn={!!auth?.user}
           onDoneClick={handleDoneClick}
           onForkClick={handleForkClick}
         />
