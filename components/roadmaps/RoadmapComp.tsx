@@ -13,7 +13,7 @@ import type {
   RecommendedLibraryInfo,
   RoadmapUpdateBody
 } from '$/types/index'
-import { Step } from '$prisma/client'
+import { Step, Library, Roadmap } from '$prisma/client'
 import {
   Control,
   Controller,
@@ -39,7 +39,6 @@ import {
   makeLibTitleOptions,
   searchLibraries
 } from '~/utils/libraries'
-import { createRoadmap, updateRoadmap } from '~/utils/roadmaps'
 import GoalForm from '~/components/roadmaps/goal/GoalForm'
 import Opener from '~/components/parts/Opener'
 import UpdateStepFormModal from '../modals/UpdateStepFormModal'
@@ -60,9 +59,23 @@ type RoadmapForm = {
 
 type RoadmapProps = {
   defaultRoadmap?: RoadmapInfo
+  onCreateLibrary: (
+    title: string,
+    link?: string | null | undefined
+  ) => Promise<Library>
+  onCreateRoadmap: (data: RoadmapCreateBody) => Promise<Roadmap>
+  onUpdateRoadmap: (
+    id: Roadmap['id'],
+    data: RoadmapUpdateBody
+  ) => Promise<Roadmap>
 }
 
-const Roadmap = ({ defaultRoadmap }: RoadmapProps) => {
+const RoadmapComp = ({
+  defaultRoadmap,
+  onCreateLibrary,
+  onCreateRoadmap,
+  onUpdateRoadmap
+}: RoadmapProps) => {
   const auth = useAuth()
   if (!auth || !auth.token) return <div>not logged in</div>
   const router = useRouter()
@@ -120,13 +133,14 @@ const Roadmap = ({ defaultRoadmap }: RoadmapProps) => {
         userId: auth.user?.id,
         goal: data.goal || null
       }
-      const result = await createRoadmap(auth.token || '', createBody)
+      const result = await onCreateRoadmap(createBody)
       router.push(`edit/${result.id}`)
     } else {
       // edit
       const changedTitle = defaultRoadmap.title !== data.title
       const changedDescription = defaultRoadmap.description !== data.description
       const changedGoal = defaultRoadmap.goal !== data.goal
+      console.log('tag:', createReqTags(data.tagSelect as SelectOption[]))
       const updateBody: RoadmapUpdateBody = {
         userId: auth.user?.id,
         title: changedTitle ? data.title : undefined,
@@ -135,9 +149,7 @@ const Roadmap = ({ defaultRoadmap }: RoadmapProps) => {
         steps: createReqSteps(),
         goal: changedGoal ? data.goal : undefined
       }
-      console.log(
-        await updateRoadmap(auth.token || '', defaultRoadmap.id, updateBody)
-      )
+      console.log(await onUpdateRoadmap(defaultRoadmap.id, updateBody))
     }
   }
 
@@ -250,13 +262,12 @@ const Roadmap = ({ defaultRoadmap }: RoadmapProps) => {
       <div className="bg-$tint py-16 w-full flex items-center flex-col">
         {updateStepIndex !== undefined && (
           <UpdateStepFormModal
-            token={auth.token}
             isOpen={isUpdateStepFormOpen}
             setIsOpen={setIsUpdateStepFormOpen}
             libs={updateStepLibs}
             handleLibInputChange={handleUpdateStepLibInputChange}
             onSearchLibraries={searchLibraries}
-            onCreateLibrary={createLibrary}
+            onCreateLibrary={onCreateLibrary}
             libTitleOptions={updateStepLibTitleOptions}
             steps={steps}
             stepIndex={updateStepIndex}
@@ -289,7 +300,6 @@ const Roadmap = ({ defaultRoadmap }: RoadmapProps) => {
           }
         >
           <StepForm
-            token={auth.token}
             steps={steps}
             libs={libs}
             handleLibInputChange={handleLibInputChange}
@@ -297,7 +307,9 @@ const Roadmap = ({ defaultRoadmap }: RoadmapProps) => {
             onSubmitStep={addStep}
             recLibs={recLibs}
             onGetCurrentRecLibs={getCurrentRecLibs}
-            onCreateLibrary={createLibrary}
+            onCreateLibrary={(title, link) =>
+              createLibrary(auth.token || '', title, link)
+            }
             onSearchLibraries={searchLibraries}
           />
         </Opener>
@@ -367,4 +379,4 @@ const BasicInfo = ({
   )
 }
 
-export default Roadmap
+export default RoadmapComp

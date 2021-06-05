@@ -7,7 +7,6 @@ import UpdateStepForm from '../roadmaps/step/UpdateStepForm'
 import { StepWithLib } from '../roadmaps/Roadmap'
 
 type Props = {
-  token: string
   isOpen: boolean
   setIsOpen: React.Dispatch<SetStateAction<boolean>>
   libTitleOptions: SelectOption[]
@@ -15,7 +14,6 @@ type Props = {
   handleLibInputChange: (keyword: string) => void
   onSearchLibraries: (keyword: string) => Promise<Library[]>
   onCreateLibrary: (
-    token: string,
     title: string,
     link?: string | null | undefined
   ) => Promise<Library>
@@ -25,7 +23,6 @@ type Props = {
 }
 
 const UpdateStepFormModal = ({
-  token,
   isOpen,
   setIsOpen,
   handleLibInputChange,
@@ -52,7 +49,6 @@ const UpdateStepFormModal = ({
         ステップを編集
       </Dialog.Title>
       <UpdateStepForm
-        token={token}
         handleLibInputChange={handleLibInputChange}
         onSearchLibraries={onSearchLibraries}
         onCreateLibrary={onCreateLibrary}
