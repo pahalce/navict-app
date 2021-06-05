@@ -36,6 +36,9 @@ import { createRoadmap } from '~/utils/roadmaps'
 import GoalForm from '~/components/roadmaps/goal/GoalForm'
 import Opener from '~/components/parts/Opener'
 import UpdateStepFormModal from '~/components/modals/UpdateStepFormModal'
+import { useAuth } from '~/contexts/AuthContext'
+import { useRouter } from 'next/router'
+import { pushSigninWithPrevUrl } from '~/utils/auth'
 
 type RoadmapForm = {
   title: RoadmapInfo['title']
@@ -267,6 +270,13 @@ const BasicInfo = ({
   tagOptions,
   onTagInputChange
 }: BasicInfoProps) => {
+  const auth = useAuth()
+  const router = useRouter()
+
+  if (!auth?.user) {
+    pushSigninWithPrevUrl(router)
+  }
+
   return (
     <div className="w-full mx-auto my-16">
       <RHFInput
