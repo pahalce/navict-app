@@ -76,7 +76,7 @@ const Nav = () => {
             type="text"
             name="keyword"
             placeholder="ロードマップを検索"
-            className="py-1 pl-12 border-2 border-$grey border-opacity-5 rounded-md text-$t4 text-$shade1"
+            className="py-1 pl-12 border-2 border-$shade1 border-opacity-5 rounded-md text-$t4 text-$primary placeholder-$shade1"
           />
         </form>
       </div>

@@ -1,7 +1,8 @@
 import { LibraryInfo, RecommendedLibraryGetBody } from '~/server/types'
-import { apiClient } from './apiClient'
+import { apiClient, headersAuthz } from './apiClient'
 
 export const createLibrary = (
+  token: string,
   title: LibraryInfo['title'],
   link?: LibraryInfo['link']
 ) =>
@@ -9,7 +10,8 @@ export const createLibrary = (
     body: {
       title,
       link: link || null
-    }
+    },
+    config: { ...headersAuthz(token) }
   })
 
 export const searchLibraries = (keyword: string) => {

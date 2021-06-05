@@ -1,12 +1,19 @@
-import React, { useState } from 'react'
+/*
+TODO:
+ロードマップのcreateとupdateによって処理を分岐してるのがみづらいので、
+コンポーネント分割方法見直す。
+mount時のuseEffectとhandleSubmitで処理の分岐あり
+*/
+import React, { useEffect, useState } from 'react'
 import type {
   RoadmapInfo,
   LibraryInfo,
   TagInfo,
   RoadmapCreateBody,
-  RecommendedLibraryInfo
+  RecommendedLibraryInfo,
+  RoadmapUpdateBody
 } from '$/types/index'
-import { Step } from '$prisma/client'
+import { Step, Library, Roadmap, Tag } from '$prisma/client'
 import {
   Control,
   Controller,
@@ -32,10 +39,16 @@ import {
   makeLibTitleOptions,
   searchLibraries
 } from '~/utils/libraries'
-import { createRoadmap } from '~/utils/roadmaps'
 import GoalForm from '~/components/roadmaps/goal/GoalForm'
 import Opener from '~/components/parts/Opener'
-import UpdateStepFormModal from '~/components/modals/UpdateStepFormModal'
+import UpdateStepFormModal from '../modals/UpdateStepFormModal'
+import { useAuth } from '~/contexts/AuthContext'
+import { useRouter } from 'next/router'
+
+export type StepWithLib = Pick<
+  Step,
+  'memo' | 'nextStepId' | 'isDone' | 'libraryId'
+> & { library: LibraryInfo }
 
 type RoadmapForm = {
   title: RoadmapInfo['title']
@@ -44,12 +57,28 @@ type RoadmapForm = {
   goal?: RoadmapInfo['goal']
 }
 
-export type StepWithLib = Pick<
-  Step,
-  'memo' | 'nextStepId' | 'isDone' | 'libraryId'
-> & { library: LibraryInfo }
+type RoadmapProps = {
+  defaultRoadmap?: RoadmapInfo
+  onCreateLibrary: (
+    title: string,
+    link?: string | null | undefined
+  ) => Promise<Library>
+  onCreateRoadmap: (data: RoadmapCreateBody) => Promise<Roadmap>
+  onUpdateRoadmap: (
+    id: Roadmap['id'],
+    data: RoadmapUpdateBody
+  ) => Promise<Roadmap>
+}
 
-const createRoadmapsPageNew = () => {
+const RoadmapForm = ({
+  defaultRoadmap,
+  onCreateLibrary,
+  onCreateRoadmap,
+  onUpdateRoadmap
+}: RoadmapProps) => {
+  const auth = useAuth()
+  if (!auth || !auth.token) return <div>not logged in</div>
+  const router = useRouter()
   const [tagOptions, setTagOptions] = useState<SelectOption[]>([])
   const [libTitleOptions, setLibTitleOptions] = useState<SelectOption[]>([])
   const [libs, setLibs] = useState<LibraryInfo[]>([])
@@ -67,33 +96,78 @@ const createRoadmapsPageNew = () => {
   const [updateStepIndex, setUpdateStepIndex] = useState<number | undefined>(
     undefined
   )
-
   const {
     register,
     handleSubmit,
-    control
+    control,
+    setValue
     // formState: { errors } TODO: errorバリデーション
   } = useForm<RoadmapForm>()
 
+  // set default values (title,tags,steps...etc)
+  useEffect(() => {
+    if (!defaultRoadmap) return
+    const defaultTagOptions = defaultRoadmap.tags.map(
+      (tag) =>
+        ({ index: tag.id, label: tag.name, value: tag.name } as SelectOption)
+    )
+    setValue('title', defaultRoadmap.title)
+    setValue('tagSelect', defaultTagOptions)
+    setValue('description', defaultRoadmap.description)
+    setSteps(defaultRoadmap.steps)
+    setValue('goal', defaultRoadmap.goal)
+  }, [])
+
   const onSubmit: SubmitHandler<RoadmapForm> = async (data) => {
-    const tags: RoadmapCreateBody['tags'] = tagOptions.map((tagOption) => ({
-      name: tagOption.label
-    }))
-    const reqSteps: RoadmapCreateBody['steps'] = steps.map((step) => ({
+    if (!auth.user) return
+    if (!defaultRoadmap) {
+      // create new roadmap
+      let reqTags = [] as Pick<Tag, 'name'>[]
+      if (data.tagSelect) {
+        reqTags = createReqTags(data.tagSelect as SelectOption[])
+      }
+      const reqSteps = createReqSteps()
+      const createBody: RoadmapCreateBody = {
+        title: data.title,
+        tags: reqTags,
+        description: data.description || null,
+        forkedRoadmapId: null,
+        steps: reqSteps,
+        userId: auth.user?.id,
+        goal: data.goal || null
+      }
+
+      const result = await onCreateRoadmap(createBody)
+      router.push(`edit/${result.id}`)
+    } else {
+      // edit
+      const changedTitle = defaultRoadmap.title !== data.title
+      const changedDescription = defaultRoadmap.description !== data.description
+      const changedGoal = defaultRoadmap.goal !== data.goal
+      const updateBody: RoadmapUpdateBody = {
+        userId: auth.user?.id,
+        title: changedTitle ? data.title : undefined,
+        tags: createReqTags(data.tagSelect as SelectOption[]),
+        description: changedDescription ? data.description : undefined,
+        steps: createReqSteps(),
+        goal: changedGoal ? data.goal : undefined
+      }
+      await onUpdateRoadmap(defaultRoadmap.id, updateBody)
+    }
+  }
+
+  const createReqTags = (tags: SelectOption[]) => {
+    return tags.map((tag) => ({
+      name: tag.label
+    })) as RoadmapCreateBody['tags']
+  }
+
+  const createReqSteps = () => {
+    return steps.map((step) => ({
       isDone: step.isDone,
       memo: step.memo,
       libraryId: step.libraryId
-    }))
-    const reqBody: RoadmapCreateBody = {
-      title: data.title,
-      tags,
-      description: data.description || null,
-      forkedRoadmapId: null,
-      steps: reqSteps,
-      userId: 1, //FIXME:ちゃんとauthContextからとってくる
-      goal: data.goal || null
-    }
-    console.log(await createRoadmap(reqBody))
+    })) as RoadmapCreateBody['steps']
   }
 
   const handleTagInputChange = (keyword: string) => {
@@ -196,7 +270,7 @@ const createRoadmapsPageNew = () => {
             libs={updateStepLibs}
             handleLibInputChange={handleUpdateStepLibInputChange}
             onSearchLibraries={searchLibraries}
-            onCreateLibrary={createLibrary}
+            onCreateLibrary={onCreateLibrary}
             libTitleOptions={updateStepLibTitleOptions}
             steps={steps}
             stepIndex={updateStepIndex}
@@ -236,7 +310,9 @@ const createRoadmapsPageNew = () => {
             onSubmitStep={addStep}
             recLibs={recLibs}
             onGetCurrentRecLibs={getCurrentRecLibs}
-            onCreateLibrary={createLibrary}
+            onCreateLibrary={(title, link) =>
+              createLibrary(auth.token || '', title, link)
+            }
             onSearchLibraries={searchLibraries}
           />
         </Opener>
@@ -306,4 +382,4 @@ const BasicInfo = ({
   )
 }
 
-export default createRoadmapsPageNew
+export default RoadmapForm

@@ -12,8 +12,8 @@ import ButtonSmall from '~/components/button/ButtonSmall'
 import RHFInput from '~/components/parts/RHFInput'
 import { LibraryCreateBody, LibraryInfo, StepCreateBody } from '~/server/types'
 import SelectInput, { SelectOption } from '~/components/parts/SelectInput'
-import { StepWithLib } from '~/pages/roadmaps/create'
 import RHFTextarea from '~/components/parts/RHFTextarea'
+import { StepWithLib } from '../RoadmapForm'
 
 export type LibraryForm = {
   titleSelect: SelectOption
@@ -161,7 +161,7 @@ const UpdateStepForm = ({
             text="本やサイトの名前を追加して下さい"
           />
         ) : (
-          <ButtonSmall onClick={handleSubmit(onSubmit)} text="編集" />
+          <ButtonSmall onClick={handleSubmit(onSubmit)} text="保存" />
         )}
         <ButtonSmall
           text="閉じる"
