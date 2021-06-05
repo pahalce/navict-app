@@ -169,6 +169,15 @@ export const updateRoadmap = async (
         create: { name: tag.name }
       })
     }
+    // tagの紐付けを一旦解除
+    await prisma.roadmap.update({
+      where: { id: roadmap.id },
+      data: {
+        tags: {
+          set: []
+        }
+      }
+    })
     // roadmapとtagを紐付け
     await prisma.roadmap.update({
       where: {
