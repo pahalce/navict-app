@@ -83,13 +83,15 @@ const Home = () => {
   return (
     <div className="bg-$tint w-full">
       <img src="/top-mv.jpg" className={` mb-16`} />
-      <div className={`mb-52`}>
+      <div className={`${auth?.user && 'mb-52'}`}>
         <AddRoadmapBtn />
       </div>
       {auth?.user && <RoadmapsInProgress userId={auth.user.id} />}
-      <div className={`mb-14`}>
-        <MypageBtn />
-      </div>
+      {auth?.user && (
+        <div className={`mb-14`}>
+          <MypageBtn />
+        </div>
+      )}
       <div className={`bg-$white py-28`}>
         <SearchRoadmap />
       </div>
