@@ -161,7 +161,7 @@ const UpdateStepForm = ({
             text="本やサイトの名前を追加して下さい"
           />
         ) : (
-          <ButtonSmall onClick={handleSubmit(onSubmit)} text="編集" />
+          <ButtonSmall onClick={handleSubmit(onSubmit)} text="保存" />
         )}
         <ButtonSmall
           text="閉じる"

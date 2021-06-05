@@ -58,6 +58,7 @@ const StepForm = ({
     handleSubmit,
     control,
     setValue,
+    reset,
     formState: { errors }
   } = useForm<LibraryForm>()
 
@@ -93,6 +94,7 @@ const StepForm = ({
         isDone: false
       }
       onSubmitStep(step)
+      reset()
     } catch (err) {
       // unique constraint error of prisma (title + link must be unique)
       if (err.response.data.code === 'P2002') {
