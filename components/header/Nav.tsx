@@ -104,7 +104,7 @@ const Nav = () => {
           {!!auth?.user?.img && <UserIconMenu />}
           <button className="flex items-center justify-center border-2  bg-$accent1 text-$white rounded-md ml-4 py-2 px-9 text-$t3">
             <Image src="/pencil.svg" alt="pencil icon" width="20" height="20" />
-            <Link href="/roadmaps/create">
+            <Link href="/roadmaps/new">
               <a className="ml-2">新規作成</a>
             </Link>
           </button>

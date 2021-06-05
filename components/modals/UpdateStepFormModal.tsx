@@ -4,7 +4,7 @@ import { LibraryInfo } from '~/server/types'
 import { Library } from '$prisma/client'
 import { SelectOption } from '../parts/SelectInput'
 import UpdateStepForm from '../roadmaps/step/UpdateStepForm'
-import { StepWithLib } from '../roadmaps/RoadmapComp'
+import { StepWithLib } from '../roadmaps/RoadmapForm'
 
 type Props = {
   isOpen: boolean

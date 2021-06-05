@@ -1,7 +1,7 @@
 import useAspidaSWR from '@aspida/swr'
 import { useRouter } from 'next/router'
 import NavictChan from '~/components/NavictChan'
-import RoadmapComp from '~/components/roadmaps/RoadmapComp'
+import RoadmapForm from '~/components/roadmaps/RoadmapForm'
 import { apiClient } from '~/utils/apiClient'
 import { Library, Roadmap } from '$prisma/client'
 import { useAuth } from '~/contexts/AuthContext'
@@ -28,7 +28,7 @@ const EditRoadmap = () => {
   if (userError) return <div>failed to load</div>
   if (!roadmap) return <NavictChan text="LOADING..." /> //<div>loading...</div>
   return (
-    <RoadmapComp
+    <RoadmapForm
       defaultRoadmap={roadmap}
       onCreateLibrary={onCreateLibrary}
       onCreateRoadmap={onCreateRoadmap}

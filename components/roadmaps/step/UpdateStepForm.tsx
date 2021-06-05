@@ -13,7 +13,7 @@ import RHFInput from '~/components/parts/RHFInput'
 import { LibraryCreateBody, LibraryInfo, StepCreateBody } from '~/server/types'
 import SelectInput, { SelectOption } from '~/components/parts/SelectInput'
 import RHFTextarea from '~/components/parts/RHFTextarea'
-import { StepWithLib } from '../RoadmapComp'
+import { StepWithLib } from '../RoadmapForm'
 
 export type LibraryForm = {
   titleSelect: SelectOption

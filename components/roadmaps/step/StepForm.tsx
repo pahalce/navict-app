@@ -19,7 +19,7 @@ import { Library } from '$prisma/client'
 import SelectInput, { SelectOption } from '~/components/parts/SelectInput'
 import RecommendedLibrarySection from './RecommendedLibrarySection'
 import RHFTextarea from '~/components/parts/RHFTextarea'
-import { StepWithLib } from '../RoadmapComp'
+import { StepWithLib } from '../RoadmapForm'
 
 export type LibraryForm = {
   titleSelect: SelectOption

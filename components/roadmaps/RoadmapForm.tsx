@@ -13,7 +13,7 @@ import type {
   RecommendedLibraryInfo,
   RoadmapUpdateBody
 } from '$/types/index'
-import { Step, Library, Roadmap } from '$prisma/client'
+import { Step, Library, Roadmap, Tag } from '$prisma/client'
 import {
   Control,
   Controller,
@@ -70,7 +70,7 @@ type RoadmapProps = {
   ) => Promise<Roadmap>
 }
 
-const RoadmapComp = ({
+const RoadmapForm = ({
   defaultRoadmap,
   onCreateLibrary,
   onCreateRoadmap,
@@ -122,7 +122,10 @@ const RoadmapComp = ({
     if (!auth.user) return
     if (!defaultRoadmap) {
       // create new roadmap
-      const reqTags = createReqTags(data.tagSelect as SelectOption[])
+      let reqTags = [] as Pick<Tag, 'name'>[]
+      if (data.tagSelect) {
+        reqTags = createReqTags(data.tagSelect as SelectOption[])
+      }
       const reqSteps = createReqSteps()
       const createBody: RoadmapCreateBody = {
         title: data.title,
@@ -133,6 +136,7 @@ const RoadmapComp = ({
         userId: auth.user?.id,
         goal: data.goal || null
       }
+
       const result = await onCreateRoadmap(createBody)
       router.push(`edit/${result.id}`)
     } else {
@@ -140,7 +144,6 @@ const RoadmapComp = ({
       const changedTitle = defaultRoadmap.title !== data.title
       const changedDescription = defaultRoadmap.description !== data.description
       const changedGoal = defaultRoadmap.goal !== data.goal
-      console.log('tag:', createReqTags(data.tagSelect as SelectOption[]))
       const updateBody: RoadmapUpdateBody = {
         userId: auth.user?.id,
         title: changedTitle ? data.title : undefined,
@@ -149,7 +152,7 @@ const RoadmapComp = ({
         steps: createReqSteps(),
         goal: changedGoal ? data.goal : undefined
       }
-      console.log(await onUpdateRoadmap(defaultRoadmap.id, updateBody))
+      await onUpdateRoadmap(defaultRoadmap.id, updateBody)
     }
   }
 
@@ -379,4 +382,4 @@ const BasicInfo = ({
   )
 }
 
-export default RoadmapComp
+export default RoadmapForm
