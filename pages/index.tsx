@@ -7,19 +7,30 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { RoadmapInfo, UserInfo } from '~/server/types'
 import SearchRoadmap from '~/components/SearchRoadmap'
+import { useRouter } from 'next/router'
+import { pushSigninWithPrevUrl } from '~/utils/auth'
 
-const AddRoadmapBtn = () => {
+type AddRoadmapBtnProps = {
+  isLoggedIn: boolean
+}
+const AddRoadmapBtn = ({ isLoggedIn }: AddRoadmapBtnProps) => {
+  const router = useRouter()
+  const handleClick = () => {
+    if (isLoggedIn) {
+      router.push('/roadmaps/new')
+    } else {
+      pushSigninWithPrevUrl(router)
+    }
+  }
   return (
-    <Link href={`/roadmaps/new`}>
-      <a>
-        <div
-          className={`bg-$accent1 flex w-96 h-20 items-center justify-center rounded-lg mx-auto`}
-        >
-          <Image src={`/pencil.svg`} width={25.79} height={25.79} />
-          <p className={`text-$t2 text-$shade3 ml-3`}>新規作成</p>
-        </div>
-      </a>
-    </Link>
+    <a onClick={handleClick} className={`cursor-pointer`}>
+      <div
+        className={`bg-$accent1 flex w-96 h-20 items-center justify-center rounded-lg mx-auto`}
+      >
+        <Image src={`/pencil.svg`} width={25.79} height={25.79} />
+        <p className={`text-$t2 text-$shade3 ml-3`}>新規作成</p>
+      </div>
+    </a>
   )
 }
 
@@ -84,7 +95,7 @@ const Home = () => {
     <div className="bg-$tint w-full">
       <img src="/top-mv.jpg" className={` mb-16`} />
       <div className={`${auth?.user && 'mb-52'}`}>
-        <AddRoadmapBtn />
+        <AddRoadmapBtn isLoggedIn={!!auth?.user} />
       </div>
       {auth?.user && <RoadmapsInProgress userId={auth.user.id} />}
       {auth?.user && (

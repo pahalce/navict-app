@@ -4,8 +4,15 @@ import { useAuth } from '~/contexts/AuthContext'
 import { useRouter } from 'next/router'
 const SigninPage = () => {
   const router = useRouter()
+  const { prevUrl } = router.query
   const auth = useAuth()
-  if (auth?.isLoggedIn) router.push('/')
+  if (auth?.isLoggedIn) {
+    if (typeof prevUrl === 'string') {
+      router.push(prevUrl)
+    } else {
+      router.push('/')
+    }
+  }
 
   return (
     <div className="flex flex-col justify-center items-center pt-16 pb-28">
