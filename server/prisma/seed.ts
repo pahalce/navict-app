@@ -8,6 +8,8 @@ const PrismaClient = require('@prisma/client').PrismaClient // eslint-disable-li
 const prisma = new PrismaClient()
 
 const deleteAllData = async () => {
+  console.log('===== deleteAllData =====')
+
   await prisma.tag.deleteMany({})
   await prisma.library.deleteMany({})
   await prisma.user.deleteMany({})
@@ -16,6 +18,8 @@ const deleteAllData = async () => {
 }
 
 const tags = async () => {
+  console.log('===== tags =====')
+
   const data = [
     { name: 'python' }, // id: 1
     { name: '入門編' }, // id: 2
@@ -40,6 +44,8 @@ const tags = async () => {
 }
 
 const libraries = async () => {
+  console.log('===== libraries =====')
+
   const data = [
     {
       // FIXME: 必要ないから消してもいいかも。
@@ -85,6 +91,8 @@ const libraries = async () => {
 }
 
 const users = async () => {
+  console.log('===== users =====')
+
   const data = [
     {
       // id: 1
@@ -136,6 +144,8 @@ const users = async () => {
 }
 
 const roadmapsWithSteps = async () => {
+  console.log('===== roadmapsWithSteps =====')
+
   const data = [
     {
       // id: 1
@@ -304,6 +314,8 @@ const roadmapsWithSteps = async () => {
 }
 
 const roadmapsTags = async () => {
+  console.log('===== roadmapsTags =====')
+
   const machinelearning = await prisma.roadmap.update({
     where: {
       id: 1
@@ -418,6 +430,8 @@ const roadmapsTags = async () => {
 }
 
 const likes = async () => {
+  console.log('===== likes =====')
+
   const data = [
     { userId: 1, roadmapId: 1 },
     { userId: 1, roadmapId: 2 },
@@ -439,6 +453,8 @@ const likes = async () => {
 }
 
 const usersForTrain = async () => {
+  console.log('===== usersForTrain =====')
+
   const data = [
     {
       // id: 5
@@ -453,6 +469,8 @@ const usersForTrain = async () => {
 }
 
 const librariesForTrain = async () => {
+  console.log('===== librariesForTrain =====')
+
   const data = [
     {
       // id: 6
@@ -1217,6 +1235,8 @@ const librariesForTrain = async () => {
 }
 
 const roadmapsForTrain = async () => {
+  console.log('===== roadmapsForTrain =====')
+
   const data = [
     {
       // id: 8
@@ -1822,10 +1842,12 @@ const roadmapsForTrain = async () => {
 
   const roadmaps = await prisma.roadmap.createMany({ data })
 
-  console.log({ roadmaps })
+  console.log(roadmaps)
 }
 
 const stepsForTrain = async () => {
+  console.log('===== stepsForTrain =====')
+
   const data = [
     {
       // id: 10
@@ -7831,31 +7853,20 @@ const stepsForTrain = async () => {
 
   const steps = await prisma.step.createMany({ data })
 
-  console.log({ steps })
+  console.log(steps)
 }
 
 async function main() {
-  console.log('===== deleteAllData =====')
   await deleteAllData()
-  console.log('===== tags =====')
   await tags()
-  console.log('===== libraries =====')
   await libraries()
-  console.log('===== users =====')
   await users()
-  console.log('===== roadmapsWithSteps =====')
   await roadmapsWithSteps()
-  console.log('===== roadmapsTags =====')
   await roadmapsTags()
-  console.log('===== likes =====')
   await likes()
-  console.log('===== usersForTrain =====')
   await usersForTrain()
-  console.log('===== librariesForTrain =====')
   await librariesForTrain()
-  console.log('===== roadmapsForTrain =====')
   await roadmapsForTrain()
-  console.log('===== stepsForTrain =====')
   await stepsForTrain()
 }
 
