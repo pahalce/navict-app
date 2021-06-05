@@ -51,9 +51,14 @@ const MypageBtn = () => {
 
 type PopularRoadmapsProps = {
   user: UserInfo | undefined
+  isLoggedIn: boolean
   onLikeClick: (roadmapId: RoadmapInfo['id']) => void
 }
-const PopularRoadmaps = ({ user, onLikeClick }: PopularRoadmapsProps) => {
+const PopularRoadmaps = ({
+  user,
+  isLoggedIn,
+  onLikeClick
+}: PopularRoadmapsProps) => {
   const { data: roadmaps, error } = useAspidaSWR(apiClient.roadmaps.popular)
   if (error) return <div>failed to load</div>
   return (
@@ -68,6 +73,7 @@ const PopularRoadmaps = ({ user, onLikeClick }: PopularRoadmapsProps) => {
             type={RoadmapCardType.LIKE}
             roadmap={roadmap}
             isLiked={!!user?.likeRoadmaps.find((r) => r.id === roadmap.id)}
+            isLoggedIn={isLoggedIn}
             onToggleLike={onLikeClick}
           />
         </div>
@@ -107,7 +113,11 @@ const Home = () => {
         <SearchRoadmap />
       </div>
       <div className={`py-16`}>
-        <PopularRoadmaps user={user} onLikeClick={handleLikeClick} />
+        <PopularRoadmaps
+          user={user}
+          isLoggedIn={!!auth?.user}
+          onLikeClick={handleLikeClick}
+        />
       </div>
     </div>
   )

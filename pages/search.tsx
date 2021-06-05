@@ -43,6 +43,7 @@ const SearchPage = () => {
                 type={RoadmapCardType.LIKE}
                 roadmap={roadmap}
                 isLiked={!!user?.likeRoadmaps.find((r) => r.id === roadmap.id)}
+                isLoggedIn={!!auth?.user}
                 onToggleLike={handleToggleLike}
               />
             </div>
