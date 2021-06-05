@@ -76,7 +76,7 @@ const Nav = () => {
             type="text"
             name="keyword"
             placeholder="ロードマップを検索"
-            className="py-1 pl-12 border-2 border-$grey border-opacity-5 rounded-md text-$t4 text-$shade1"
+            className="py-1 pl-12 border-2 border-$shade1 border-opacity-5 rounded-md text-$t4 text-$primary placeholder-$shade1"
           />
         </form>
       </div>
@@ -104,7 +104,7 @@ const Nav = () => {
           {!!auth?.user?.img && <UserIconMenu />}
           <button className="flex items-center justify-center border-2  bg-$accent1 text-$white rounded-md ml-4 py-2 px-9 text-$t3">
             <Image src="/pencil.svg" alt="pencil icon" width="20" height="20" />
-            <Link href="/roadmaps/new">
+            <Link href="/roadmaps/create">
               <a className="ml-2">新規作成</a>
             </Link>
           </button>
