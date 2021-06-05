@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import React from 'react'
-import { classNames } from 'react-select/src/utils'
 
 type Props = {
   onClick: () => void

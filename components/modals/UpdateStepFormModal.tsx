@@ -1,10 +1,10 @@
 import { Dialog } from '@headlessui/react'
 import { SetStateAction } from 'react'
-import { StepWithLib } from '~/pages/roadmaps/create'
 import { LibraryInfo } from '~/server/types'
 import { Library } from '$prisma/client'
 import { SelectOption } from '../parts/SelectInput'
 import UpdateStepForm from '../roadmaps/step/UpdateStepForm'
+import { StepWithLib } from '../roadmaps/RoadmapForm'
 
 type Props = {
   isOpen: boolean

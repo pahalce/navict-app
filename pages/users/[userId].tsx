@@ -10,6 +10,7 @@ import RoadmapCard from '~/components/list/RoadmapCard'
 import { RoadmapCardType } from '~/components/list/RoadmapCard'
 import { Roadmap } from '$prisma/client'
 import { comingSoon } from '~/utils/utility'
+import NavictChan from '~/components/NavictChan'
 
 type SnsLinkProps = {
   type: 'twitter' | 'github' | 'website'
@@ -216,7 +217,8 @@ const UserPage = ({ isInMypage = false }: { isInMypage?: boolean }) => {
       })()
     )
   )
-  if (error || !user) return <div>failed to load</div>
+  if (error) return <div>failed to load</div>
+  if (!user) return <NavictChan text={`LOADING...`} />
 
   const handleTabClick = (index: number) => {
     setIndex(index)

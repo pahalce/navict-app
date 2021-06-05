@@ -17,9 +17,9 @@ import {
 } from '~/server/types'
 import { Library } from '$prisma/client'
 import SelectInput, { SelectOption } from '~/components/parts/SelectInput'
-import { StepWithLib } from '~/pages/roadmaps/create'
 import RecommendedLibrarySection from './RecommendedLibrarySection'
 import RHFTextarea from '~/components/parts/RHFTextarea'
+import { StepWithLib } from '../RoadmapForm'
 
 export type LibraryForm = {
   titleSelect: SelectOption
@@ -58,6 +58,7 @@ const StepForm = ({
     handleSubmit,
     control,
     setValue,
+    reset,
     formState: { errors }
   } = useForm<LibraryForm>()
 
@@ -93,6 +94,7 @@ const StepForm = ({
         isDone: false
       }
       onSubmitStep(step)
+      reset({ titleSelect: ('' as unknown) as SelectOption }) //FIXME: ここどうするのが正しいのかわかんない、react-selectのplaceholderの挙動がよくわかんない
     } catch (err) {
       // unique constraint error of prisma (title + link must be unique)
       if (err.response.data.code === 'P2002') {
