@@ -10,6 +10,7 @@ import { Roadmap } from '$prisma/client'
 import RoadmapStatus from '../parts/RoadmapStatus'
 import { useRouter } from 'next/router'
 import { pushSigninWithPrevUrl } from '~/utils/auth'
+import { useAuth } from '~/contexts/AuthContext'
 
 export enum RoadmapCardType {
   DOING,
@@ -79,21 +80,20 @@ type RoadmapCardProps = {
   type: RoadmapCardType
   roadmap: RoadmapInfo
   isLiked: boolean
-  isLoggedIn: boolean
   onToggleLike: (roadmapId: Roadmap['id']) => void
 }
 const RoadmapCard = ({
   type,
   roadmap,
   isLiked: initialIsLiked,
-  isLoggedIn,
   onToggleLike
 }: RoadmapCardProps) => {
+  const auth = useAuth()
   const router = useRouter()
   const [isLiked, setIsliked] = useState<boolean>(initialIsLiked)
 
   const handleToggleLike = () => {
-    if (isLoggedIn) {
+    if (auth?.isLoggedIn) {
       setIsliked(!isLiked)
       onToggleLike(roadmap.id)
     } else {

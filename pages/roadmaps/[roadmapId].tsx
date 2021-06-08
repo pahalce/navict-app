@@ -168,20 +168,15 @@ const Goal = ({ text }: GoalProps) => {
 
 type ForkBtnProps = {
   isMine: boolean
-  isLoggedIn: boolean
   onDoneClick: () => void
   onForkClick: () => void
 }
-const ForkBtn = ({
-  isMine,
-  isLoggedIn,
-  onDoneClick,
-  onForkClick
-}: ForkBtnProps) => {
+const ForkBtn = ({ isMine, onDoneClick, onForkClick }: ForkBtnProps) => {
+  const auth = useAuth()
   const router = useRouter()
 
   const handleForkClick = () => {
-    if (isLoggedIn) {
+    if (auth?.isLoggedIn) {
       onForkClick()
     } else {
       pushSigninWithPrevUrl(router)
@@ -269,7 +264,6 @@ const RoadmapPage = () => {
       <div className={`py-24`}>
         <ForkBtn
           isMine={isMine}
-          isLoggedIn={!!auth?.user}
           onDoneClick={handleDoneClick}
           onForkClick={handleForkClick}
         />

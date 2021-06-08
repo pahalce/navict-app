@@ -143,7 +143,6 @@ type RoadmapsProps = {
   doingRoadmaps: RoadmapInfo[]
   doneRoadmaps: RoadmapInfo[]
   likeRoadmaps: RoadmapInfo[]
-  isLoggedIn: boolean
   onToggleLike: (roadmapId: Roadmap['id']) => void
 }
 const Roadmaps = ({
@@ -151,7 +150,6 @@ const Roadmaps = ({
   doingRoadmaps,
   doneRoadmaps,
   likeRoadmaps,
-  isLoggedIn,
   onToggleLike
 }: RoadmapsProps) => {
   const roadmaps = (index: number) => {
@@ -182,7 +180,6 @@ const Roadmaps = ({
             // FIXME: Mypageのとき1個目しかisLikedが反映されない。
             isLiked={isLiked(roadmap)}
             roadmap={roadmap}
-            isLoggedIn={isLoggedIn}
             onToggleLike={onToggleLike}
           />
         </div>
@@ -243,7 +240,6 @@ const UserPage = ({ isInMypage = false }: { isInMypage?: boolean }) => {
           doingRoadmaps={user.doingRoadmaps}
           doneRoadmaps={user.doneRoadmaps}
           likeRoadmaps={user.likeRoadmaps}
-          isLoggedIn={!!auth?.user}
           onToggleLike={handleToggleLike}
         />
       </div>

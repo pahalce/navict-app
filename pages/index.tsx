@@ -10,13 +10,11 @@ import SearchRoadmap from '~/components/SearchRoadmap'
 import { useRouter } from 'next/router'
 import { pushSigninWithPrevUrl } from '~/utils/auth'
 
-type AddRoadmapBtnProps = {
-  isLoggedIn: boolean
-}
-const AddRoadmapBtn = ({ isLoggedIn }: AddRoadmapBtnProps) => {
+const AddRoadmapBtn = () => {
+  const auth = useAuth()
   const router = useRouter()
   const handleClick = () => {
-    if (isLoggedIn) {
+    if (auth?.isLoggedIn) {
       router.push('/roadmaps/new')
     } else {
       pushSigninWithPrevUrl(router)
@@ -51,14 +49,9 @@ const MypageBtn = () => {
 
 type PopularRoadmapsProps = {
   user: UserInfo | undefined
-  isLoggedIn: boolean
   onLikeClick: (roadmapId: RoadmapInfo['id']) => void
 }
-const PopularRoadmaps = ({
-  user,
-  isLoggedIn,
-  onLikeClick
-}: PopularRoadmapsProps) => {
+const PopularRoadmaps = ({ user, onLikeClick }: PopularRoadmapsProps) => {
   const { data: roadmaps, error } = useAspidaSWR(apiClient.roadmaps.popular)
   if (error) return <div>failed to load</div>
   return (
@@ -73,7 +66,6 @@ const PopularRoadmaps = ({
             type={RoadmapCardType.LIKE}
             roadmap={roadmap}
             isLiked={!!user?.likeRoadmaps.find((r) => r.id === roadmap.id)}
-            isLoggedIn={isLoggedIn}
             onToggleLike={onLikeClick}
           />
         </div>
@@ -101,7 +93,7 @@ const Home = () => {
     <div className="bg-$tint w-full">
       <img src="/top-mv.jpg" className={` mb-16`} />
       <div className={`${auth?.user && 'mb-52'}`}>
-        <AddRoadmapBtn isLoggedIn={!!auth?.user} />
+        <AddRoadmapBtn />
       </div>
       {auth?.user && <RoadmapsInProgress userId={auth.user.id} />}
       {auth?.user && (
@@ -113,11 +105,7 @@ const Home = () => {
         <SearchRoadmap />
       </div>
       <div className={`py-16`}>
-        <PopularRoadmaps
-          user={user}
-          isLoggedIn={!!auth?.user}
-          onLikeClick={handleLikeClick}
-        />
+        <PopularRoadmaps user={user} onLikeClick={handleLikeClick} />
       </div>
     </div>
   )
