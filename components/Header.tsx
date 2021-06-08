@@ -62,6 +62,9 @@ type HeaderProps = {
   type?: HEADER_BTN_TYPES
   onSave?: () => void
 }
+const headerBtnStyles = {
+  width: 'w-44'
+}
 const Header = ({ type, onSave }: HeaderProps) => {
   const auth = useAuth()
   return (
@@ -88,36 +91,42 @@ const Header = ({ type, onSave }: HeaderProps) => {
         </form>
       </div>
 
-      {/* user is not logged in */}
       {!auth?.isLoggedIn && (
-        <button className="border-2  border-$accent1 text-$accent1 rounded-md py-2 px-12 text-$t3">
-          <Link href="/signin">
-            <a>ログイン</a>
-          </Link>
-        </button>
+        <Link href="/signin">
+          <a>
+            <ButtonSmall
+              text="ログイン"
+              className={`${headerBtnStyles.width}`}
+            />
+          </a>
+        </Link>
       )}
-      {/* user is logged in */}
+
       {auth?.isLoggedIn && (
         <div className="flex items-center">
-          {!!auth?.user?.img && <UserIconMenu />}
-          <button className="flex items-center justify-center border-2  bg-$accent1 text-$white rounded-md ml-4 py-2 px-9 text-$t3">
-            {type === HEADER_BTN_TYPES.SAVE && (
-              <ButtonSmall text="保存" onClick={onSave} />
-            )}
-            {type !== HEADER_BTN_TYPES.SAVE && (
-              <>
-                <Image
-                  src="/pencil.svg"
-                  alt="pencil icon"
-                  width="20"
-                  height="20"
+          {!!auth?.user?.img && (
+            <div className="mr-7">
+              <UserIconMenu />
+            </div>
+          )}
+          {type === HEADER_BTN_TYPES.SAVE && (
+            <ButtonSmall
+              text="保存"
+              onClick={onSave}
+              className={`${headerBtnStyles.width}`}
+            />
+          )}
+          {type !== HEADER_BTN_TYPES.SAVE && (
+            <Link href="/roadmaps/new">
+              <a>
+                <ButtonSmall
+                  text="新規作成"
+                  iconImg="/pencil.svg"
+                  className={`${headerBtnStyles.width}`}
                 />
-                <Link href="/roadmaps/new">
-                  <a className="ml-2">新規作成</a>
-                </Link>
-              </>
-            )}
-          </button>
+              </a>
+            </Link>
+          )}
         </div>
       )}
     </div>
