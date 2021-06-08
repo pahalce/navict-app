@@ -1,10 +1,10 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useAuth } from '~/contexts/AuthContext'
-import UserIcon from '../UserIcon'
+import UserIcon from './UserIcon'
 import { Menu } from '@headlessui/react'
 import { useRouter } from 'next/router'
-import ButtonSmall from '../button/ButtonSmall'
+import ButtonSmall from './button/ButtonSmall'
 
 const UserIconMenu = () => {
   const auth = useAuth()

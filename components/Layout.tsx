@@ -1,6 +1,6 @@
 import React from 'react'
 import Footer from './Footer'
-import Header, { HEADER_BTN_TYPES } from './header/Header'
+import Header, { HEADER_BTN_TYPES } from './Header'
 
 type Props = {
   children: React.ReactNode
