@@ -1,19 +1,20 @@
 import React from 'react'
-import { AuthProvider } from '~/contexts/AuthContext'
 import Footer from './Footer'
-import Nav from './header/Nav'
+import Header, { HEADER_BTN_TYPES } from './header/Header'
 
 type Props = {
   children: React.ReactNode
+  headerType?: HEADER_BTN_TYPES
+  onHeaderSaveBtnClick?: () => void
 }
 
-const Layout = ({ children }: Props) => {
+const Layout = ({ children, headerType, onHeaderSaveBtnClick }: Props) => {
   return (
-    <AuthProvider>
-      <Nav />
+    <>
+      <Header type={headerType} onSave={onHeaderSaveBtnClick} />
       <main>{children}</main>
       <Footer />
-    </AuthProvider>
+    </>
   )
 }
 

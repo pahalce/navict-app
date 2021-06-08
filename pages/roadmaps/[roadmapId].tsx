@@ -18,6 +18,7 @@ import { comingSoon, formatDate } from '~/utils/utility'
 import StepCard from '~/components/list/StepCard'
 import AchieveModal from '~/components/modals/AchieveModal'
 import { useState } from 'react'
+import Layout from '~/components/Layout'
 
 type HeaderProps = {
   roadmap: RoadmapInfo
@@ -231,33 +232,35 @@ const RoadmapPage = () => {
   }
   console.log(roadmap)
   return (
-    <div className="relative">
-      <div className={`my-16`}>
-        <Header
-          roadmap={roadmap}
-          isMine={isMine}
-          onDeleteClick={handleDeleteClick}
-        />
+    <Layout>
+      <div className="relative">
+        <div className={`my-16`}>
+          <Header
+            roadmap={roadmap}
+            isMine={isMine}
+            onDeleteClick={handleDeleteClick}
+          />
+        </div>
+        <div className={`py-16 bg-$tint`}>
+          <Steps
+            roadmap={roadmap}
+            isMine={isMine}
+            onCheckClick={handleCheckClick}
+          />
+        </div>
+        <div className={`bg-$tint`}>
+          <Goal text={roadmap.goal || ''} />
+        </div>
+        <div className={`py-24`}>
+          <ForkBtn
+            isMine={isMine}
+            onDoneClick={handleDoneClick}
+            onForkClick={handleForkClick}
+          />
+        </div>
+        <AchieveModal setIsOpen={setIsOpen} isOpen={isOpen} />
       </div>
-      <div className={`py-16 bg-$tint`}>
-        <Steps
-          roadmap={roadmap}
-          isMine={isMine}
-          onCheckClick={handleCheckClick}
-        />
-      </div>
-      <div className={`bg-$tint`}>
-        <Goal text={roadmap.goal || ''} />
-      </div>
-      <div className={`py-24`}>
-        <ForkBtn
-          isMine={isMine}
-          onDoneClick={handleDoneClick}
-          onForkClick={handleForkClick}
-        />
-      </div>
-      <AchieveModal setIsOpen={setIsOpen} isOpen={isOpen} />
-    </div>
+    </Layout>
   )
 }
 export default RoadmapPage
