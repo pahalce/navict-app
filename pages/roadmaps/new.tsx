@@ -4,6 +4,7 @@ import RoadmapForm, {
 } from '~/components/roadmaps/RoadmapForm'
 import { useAuth } from '~/contexts/AuthContext'
 import { createLibrary } from '~/utils/libraries'
+import { pushSigninWithPrevUrl } from '~/utils/auth'
 import type { Library, Tag } from '$prisma/client'
 import { RoadmapCreateBody } from '~/server/types'
 import { createReqSteps, createReqTags, createRoadmap } from '~/utils/roadmaps'
@@ -17,6 +18,11 @@ import { useRef, useState } from 'react'
 const NewRoadmapsPage = () => {
   const auth = useAuth()
   const router = useRouter()
+
+  if (!auth?.user) {
+    pushSigninWithPrevUrl(router)
+  }
+
   // for saving on nav button click
   const buttonRef = useRef<HTMLButtonElement>(null)
   const [steps, setSteps] = useState<StepWithLib[]>([] as StepWithLib[])

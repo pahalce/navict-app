@@ -8,6 +8,9 @@ import { formatDate } from 'utils/utility'
 import AnimatedCircularProgressBar from '../parts/AnimatedCircularProgressBar'
 import { Roadmap } from '$prisma/client'
 import RoadmapStatus from '../parts/RoadmapStatus'
+import { useRouter } from 'next/router'
+import { pushSigninWithPrevUrl } from '~/utils/auth'
+import { useAuth } from '~/contexts/AuthContext'
 
 export enum RoadmapCardType {
   DOING,
@@ -85,11 +88,17 @@ const RoadmapCard = ({
   isLiked: initialIsLiked,
   onToggleLike
 }: RoadmapCardProps) => {
+  const auth = useAuth()
+  const router = useRouter()
   const [isLiked, setIsliked] = useState<boolean>(initialIsLiked)
 
   const handleToggleLike = () => {
-    setIsliked(!isLiked)
-    onToggleLike(roadmap.id)
+    if (auth?.isLoggedIn) {
+      setIsliked(!isLiked)
+      onToggleLike(roadmap.id)
+    } else {
+      pushSigninWithPrevUrl(router)
+    }
   }
 
   return (

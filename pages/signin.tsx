@@ -5,8 +5,15 @@ import { useRouter } from 'next/router'
 import Layout from '~/components/Layout'
 const SigninPage = () => {
   const router = useRouter()
+  const { prevUrl } = router.query
   const auth = useAuth()
-  if (auth?.isLoggedIn) router.push('/')
+  if (auth?.isLoggedIn) {
+    if (typeof prevUrl === 'string') {
+      router.push(prevUrl)
+    } else {
+      router.push('/')
+    }
+  }
 
   return (
     <Layout>

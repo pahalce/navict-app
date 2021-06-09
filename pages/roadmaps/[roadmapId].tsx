@@ -18,6 +18,7 @@ import { comingSoon, formatDate } from '~/utils/utility'
 import StepCard from '~/components/list/StepCard'
 import AchieveModal from '~/components/modals/AchieveModal'
 import { useState } from 'react'
+import { pushSigninWithPrevUrl } from '~/utils/auth'
 import Layout from '~/components/Layout'
 
 type HeaderProps = {
@@ -172,6 +173,17 @@ type ForkBtnProps = {
   onForkClick: () => void
 }
 const ForkBtn = ({ isMine, onDoneClick, onForkClick }: ForkBtnProps) => {
+  const auth = useAuth()
+  const router = useRouter()
+
+  const handleForkClick = () => {
+    if (auth?.isLoggedIn) {
+      onForkClick()
+    } else {
+      pushSigninWithPrevUrl(router)
+    }
+  }
+
   let btn
   if (isMine) {
     btn = (
@@ -186,7 +198,7 @@ const ForkBtn = ({ isMine, onDoneClick, onForkClick }: ForkBtnProps) => {
       <Button
         bgColor={`$accent1`}
         text={`このロードマップを始める！`}
-        onClick={onForkClick}
+        onClick={handleForkClick}
       />
     )
   }
