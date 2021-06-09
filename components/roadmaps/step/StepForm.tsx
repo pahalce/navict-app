@@ -58,7 +58,6 @@ const StepForm = ({
     handleSubmit,
     control,
     setValue,
-    reset,
     formState: { errors }
   } = useForm<LibraryForm>()
 
