@@ -1,6 +1,7 @@
 import useAspidaSWR from '@aspida/swr'
 import { apiClient } from '~/utils/apiClient'
 import { useAuth } from '~/contexts/AuthContext'
+import Layout from '~/components/Layout'
 
 const TestPage = () => {
   const auth = useAuth()
@@ -10,7 +11,11 @@ const TestPage = () => {
   )
   if (userError || !user) return <div>failed to load</div>
 
-  return <div></div>
+  return (
+    <Layout>
+      <div></div>
+    </Layout>
+  )
 }
 
 export default TestPage

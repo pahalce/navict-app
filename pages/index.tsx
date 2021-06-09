@@ -9,6 +9,7 @@ import { RoadmapInfo, UserInfo } from '~/server/types'
 import SearchRoadmap from '~/components/SearchRoadmap'
 import { useRouter } from 'next/router'
 import { pushSigninWithPrevUrl } from '~/utils/auth'
+import Layout from '~/components/Layout'
 
 const AddRoadmapBtn = () => {
   const auth = useAuth()
@@ -90,24 +91,26 @@ const Home = () => {
   }
 
   return (
-    <div className="bg-$tint w-full">
-      <img src="/top-mv.jpg" className={` mb-16`} />
-      <div className={`${auth?.isLoggedIn ? 'mb-52' : ''}`}>
-        <AddRoadmapBtn />
-      </div>
-      {auth?.user && <RoadmapsInProgress userId={auth.user.id} />}
-      {auth?.isLoggedIn && (
-        <div className={`mb-14`}>
-          <MypageBtn />
+    <Layout>
+      <div className="bg-$tint w-full">
+        <img src="/top-mv.jpg" className={` mb-16`} />
+        <div className={`${auth?.isLoggedIn ? 'mb-52' : ''}`}>
+          <AddRoadmapBtn />
         </div>
-      )}
-      <div className={`bg-$white py-28`}>
-        <SearchRoadmap />
+        {auth?.user && <RoadmapsInProgress userId={auth.user.id} />}
+        {auth?.isLoggedIn && (
+          <div className={`mb-14`}>
+            <MypageBtn />
+          </div>
+        )}
+        <div className={`bg-$white py-28`}>
+          <SearchRoadmap />
+        </div>
+        <div className={`py-16`}>
+          <PopularRoadmaps user={user} onLikeClick={handleLikeClick} />
+        </div>
       </div>
-      <div className={`py-16`}>
-        <PopularRoadmaps user={user} onLikeClick={handleLikeClick} />
-      </div>
-    </div>
+    </Layout>
   )
 }
 

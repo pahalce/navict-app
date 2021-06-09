@@ -1,3 +1,4 @@
+import Layout from '~/components/Layout'
 import UserPage from './users/[userId]'
 import { useAuth } from '~/contexts/AuthContext'
 import { useRouter } from 'next/router'
@@ -11,7 +12,11 @@ const MypagePage = () => {
     pushSigninWithPrevUrl(router)
   }
 
-  return <UserPage isInMypage={true} />
+  return (
+    <Layout>
+      <UserPage isInMypage={true} />
+    </Layout>
+  )
 }
 
 export default MypagePage

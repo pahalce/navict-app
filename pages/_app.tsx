@@ -1,8 +1,8 @@
 import 'styles/globals.css'
 import type { AppProps } from 'next/app'
 import React from 'react'
-import Layout from '~/components/Layout'
 import Head from 'next/head'
+import { AuthProvider } from '~/contexts/AuthContext'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -18,9 +18,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           rel="stylesheet"
         />
       </Head>
-      <Layout>
+      <AuthProvider>
         <Component {...pageProps} />
-      </Layout>
+      </AuthProvider>
     </>
   )
 }

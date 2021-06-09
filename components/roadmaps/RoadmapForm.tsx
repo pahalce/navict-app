@@ -1,19 +1,17 @@
-/*
-TODO:
-ロードマップのcreateとupdateによって処理を分岐してるのがみづらいので、
-コンポーネント分割方法見直す。
-mount時のuseEffectとhandleSubmitで処理の分岐あり
-*/
-import React, { useEffect, useState } from 'react'
+import React, {
+  Dispatch,
+  RefObject,
+  SetStateAction,
+  useEffect,
+  useState
+} from 'react'
 import type {
   RoadmapInfo,
   LibraryInfo,
   TagInfo,
-  RoadmapCreateBody,
-  RecommendedLibraryInfo,
-  RoadmapUpdateBody
+  RecommendedLibraryInfo
 } from '$/types/index'
-import { Step, Library, Roadmap, Tag } from '$prisma/client'
+import { Step, Library } from '$prisma/client'
 import {
   Control,
   Controller,
@@ -51,7 +49,7 @@ export type StepWithLib = Pick<
   'memo' | 'nextStepId' | 'isDone' | 'libraryId'
 > & { library: LibraryInfo }
 
-type RoadmapForm = {
+export type RoadmapFormSchema = {
   title: RoadmapInfo['title']
   tagSelect?: SelectOption[]
   description?: RoadmapInfo['description']
@@ -60,30 +58,29 @@ type RoadmapForm = {
 
 type RoadmapProps = {
   defaultRoadmap?: RoadmapInfo
+  steps: StepWithLib[]
+  setSteps: Dispatch<SetStateAction<StepWithLib[]>>
   onCreateLibrary: (
     title: string,
     link?: string | null | undefined
   ) => Promise<Library>
-  onCreateRoadmap: (data: RoadmapCreateBody) => Promise<Roadmap>
-  onUpdateRoadmap: (
-    id: Roadmap['id'],
-    data: RoadmapUpdateBody
-  ) => Promise<Roadmap>
+  onSubmitForm: SubmitHandler<RoadmapFormSchema>
+  buttonRef: RefObject<HTMLButtonElement>
 }
 
 const RoadmapForm = ({
   defaultRoadmap,
+  steps,
+  setSteps,
   onCreateLibrary,
-  onCreateRoadmap,
-  onUpdateRoadmap
+  onSubmitForm,
+  buttonRef
 }: RoadmapProps) => {
   const auth = useAuth()
   if (!auth || !auth.token) return <div>not logged in</div>
-  const router = useRouter()
   const [tagOptions, setTagOptions] = useState<SelectOption[]>([])
   const [libTitleOptions, setLibTitleOptions] = useState<SelectOption[]>([])
-  const [libs, setLibs] = useState<LibraryInfo[]>([])
-  const [steps, setSteps] = useState<StepWithLib[]>([] as StepWithLib[])
+  const [libs, setLibs] = useState<LibraryInfo[]>([]) // search results
   const [isStepFormOpen, setIsStepFormOpen] = useState<boolean>(false)
   const [isUpdateStepFormOpen, setIsUpdateStepFormOpen] = useState<boolean>(
     false
@@ -103,9 +100,9 @@ const RoadmapForm = ({
     control,
     setValue
     // formState: { errors } TODO: errorバリデーション
-  } = useForm<RoadmapForm>()
+  } = useForm<RoadmapFormSchema>()
 
-  // set default values (title,tags,steps...etc)
+  // set default values (title,tags,steps...etc) if there is one
   useEffect(() => {
     if (!defaultRoadmap) return
     const defaultTagOptions = defaultRoadmap.tags.map(
@@ -118,58 +115,6 @@ const RoadmapForm = ({
     setSteps(defaultRoadmap.steps)
     setValue('goal', defaultRoadmap.goal)
   }, [])
-
-  const onSubmit: SubmitHandler<RoadmapForm> = async (data) => {
-    if (!auth.user) return
-    if (!defaultRoadmap) {
-      // create new roadmap
-      let reqTags = [] as Pick<Tag, 'name'>[]
-      if (data.tagSelect) {
-        reqTags = createReqTags(data.tagSelect as SelectOption[])
-      }
-      const reqSteps = createReqSteps()
-      const createBody: RoadmapCreateBody = {
-        title: data.title,
-        tags: reqTags,
-        description: data.description || null,
-        forkedRoadmapId: null,
-        steps: reqSteps,
-        userId: auth.user?.id,
-        goal: data.goal || null
-      }
-
-      const result = await onCreateRoadmap(createBody)
-      router.push(`edit/${result.id}`)
-    } else {
-      // edit
-      const changedTitle = defaultRoadmap.title !== data.title
-      const changedDescription = defaultRoadmap.description !== data.description
-      const changedGoal = defaultRoadmap.goal !== data.goal
-      const updateBody: RoadmapUpdateBody = {
-        userId: auth.user?.id,
-        title: changedTitle ? data.title : undefined,
-        tags: createReqTags(data.tagSelect as SelectOption[]),
-        description: changedDescription ? data.description : undefined,
-        steps: createReqSteps(),
-        goal: changedGoal ? data.goal : undefined
-      }
-      await onUpdateRoadmap(defaultRoadmap.id, updateBody)
-    }
-  }
-
-  const createReqTags = (tags: SelectOption[]) => {
-    return tags.map((tag) => ({
-      name: tag.label
-    })) as RoadmapCreateBody['tags']
-  }
-
-  const createReqSteps = () => {
-    return steps.map((step) => ({
-      isDone: step.isDone,
-      memo: step.memo,
-      libraryId: step.libraryId
-    })) as RoadmapCreateBody['steps']
-  }
 
   const handleTagInputChange = (keyword: string) => {
     if (keyword.length === 1) {
@@ -250,7 +195,7 @@ const RoadmapForm = ({
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onSubmitForm)}
       className="flex flex-col items-center text-$primary text-$t4"
     >
       {/* basic info section */}
@@ -327,14 +272,20 @@ const RoadmapForm = ({
           />
         </div>
       </div>
-      <ButtonSmall className="w-$max-content my-16" text="保存" type="submit" />
+
+      <ButtonSmall
+        text="保存"
+        buttonRef={buttonRef}
+        className="w-$max-content my-16"
+        type="submit"
+      />
     </form>
   )
 }
 
 type BasicInfoProps = {
-  register: UseFormRegister<RoadmapForm>
-  control: Control<RoadmapForm>
+  register: UseFormRegister<RoadmapFormSchema>
+  control: Control<RoadmapFormSchema>
   tagOptions: SelectOption[]
   onTagInputChange: (keyword: string) => void
 }
