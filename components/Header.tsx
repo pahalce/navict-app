@@ -11,7 +11,7 @@ const UserIconMenu = () => {
   const router = useRouter()
   const logout = async () => {
     try {
-      await auth?.logout()
+      await auth.logout()
       router.reload()
     } catch (error) {
       console.error(error.message)
@@ -21,7 +21,7 @@ const UserIconMenu = () => {
     <div className="relative">
       <Menu>
         <Menu.Button className="ml-4 cursor-pointer">
-          <UserIcon src={auth?.user?.img || ''} />
+          <UserIcon src={auth.user?.img || ''} />
         </Menu.Button>
         <Menu.Items className="flex flex-col absolute left-0 top-14 w-60 rounded-3xl bg-$white shadow-$rich py-4 px-4 text-$t4">
           <Menu.Item>
@@ -91,7 +91,7 @@ const Header = ({ type, onSave }: HeaderProps) => {
         </form>
       </div>
 
-      {!auth?.isLoggedIn && (
+      {!auth.isLoggedIn && (
         <Link href="/signin">
           <a>
             <ButtonSmall
@@ -102,9 +102,9 @@ const Header = ({ type, onSave }: HeaderProps) => {
         </Link>
       )}
 
-      {auth?.isLoggedIn && (
+      {auth.isLoggedIn && (
         <div className="flex items-center">
-          {!!auth?.user?.img && (
+          {!!auth.user?.img && (
             <div className="mr-7">
               <UserIconMenu />
             </div>

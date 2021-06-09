@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect, createContext } from 'react'
 import firebase from 'firebase/app'
 import { auth } from '$firebase/firebase'
 import { apiClient } from '~/utils/apiClient'
@@ -6,11 +6,9 @@ import type { User } from '$prisma/client'
 import NavictChan from '~/components/NavictChan'
 
 // TODO:Loginなどのメッセージをログじゃなくてちゃんと作る
-// TODO:loginを必要になったとき実装する
-// TODO: console.log全部消す
 
 export type SigninMethod = 'google' | 'twitter'
-type AuthContext = {
+type AuthContextType = {
   signup: (method: Partial<SigninMethod>) => void
   logout: () => Promise<void>
   isLoggedIn: boolean
@@ -22,16 +20,23 @@ type Props = {
   children: React.ReactNode
 }
 
-const AuthContext = React.createContext<AuthContext | null>(null)
-export const useAuth = () => {
-  return useContext(AuthContext)
+function createCtx<ContextType>() {
+  const ctx = createContext<ContextType | undefined>(undefined)
+  function useCtx() {
+    const c = useContext(ctx)
+    if (!c) throw new Error('useCtx must be inside a Provider with a value')
+    return c
+  }
+  return [useCtx, ctx.Provider] as const
 }
 
+const [useAuthCtx, SetAuthProvider] = createCtx<AuthContextType>()
+export const useAuth = useAuthCtx
+
 export const AuthProvider = ({ children }: Props) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [loading, setLoading] = useState(true)
-  const [user, setUser] = useState<AuthContext['user']>()
-  const [token, setToken] = useState<AuthContext['token']>()
+  const [user, setUser] = useState<AuthContextType['user']>()
+  const [token, setToken] = useState<AuthContextType['token']>()
 
   const signup = async (method: SigninMethod) => {
     try {
@@ -52,7 +57,6 @@ export const AuthProvider = ({ children }: Props) => {
   const logout = async () => {
     try {
       await auth.signOut()
-      setIsLoggedIn(false)
       console.log('logged out')
     } catch (error) {
       console.error(error.message)
@@ -77,7 +81,6 @@ export const AuthProvider = ({ children }: Props) => {
         const user = res.body.user
         const token = res.body.token
         setUser(user)
-        setIsLoggedIn(true)
         setToken(token)
         console.log(`hello ${user.name}`)
         setLoading(false)
@@ -88,19 +91,20 @@ export const AuthProvider = ({ children }: Props) => {
     return unsubscribe
   }, [])
 
-  const value: AuthContext = {
-    signup,
-    logout,
-    isLoggedIn,
-    user,
-    token
-  }
   return (
-    <AuthContext.Provider value={value}>
+    <SetAuthProvider
+      value={{
+        signup,
+        logout,
+        isLoggedIn: !!user,
+        user,
+        token
+      }}
+    >
       {/* FIXME: リリース前のみ表示 */}
       {/* <NavictChan text={`一般公開までもう少し待っててね!`} /> */}
       {loading && <NavictChan text={`LOADING...`} />}
       {!loading && children}
-    </AuthContext.Provider>
+    </SetAuthProvider>
   )
 }

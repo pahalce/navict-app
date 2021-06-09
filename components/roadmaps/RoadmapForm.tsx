@@ -298,7 +298,7 @@ const BasicInfo = ({
   const auth = useAuth()
   const router = useRouter()
 
-  if (!auth?.user) {
+  if (!auth.isLoggedIn) {
     pushSigninWithPrevUrl(router)
   }
 

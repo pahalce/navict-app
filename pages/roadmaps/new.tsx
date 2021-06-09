@@ -19,7 +19,7 @@ const NewRoadmapsPage = () => {
   const auth = useAuth()
   const router = useRouter()
 
-  if (!auth?.user) {
+  if (!auth.isLoggedIn) {
     pushSigninWithPrevUrl(router)
   }
 
@@ -27,16 +27,16 @@ const NewRoadmapsPage = () => {
   const buttonRef = useRef<HTMLButtonElement>(null)
   const [steps, setSteps] = useState<StepWithLib[]>([] as StepWithLib[])
   const onCreateLibrary = (title: Library['title'], link?: Library['link']) =>
-    createLibrary(auth?.token || '', title, link)
+    createLibrary(auth.token || '', title, link)
   const onCreateRoadmap = (data: RoadmapCreateBody) =>
-    createRoadmap(auth?.token || '', data)
+    createRoadmap(auth.token || '', data)
 
   const fireSubmit = () => {
     buttonRef?.current?.click()
   }
   const onSubmit: SubmitHandler<RoadmapFormSchema> = async (data) => {
     try {
-      if (!auth?.user) return
+      if (!auth.user) return
       // create new roadmap
       let reqTags = [] as Pick<Tag, 'name'>[]
       if (data.tagSelect) {

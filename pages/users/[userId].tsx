@@ -196,7 +196,7 @@ const UserPage = ({ isInMypage = false }: { isInMypage?: boolean }) => {
   const [index, setIndex] = useState<number>(0)
 
   const auth = useAuth()
-  if (typeof userId === 'string' && +userId === auth?.user?.id) {
+  if (typeof userId === 'string' && +userId === auth.user?.id) {
     router.push('/mypage')
   }
 
@@ -204,7 +204,7 @@ const UserPage = ({ isInMypage = false }: { isInMypage?: boolean }) => {
     apiClient.users._userId(
       (() => {
         // FIXME: 読めないよこんなの。
-        if (isInMypage && auth?.user?.id) {
+        if (isInMypage && auth.user?.id) {
           return auth.user.id
         } else if (typeof userId === 'string') {
           return +userId
@@ -222,8 +222,8 @@ const UserPage = ({ isInMypage = false }: { isInMypage?: boolean }) => {
   }
 
   const handleToggleLike = (roadmapId: Roadmap['id']) => {
-    if (!auth?.isLoggedIn) return
-    apiClient.likes.post({ body: { userId: auth?.user?.id || 0, roadmapId } })
+    if (!auth.isLoggedIn) return
+    apiClient.likes.post({ body: { userId: auth.user?.id || 0, roadmapId } })
   }
 
   return (

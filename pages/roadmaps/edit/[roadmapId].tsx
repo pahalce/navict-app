@@ -32,9 +32,9 @@ const EditRoadmap = () => {
   const buttonRef = useRef<HTMLButtonElement>(null)
   const [steps, setSteps] = useState<StepWithLib[]>([] as StepWithLib[])
   const onCreateLibrary = (title: Library['title'], link?: Library['link']) =>
-    createLibrary(auth?.token || '', title, link)
+    createLibrary(auth.token || '', title, link)
   const onUpdateRoadmap = (id: Roadmap['id'], data: RoadmapUpdateBody) =>
-    updateRoadmap(auth?.token || '', id, data)
+    updateRoadmap(auth.token || '', id, data)
 
   if (userError) return <div>failed to load</div>
   if (!roadmap) return <NavictChan text="LOADING..." />
@@ -45,7 +45,7 @@ const EditRoadmap = () => {
   // on submit roadmap form
   const onSubmit: SubmitHandler<RoadmapFormSchema> = async (data) => {
     try {
-      if (!auth?.user) return
+      if (!auth.isLoggedIn) return
       const changedTitle = roadmap.title !== data.title
       const changedDescription = roadmap.description !== data.description
       const changedGoal = roadmap.goal !== data.goal
