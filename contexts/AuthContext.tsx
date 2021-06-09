@@ -6,8 +6,6 @@ import type { User } from '$prisma/client'
 import NavictChan from '~/components/NavictChan'
 
 // TODO:Loginなどのメッセージをログじゃなくてちゃんと作る
-// TODO:loginを必要になったとき実装する
-// TODO: console.log全部消す
 
 export type SigninMethod = 'google' | 'twitter'
 type AuthContext = {
@@ -28,7 +26,6 @@ export const useAuth = () => {
 }
 
 export const AuthProvider = ({ children }: Props) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [loading, setLoading] = useState(true)
   const [user, setUser] = useState<AuthContext['user']>()
   const [token, setToken] = useState<AuthContext['token']>()
@@ -52,7 +49,6 @@ export const AuthProvider = ({ children }: Props) => {
   const logout = async () => {
     try {
       await auth.signOut()
-      setIsLoggedIn(false)
       console.log('logged out')
     } catch (error) {
       console.error(error.message)
@@ -77,7 +73,6 @@ export const AuthProvider = ({ children }: Props) => {
         const user = res.body.user
         const token = res.body.token
         setUser(user)
-        setIsLoggedIn(true)
         setToken(token)
         console.log(`hello ${user.name}`)
         setLoading(false)
@@ -91,7 +86,7 @@ export const AuthProvider = ({ children }: Props) => {
   const value: AuthContext = {
     signup,
     logout,
-    isLoggedIn,
+    isLoggedIn: !!user,
     user,
     token
   }

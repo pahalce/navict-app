@@ -19,7 +19,7 @@ const NewRoadmapsPage = () => {
   const auth = useAuth()
   const router = useRouter()
 
-  if (!auth?.user) {
+  if (!auth?.isLoggedIn) {
     pushSigninWithPrevUrl(router)
   }
 
@@ -36,7 +36,7 @@ const NewRoadmapsPage = () => {
   }
   const onSubmit: SubmitHandler<RoadmapFormSchema> = async (data) => {
     try {
-      if (!auth?.user) return
+      if (!auth?.isLoggedIn) return
       // create new roadmap
       let reqTags = [] as Pick<Tag, 'name'>[]
       if (data.tagSelect) {

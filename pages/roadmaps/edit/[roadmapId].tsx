@@ -45,7 +45,7 @@ const EditRoadmap = () => {
   // on submit roadmap form
   const onSubmit: SubmitHandler<RoadmapFormSchema> = async (data) => {
     try {
-      if (!auth?.user) return
+      if (!auth?.isLoggedIn) return
       const changedTitle = roadmap.title !== data.title
       const changedDescription = roadmap.description !== data.description
       const changedGoal = roadmap.goal !== data.goal
