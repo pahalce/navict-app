@@ -97,7 +97,9 @@ const Home = () => {
         <div className={`${auth?.isLoggedIn ? 'mb-52' : ''}`}>
           <AddRoadmapBtn />
         </div>
-        {auth?.user && <RoadmapsInProgress userId={auth.user.id} />}
+        {auth?.isLoggedIn && auth?.user && (
+          <RoadmapsInProgress userId={auth.user.id} />
+        )}
         {auth?.isLoggedIn && (
           <div className={`mb-14`}>
             <MypageBtn />
