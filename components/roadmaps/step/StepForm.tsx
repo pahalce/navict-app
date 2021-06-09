@@ -94,7 +94,9 @@ const StepForm = ({
         isDone: false
       }
       onSubmitStep(step)
-      reset({ titleSelect: ('' as unknown) as SelectOption }) //FIXME: ここどうするのが正しいのかわかんない、react-selectのplaceholderの挙動がよくわかんない
+      setValue('titleSelect', ('' as unknown) as SelectOption) // ここreact selectの挙動がよくわかんないけどこれで動く
+      setValue('link', '')
+      setValue('memo', '')
     } catch (err) {
       // unique constraint error of prisma (title + link must be unique)
       if (err.response.data.code === 'P2002') {
