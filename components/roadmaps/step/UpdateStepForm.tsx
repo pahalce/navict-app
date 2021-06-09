@@ -116,8 +116,8 @@ const UpdateStepForm = ({
   }
 
   return (
-    <div className="mt-10 w-full">
-      <div className="flex flex-col w-full mb-4">
+    <div className="w-full">
+      <div className="flex flex-col w-full">
         <p className="text-$t4 text-$shade1">教材</p>
         <Controller
           name="titleSelect"

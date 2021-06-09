@@ -7,6 +7,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { RoadmapInfo, UserInfo } from '~/server/types'
 import SearchRoadmap from '~/components/SearchRoadmap'
+import Layout from '~/components/Layout'
 
 const AddRoadmapBtn = () => {
   return (
@@ -81,22 +82,24 @@ const Home = () => {
   }
 
   return (
-    <div className="bg-$tint w-full">
-      <img src="/top-mv.jpg" className={` mb-16`} />
-      <div className={`mb-52`}>
-        <AddRoadmapBtn />
+    <Layout>
+      <div className="bg-$tint w-full">
+        <img src="/top-mv.jpg" className={` mb-16`} />
+        <div className={`mb-52`}>
+          <AddRoadmapBtn />
+        </div>
+        {auth?.user && <RoadmapsInProgress userId={auth.user.id} />}
+        <div className={`mb-14`}>
+          <MypageBtn />
+        </div>
+        <div className={`bg-$white py-28`}>
+          <SearchRoadmap />
+        </div>
+        <div className={`py-16`}>
+          <PopularRoadmaps user={user} onLikeClick={handleLikeClick} />
+        </div>
       </div>
-      {auth?.user && <RoadmapsInProgress userId={auth.user.id} />}
-      <div className={`mb-14`}>
-        <MypageBtn />
-      </div>
-      <div className={`bg-$white py-28`}>
-        <SearchRoadmap />
-      </div>
-      <div className={`py-16`}>
-        <PopularRoadmaps user={user} onLikeClick={handleLikeClick} />
-      </div>
-    </div>
+    </Layout>
   )
 }
 

@@ -1,5 +1,6 @@
 import useAspidaSWR from '@aspida/swr'
 import { useRouter } from 'next/router'
+import Layout from '~/components/Layout'
 import RoadmapCard, { RoadmapCardType } from '~/components/list/RoadmapCard'
 import SearchRoadmap from '~/components/SearchRoadmap'
 import { useAuth } from '~/contexts/AuthContext'
@@ -27,29 +28,33 @@ const SearchPage = () => {
   }
 
   return (
-    <div>
-      <div className={`my-14`}>
-        <SearchRoadmap />
-      </div>
+    <Layout>
+      <div>
+        <div className={`my-14`}>
+          <SearchRoadmap />
+        </div>
 
-      <div className={`bg-$tint py-14`}>
-        <div className={`max-w-5xl mx-auto`}>
-          <p className={`text-$primary text-$t1 mb-10`}>{`検索結果: ${
-            roadmaps?.length || 0
-          }件`}</p>
-          {roadmaps?.map((roadmap, i) => (
-            <div key={i} className={`mb-11`}>
-              <RoadmapCard
-                type={RoadmapCardType.LIKE}
-                roadmap={roadmap}
-                isLiked={!!user?.likeRoadmaps.find((r) => r.id === roadmap.id)}
-                onToggleLike={handleToggleLike}
-              />
-            </div>
-          ))}
+        <div className={`bg-$tint py-14`}>
+          <div className={`max-w-5xl mx-auto`}>
+            <p className={`text-$primary text-$t1 mb-10`}>{`検索結果: ${
+              roadmaps?.length || 0
+            }件`}</p>
+            {roadmaps?.map((roadmap, i) => (
+              <div key={i} className={`mb-11`}>
+                <RoadmapCard
+                  type={RoadmapCardType.LIKE}
+                  roadmap={roadmap}
+                  isLiked={
+                    !!user?.likeRoadmaps.find((r) => r.id === roadmap.id)
+                  }
+                  onToggleLike={handleToggleLike}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </Layout>
   )
 }
 
