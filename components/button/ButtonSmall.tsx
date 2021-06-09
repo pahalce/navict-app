@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { RefObject } from 'react'
 import Image from 'next/image'
 
 type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -8,6 +8,7 @@ type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   className?: string
   disabled?: boolean
   iconImg?: string
+  buttonRef?: RefObject<HTMLButtonElement>
 }
 
 const ButtonSmall: React.FC<Props> = ({
@@ -17,6 +18,7 @@ const ButtonSmall: React.FC<Props> = ({
   className,
   disabled = false,
   iconImg,
+  buttonRef,
   ...props
 }: Props) => {
   return (
@@ -27,6 +29,7 @@ const ButtonSmall: React.FC<Props> = ({
           : `${bgColor} ${textColor}`) +
         ` text-$t3 rounded-md py-2 px-8 ${className}`
       }
+      ref={buttonRef}
       {...props}
     >
       {iconImg && (

@@ -5,6 +5,8 @@ import UserIcon from './UserIcon'
 import { Menu } from '@headlessui/react'
 import { useRouter } from 'next/router'
 import ButtonSmall from './button/ButtonSmall'
+import { SubmitHandler } from 'react-hook-form'
+import { RoadmapFormSchema } from './roadmaps/RoadmapForm'
 
 const UserIconMenu = () => {
   const auth = useAuth()
@@ -60,7 +62,7 @@ export enum HEADER_BTN_TYPES {
 }
 type HeaderProps = {
   type?: HEADER_BTN_TYPES
-  onSave?: () => void
+  onSave?: SubmitHandler<RoadmapFormSchema>
 }
 const headerBtnStyles = {
   width: 'w-44'

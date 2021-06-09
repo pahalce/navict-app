@@ -1,13 +1,17 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import React, {
+  Dispatch,
+  RefObject,
+  SetStateAction,
+  useEffect,
+  useState
+} from 'react'
 import type {
   RoadmapInfo,
   LibraryInfo,
   TagInfo,
-  RoadmapCreateBody,
-  RecommendedLibraryInfo,
-  RoadmapUpdateBody
+  RecommendedLibraryInfo
 } from '$/types/index'
-import { Step, Library, Roadmap, Tag } from '$prisma/client'
+import { Step, Library } from '$prisma/client'
 import {
   Control,
   Controller,
@@ -37,7 +41,6 @@ import GoalForm from '~/components/roadmaps/goal/GoalForm'
 import Opener from '~/components/parts/Opener'
 import UpdateStepFormModal from '../modals/UpdateStepFormModal'
 import { useAuth } from '~/contexts/AuthContext'
-import { useRouter } from 'next/router'
 
 export type StepWithLib = Pick<
   Step,
@@ -59,7 +62,8 @@ type RoadmapProps = {
     title: string,
     link?: string | null | undefined
   ) => Promise<Library>
-  onSubmit: SubmitHandler<RoadmapFormSchema>
+  onSubmitForm: SubmitHandler<RoadmapFormSchema>
+  buttonRef: RefObject<HTMLButtonElement>
 }
 
 const RoadmapForm = ({
@@ -67,7 +71,8 @@ const RoadmapForm = ({
   steps,
   setSteps,
   onCreateLibrary,
-  onSubmit
+  onSubmitForm,
+  buttonRef
 }: RoadmapProps) => {
   const auth = useAuth()
   if (!auth || !auth.token) return <div>not logged in</div>
@@ -188,7 +193,7 @@ const RoadmapForm = ({
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onSubmitForm)}
       className="flex flex-col items-center text-$primary text-$t4"
     >
       {/* basic info section */}
@@ -265,7 +270,13 @@ const RoadmapForm = ({
           />
         </div>
       </div>
-      <ButtonSmall className="w-$max-content my-16" text="保存" type="submit" />
+
+      <ButtonSmall
+        text="保存"
+        buttonRef={buttonRef}
+        className="w-$max-content my-16"
+        type="submit"
+      />
     </form>
   )
 }

@@ -14,7 +14,8 @@ import { createReqSteps, createReqTags, updateRoadmap } from '~/utils/roadmaps'
 import Layout from '~/components/Layout'
 import { SubmitHandler } from 'react-hook-form'
 import { SelectOption } from '~/components/parts/SelectInput'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import { HEADER_BTN_TYPES } from '~/components/Header'
 
 const EditRoadmap = () => {
   const router = useRouter()
@@ -27,6 +28,8 @@ const EditRoadmap = () => {
   )
 
   const auth = useAuth()
+  // for saving on nav button click
+  const buttonRef = useRef<HTMLButtonElement>(null)
   const [steps, setSteps] = useState<StepWithLib[]>([] as StepWithLib[])
   const onCreateLibrary = (title: Library['title'], link?: Library['link']) =>
     createLibrary(auth?.token || '', title, link)
@@ -35,31 +38,43 @@ const EditRoadmap = () => {
 
   if (userError) return <div>failed to load</div>
   if (!roadmap) return <NavictChan text="LOADING..." />
+
+  const fireSubmit = () => {
+    buttonRef?.current?.click()
+  }
   // on submit roadmap form
   const onSubmit: SubmitHandler<RoadmapFormSchema> = async (data) => {
-    if (!auth?.user) return
-    const changedTitle = roadmap.title !== data.title
-    const changedDescription = roadmap.description !== data.description
-    const changedGoal = roadmap.goal !== data.goal
-    const updateBody: RoadmapUpdateBody = {
-      userId: auth.user?.id,
-      title: changedTitle ? data.title : undefined,
-      tags: createReqTags(data.tagSelect as SelectOption[]),
-      description: changedDescription ? data.description : undefined,
-      steps: createReqSteps(steps),
-      goal: changedGoal ? data.goal : undefined
+    try {
+      if (!auth?.user) return
+      const changedTitle = roadmap.title !== data.title
+      const changedDescription = roadmap.description !== data.description
+      const changedGoal = roadmap.goal !== data.goal
+      const updateBody: RoadmapUpdateBody = {
+        userId: auth.user?.id,
+        title: changedTitle ? data.title : undefined,
+        tags: createReqTags(data.tagSelect as SelectOption[]),
+        description: changedDescription ? data.description : undefined,
+        steps: createReqSteps(steps),
+        goal: changedGoal ? data.goal : undefined
+      }
+      await onUpdateRoadmap(roadmap.id, updateBody)
+    } catch (err) {
+      console.error(err)
     }
-    await onUpdateRoadmap(roadmap.id, updateBody)
   }
 
   return (
-    <Layout>
+    <Layout
+      headerType={HEADER_BTN_TYPES.SAVE}
+      onHeaderSaveBtnClick={fireSubmit}
+    >
       <RoadmapForm
+        buttonRef={buttonRef}
         defaultRoadmap={roadmap}
         steps={steps}
         setSteps={setSteps}
         onCreateLibrary={onCreateLibrary}
-        onSubmit={onSubmit}
+        onSubmitForm={onSubmit}
       />
     </Layout>
   )

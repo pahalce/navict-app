@@ -12,46 +12,57 @@ import { HEADER_BTN_TYPES } from '~/components/Header'
 import { SubmitHandler } from 'react-hook-form'
 import { SelectOption } from '~/components/parts/SelectInput'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 const NewRoadmapsPage = () => {
   const auth = useAuth()
   const router = useRouter()
+  // for saving on nav button click
+  const buttonRef = useRef<HTMLButtonElement>(null)
   const [steps, setSteps] = useState<StepWithLib[]>([] as StepWithLib[])
   const onCreateLibrary = (title: Library['title'], link?: Library['link']) =>
     createLibrary(auth?.token || '', title, link)
   const onCreateRoadmap = (data: RoadmapCreateBody) =>
     createRoadmap(auth?.token || '', data)
 
-  // on submit RoadmapForm
+  const fireSubmit = () => {
+    buttonRef?.current?.click()
+  }
   const onSubmit: SubmitHandler<RoadmapFormSchema> = async (data) => {
-    if (!auth?.user) return
-    // create new roadmap
-    let reqTags = [] as Pick<Tag, 'name'>[]
-    if (data.tagSelect) {
-      reqTags = createReqTags(data.tagSelect as SelectOption[])
+    try {
+      if (!auth?.user) return
+      // create new roadmap
+      let reqTags = [] as Pick<Tag, 'name'>[]
+      if (data.tagSelect) {
+        reqTags = createReqTags(data.tagSelect as SelectOption[])
+      }
+      const reqSteps = createReqSteps(steps)
+      const createBody: RoadmapCreateBody = {
+        title: data.title,
+        tags: reqTags,
+        description: data.description || null,
+        forkedRoadmapId: null,
+        steps: reqSteps,
+        userId: auth.user?.id,
+        goal: data.goal || null
+      }
+      const result = await onCreateRoadmap(createBody)
+      router.push(`edit/${result.id}`)
+    } catch (err) {
+      console.error(err)
     }
-    const reqSteps = createReqSteps(steps)
-    const createBody: RoadmapCreateBody = {
-      title: data.title,
-      tags: reqTags,
-      description: data.description || null,
-      forkedRoadmapId: null,
-      steps: reqSteps,
-      userId: auth.user?.id,
-      goal: data.goal || null
-    }
-
-    const result = await onCreateRoadmap(createBody)
-    router.push(`edit/${result.id}`)
   }
   return (
-    <Layout headerType={HEADER_BTN_TYPES.SAVE}>
+    <Layout
+      headerType={HEADER_BTN_TYPES.SAVE}
+      onHeaderSaveBtnClick={fireSubmit}
+    >
       <RoadmapForm
+        buttonRef={buttonRef}
         steps={steps}
         setSteps={setSteps}
         onCreateLibrary={onCreateLibrary}
-        onSubmit={onSubmit}
+        onSubmitForm={onSubmit}
       />
     </Layout>
   )
