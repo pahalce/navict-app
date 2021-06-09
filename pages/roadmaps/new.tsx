@@ -36,7 +36,7 @@ const NewRoadmapsPage = () => {
   }
   const onSubmit: SubmitHandler<RoadmapFormSchema> = async (data) => {
     try {
-      if (!auth?.isLoggedIn) return
+      if (!auth?.user) return
       // create new roadmap
       let reqTags = [] as Pick<Tag, 'name'>[]
       if (data.tagSelect) {
