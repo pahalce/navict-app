@@ -7,7 +7,7 @@ const SigninPage = () => {
   const router = useRouter()
   const { prevUrl } = router.query
   const auth = useAuth()
-  if (auth?.isLoggedIn) {
+  if (auth.isLoggedIn) {
     if (typeof prevUrl === 'string') {
       router.push(prevUrl)
     } else {
@@ -23,7 +23,7 @@ const SigninPage = () => {
         </div>
         <button
           onClick={() => {
-            auth?.signup('twitter')
+            auth.signup('twitter')
           }}
           className="flex items-center justify-center bg-$twitterBlue rounded-full text-$white w-96 h-20 mb-7"
         >
@@ -37,7 +37,7 @@ const SigninPage = () => {
         </button>
         <button
           onClick={() => {
-            auth?.signup('google')
+            auth.signup('google')
           }}
           className="flex items-center justify-center border-2 border-$shade1 rounded-full text-$primary w-96 h-20"
         >

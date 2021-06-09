@@ -15,7 +15,7 @@ const AddRoadmapBtn = () => {
   const auth = useAuth()
   const router = useRouter()
   const handleClick = () => {
-    if (auth?.isLoggedIn) {
+    if (auth.isLoggedIn) {
       router.push('/roadmaps/new')
     } else {
       pushSigninWithPrevUrl(router)
@@ -79,11 +79,11 @@ const Home = () => {
   const auth = useAuth()
 
   const { data: user, error } = useAspidaSWR(
-    apiClient.users._userId(auth?.user?.id || 0)
+    apiClient.users._userId(auth.user?.id || 0)
   )
 
   const handleLikeClick = async (roadmapId: RoadmapInfo['id']) => {
-    if (!auth?.user?.id) return
+    if (!auth.user?.id) return
     await apiClient.likes.post({
       body: { userId: auth.user.id, roadmapId },
       config: { ...headersAuthz(auth.token) }
@@ -94,13 +94,13 @@ const Home = () => {
     <Layout>
       <div className="bg-$tint w-full">
         <img src="/top-mv.jpg" className={` mb-16`} />
-        <div className={`${auth?.isLoggedIn ? 'mb-52' : ''}`}>
+        <div className={`${auth.isLoggedIn ? 'mb-52' : ''}`}>
           <AddRoadmapBtn />
         </div>
-        {auth?.isLoggedIn && auth?.user && (
+        {auth.isLoggedIn && auth.user && (
           <RoadmapsInProgress userId={auth.user.id} />
         )}
-        {auth?.isLoggedIn && (
+        {auth.isLoggedIn && (
           <div className={`mb-14`}>
             <MypageBtn />
           </div>

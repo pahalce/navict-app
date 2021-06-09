@@ -93,7 +93,7 @@ const RoadmapCard = ({
   const [isLiked, setIsliked] = useState<boolean>(initialIsLiked)
 
   const handleToggleLike = () => {
-    if (auth?.isLoggedIn) {
+    if (auth.isLoggedIn) {
       setIsliked(!isLiked)
       onToggleLike(roadmap.id)
     } else {

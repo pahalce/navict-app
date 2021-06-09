@@ -177,7 +177,7 @@ const ForkBtn = ({ isMine, onDoneClick, onForkClick }: ForkBtnProps) => {
   const router = useRouter()
 
   const handleForkClick = () => {
-    if (auth?.isLoggedIn) {
+    if (auth.isLoggedIn) {
       onForkClick()
     } else {
       pushSigninWithPrevUrl(router)
@@ -217,7 +217,7 @@ const RoadmapPage = () => {
   )
   if (error || !roadmap) return <div></div>
   let isMine = false
-  if (auth?.user?.id === roadmap.userId) {
+  if (auth.user?.id === roadmap.userId) {
     isMine = true
   }
 

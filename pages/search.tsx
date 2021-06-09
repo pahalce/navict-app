@@ -13,7 +13,7 @@ const SearchPage = () => {
 
   const auth = useAuth()
   const { data: user, error: userError } = useAspidaSWR(
-    apiClient.users._userId(auth?.user?.id || 0)
+    apiClient.users._userId(auth.user?.id || 0)
   )
 
   const { data: roadmaps, error: roadmapsError } = useAspidaSWR(
