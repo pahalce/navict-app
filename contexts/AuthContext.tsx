@@ -91,15 +91,16 @@ export const AuthProvider = ({ children }: Props) => {
     return unsubscribe
   }, [])
 
-  const value: AuthContextType = {
-    signup,
-    logout,
-    isLoggedIn: !!user,
-    user,
-    token
-  }
   return (
-    <SetAuthProvider value={value}>
+    <SetAuthProvider
+      value={{
+        signup,
+        logout,
+        isLoggedIn: !!user,
+        user,
+        token
+      }}
+    >
       {/* FIXME: リリース前のみ表示 */}
       {/* <NavictChan text={`一般公開までもう少し待っててね!`} /> */}
       {loading && <NavictChan text={`LOADING...`} />}
