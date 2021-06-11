@@ -10,7 +10,7 @@ import UserIcon from '~/components/UserIcon'
 import Trash from '~/components/parts/Trash'
 import Button from '~/components/button/Button'
 import useAspidaSWR from '@aspida/swr'
-import { apiClient } from '~/utils/apiClient'
+import { apiClient, headersAuthz } from '~/utils/apiClient'
 import { useRouter } from 'next/router'
 import { RoadmapInfo, StepInfo } from '~/server/types'
 import { useAuth } from '~/contexts/AuthContext'
@@ -228,12 +228,16 @@ const RoadmapPage = () => {
   }
 
   const handleCheckClick = async (stepId: StepInfo['id']) => {
-    await apiClient.steps._stepId(stepId).isDone.patch()
+    await apiClient.steps
+      ._stepId(stepId)
+      .isDone.patch({ config: { ...headersAuthz(auth.token) } })
     revalidate()
   }
 
   const handleDoneClick = async () => {
-    await apiClient.roadmaps._roadmapId(roadmap.id).isDone.patch()
+    await apiClient.roadmaps
+      ._roadmapId(roadmap.id)
+      .isDone.patch({ config: { ...headersAuthz(auth.token) } })
     revalidate()
     setIsOpen(!isOpen)
   }
