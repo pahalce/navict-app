@@ -2,15 +2,14 @@ import useAspidaSWR from '@aspida/swr'
 import { apiClient } from '~/utils/apiClient'
 import { useAuth } from '~/contexts/AuthContext'
 import Layout from '~/components/Layout'
-import ShareBtns from '~/components/roadmaps/ShareBtns'
 
 const TestPage = () => {
   const auth = useAuth()
-  // if (!auth || !auth.user) return <div>failed to load</div>
-  // const { data: user, error: userError } = useAspidaSWR(
-  //   apiClient.users._userId(auth.user.id)
-  // )
-  // if (userError || !user) return <div>failed to load</div>
+  if (!auth || !auth.user) return <div>failed to load</div>
+  const { data: user, error: userError } = useAspidaSWR(
+    apiClient.users._userId(auth.user.id)
+  )
+  if (userError || !user) return <div>failed to load</div>
 
   return (
     <Layout>
