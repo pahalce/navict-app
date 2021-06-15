@@ -173,17 +173,21 @@ const Roadmaps = ({
 
   return (
     <div>
-      {roadmaps(index).map((roadmap, i) => (
-        <div key={i} className={`max-w-5xl mx-auto ${i > 0 ? 'mt-11' : ''}`}>
-          <RoadmapCard
-            type={roadmapCardType[index]}
-            // FIXME: Mypageのとき1個目しかisLikedが反映されない。
-            isLiked={isLiked(roadmap)}
-            roadmap={roadmap}
-            onToggleLike={onToggleLike}
-          />
-        </div>
-      ))}
+      {roadmaps(index).map((roadmap, i) => {
+        return (
+          <div
+            key={roadmap.id}
+            className={`max-w-5xl mx-auto ${i > 0 ? 'mt-11' : ''}`}
+          >
+            <RoadmapCard
+              type={roadmapCardType[index]}
+              isLiked={isLiked(roadmap)}
+              roadmap={roadmap}
+              onToggleLike={onToggleLike}
+            />
+          </div>
+        )
+      })}
     </div>
   )
 }
