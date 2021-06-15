@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import UserIcon from '../UserIcon'
 import Tag from '../parts/Tag'
-import React from 'react'
+import React, { useState } from 'react'
 import { formatDate } from 'utils/utility'
 import AnimatedCircularProgressBar from '../parts/AnimatedCircularProgressBar'
 import { Roadmap } from '$prisma/client'
@@ -85,14 +85,16 @@ type RoadmapCardProps = {
 const RoadmapCard = ({
   type,
   roadmap,
-  isLiked,
+  isLiked: initialIsLiked,
   onToggleLike
 }: RoadmapCardProps) => {
   const auth = useAuth()
   const router = useRouter()
+  const [isLiked, setIsliked] = useState<boolean>(initialIsLiked)
 
   const handleToggleLike = () => {
     if (auth.isLoggedIn) {
+      setIsliked(!isLiked)
       onToggleLike(roadmap.id)
     } else {
       pushSigninWithPrevUrl(router)

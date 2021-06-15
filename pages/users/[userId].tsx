@@ -200,7 +200,7 @@ const UserPage = ({ isInMypage = false }: { isInMypage?: boolean }) => {
     router.push('/mypage')
   }
 
-  const { data: user, revalidate, error } = useAspidaSWR(
+  const { data: user, error } = useAspidaSWR(
     apiClient.users._userId(
       (() => {
         // FIXME: 読めないよこんなの。
@@ -221,13 +221,12 @@ const UserPage = ({ isInMypage = false }: { isInMypage?: boolean }) => {
     setIndex(index)
   }
 
-  const handleToggleLike = async (roadmapId: Roadmap['id']) => {
+  const handleToggleLike = (roadmapId: Roadmap['id']) => {
     if (!auth.isLoggedIn) return
-    await apiClient.likes.post({
+    apiClient.likes.post({
       body: { userId: auth.user?.id || 0, roadmapId },
       config: { ...headersAuthz(auth.token) }
     })
-    revalidate()
   }
 
   return (

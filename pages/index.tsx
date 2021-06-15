@@ -78,7 +78,7 @@ const PopularRoadmaps = ({ user, onLikeClick }: PopularRoadmapsProps) => {
 const Home = () => {
   const auth = useAuth()
 
-  const { data: user, revalidate, error } = useAspidaSWR(
+  const { data: user, error } = useAspidaSWR(
     apiClient.users._userId(auth.user?.id || 0)
   )
 
@@ -88,7 +88,6 @@ const Home = () => {
       body: { userId: auth.user.id, roadmapId },
       config: { ...headersAuthz(auth.token) }
     })
-    revalidate()
   }
 
   return (
