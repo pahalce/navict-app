@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useAuth } from '~/contexts/AuthContext'
 import UserIcon from '~/components/UserIcon'
 import useAspidaSWR from '@aspida/swr'
-import { apiClient } from '~/utils/apiClient'
+import { apiClient, headersAuthz } from '~/utils/apiClient'
 import Image from 'next/image'
 import { RoadmapInfo, UserInfo } from '~/server/types'
 import RoadmapCard from '~/components/list/RoadmapCard'
@@ -223,7 +223,10 @@ const UserPage = ({ isInMypage = false }: { isInMypage?: boolean }) => {
 
   const handleToggleLike = (roadmapId: Roadmap['id']) => {
     if (!auth.isLoggedIn) return
-    apiClient.likes.post({ body: { userId: auth.user?.id || 0, roadmapId } })
+    apiClient.likes.post({
+      body: { userId: auth.user?.id || 0, roadmapId },
+      config: { ...headersAuthz(auth.token) }
+    })
   }
 
   return (

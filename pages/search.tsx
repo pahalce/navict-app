@@ -5,7 +5,7 @@ import RoadmapCard, { RoadmapCardType } from '~/components/list/RoadmapCard'
 import SearchRoadmap from '~/components/SearchRoadmap'
 import { useAuth } from '~/contexts/AuthContext'
 import { RoadmapInfo } from '~/server/types'
-import { apiClient } from '~/utils/apiClient'
+import { apiClient, headersAuthz } from '~/utils/apiClient'
 
 const SearchPage = () => {
   const router = useRouter()
@@ -24,7 +24,10 @@ const SearchPage = () => {
 
   const handleToggleLike = async (roadmapId: RoadmapInfo['id']) => {
     if (!user) return
-    await apiClient.likes.post({ body: { userId: user.id, roadmapId } })
+    await apiClient.likes.post({
+      body: { userId: user.id, roadmapId },
+      config: { ...headersAuthz(auth.token) }
+    })
   }
 
   return (
