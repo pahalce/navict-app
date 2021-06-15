@@ -10,22 +10,23 @@ type Props = {
   className?: string
   finalValue: number
   text: string
-  delay?: number // afawef
+  delay?: number
 }
 
 const AnimatedCircularProgressBar = ({
   className,
   finalValue,
   text,
-  delay,
+  delay = 0,
   ...rest
 }: Props) => {
   const [value, setValue] = useState(0)
   useEffect(() => {
-    window.setTimeout(() => {
-      setValue(finalValue + 0.1)
-    }, delay)
-  }, [])
+    const timeoutId = setTimeout(() => setValue(finalValue + 0.1), delay)
+    return function cleanup() {
+      clearTimeout(timeoutId)
+    }
+  }, [finalValue, delay])
 
   return (
     <div>

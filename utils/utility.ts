@@ -18,8 +18,10 @@ export const systemColorToColorCode = (
   return theme.colors[systemColor]
 }
 
-export const getSystemColorFromPercentage = (percentage: number): string => {
-  let systemColor = '$accent1'
+export const getSystemColorFromPercentage = (
+  percentage: number
+): '$accent1' | '$accent2' | '$accent3' => {
+  let systemColor: '$accent1' | '$accent2' | '$accent3' = '$accent1'
   if (percentage > 33) {
     systemColor = '$accent2'
   } else if (percentage > 66) {
