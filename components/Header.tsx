@@ -27,13 +27,12 @@ const UserIconMenu = () => {
           <Menu.Item>
             {({ active }) => (
               <div
+                onClick={() => router.push('/mypage')}
                 className={`py-2 px-2 rounded-lg text-$primary ${
                   active ? 'bg-$accent1 bg-opacity-10' : ''
                 }`}
               >
-                <Link href="/mypage">
-                  <a className="w-36">個人ページへ</a>
-                </Link>
+                <a className="w-36">個人ページへ</a>
               </div>
             )}
           </Menu.Item>
