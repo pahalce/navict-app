@@ -10,7 +10,7 @@ import UserIcon from '~/components/UserIcon'
 import Trash from '~/components/parts/Trash'
 import Button from '~/components/button/Button'
 import useAspidaSWR from '@aspida/swr'
-import { apiClient } from '~/utils/apiClient'
+import { apiClient, headersAuthz } from '~/utils/apiClient'
 import { useRouter } from 'next/router'
 import { RoadmapInfo, StepInfo } from '~/server/types'
 import { useAuth } from '~/contexts/AuthContext'
@@ -20,6 +20,7 @@ import AchieveModal from '~/components/modals/AchieveModal'
 import { useState } from 'react'
 import { pushSigninWithPrevUrl } from '~/utils/auth'
 import Layout from '~/components/Layout'
+import ShareBtns from '~/components/roadmaps/ShareBtns'
 
 type HeaderProps = {
   roadmap: RoadmapInfo
@@ -242,7 +243,27 @@ const RoadmapPage = () => {
     // FIXME: 今度実装する
     comingSoon()
   }
-  console.log(roadmap)
+
+  const handleTwitterClick = async () => {
+    // FIXME: OGP画像使うまでの仮対応
+    const url = `https://navict-app.vercel.app${router.asPath}`
+    const text = '面白いから見てね！'
+    const hashtags = 'navict'
+    window.open(
+      `http://twitter.com/share?url=${url}&text=${text}&hashtags=${hashtags}`,
+      '_blank'
+    )
+  }
+
+  const handleLikeClick = async () => {
+    if (!auth.user?.id) return
+    if (typeof roadmapId !== 'string') return
+    await apiClient.likes.post({
+      body: { userId: auth.user.id, roadmapId: +roadmapId },
+      config: { ...headersAuthz(auth.token) }
+    })
+  }
+
   return (
     <Layout>
       <div className="relative">
@@ -268,6 +289,12 @@ const RoadmapPage = () => {
             isMine={isMine}
             onDoneClick={handleDoneClick}
             onForkClick={handleForkClick}
+          />
+        </div>
+        <div className="fixed top-1/2 right-20">
+          <ShareBtns
+            onTwitterClick={handleTwitterClick}
+            onLikeClick={handleLikeClick}
           />
         </div>
         <AchieveModal setIsOpen={setIsOpen} isOpen={isOpen} />
