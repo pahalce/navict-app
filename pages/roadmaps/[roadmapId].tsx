@@ -70,6 +70,7 @@ const Header = ({ roadmap, isMine, onDeleteClick }: HeaderProps) => {
           ) : (
             <p className={`h-8`}></p>
           )}
+
           <AnimatedCircularProgressBar
             finalValue={roadmap.donePercent}
             text={`${roadmap.donePercent}%`}
@@ -245,7 +246,11 @@ const RoadmapPage = () => {
 
   const handleForkClick = async () => {
     // FIXME: 今度実装する
-    comingSoon()
+    if (!auth.isLoggedIn) {
+      pushSigninWithPrevUrl(router)
+    } else {
+      router.push(`/roadmaps/new?copiedFrom=${roadmap.id}`)
+    }
   }
 
   const handleTwitterClick = async () => {
