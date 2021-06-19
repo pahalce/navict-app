@@ -114,7 +114,7 @@ const users = async () => {
         'https://pbs.twimg.com/profile_images/1294959391192432640/RehTKVAR_400x400.jpg',
       twitterLink: 'https://twitter.com/peacepacey',
       githubLink: 'https://github.com/pahalce',
-      firebaseUid: 'DSeGUUBb1HTUpgCNelnhwgHDCzW2'
+      firebaseUid: 'TTPB0bvr59N380aSodFr9dejjDl1'
     },
     {
       // id: 3
