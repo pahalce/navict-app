@@ -4,6 +4,7 @@ import { auth } from '$firebase/firebase'
 import { apiClient } from '~/utils/apiClient'
 import type { User } from '$prisma/client'
 import NavictChan from '~/components/NavictChan'
+import { useRouter } from 'next/router'
 
 // TODO:Loginなどのメッセージをログじゃなくてちゃんと作る
 
@@ -34,6 +35,9 @@ const [useAuthCtx, SetAuthProvider] = createCtx<AuthContextType>()
 export const useAuth = useAuthCtx
 
 export const AuthProvider = ({ children }: Props) => {
+  const router = useRouter()
+  const { isAdmin } = router.query
+  const isDevelopment = process.env.NODE_ENV === 'development'
   const [loading, setLoading] = useState(true)
   const [user, setUser] = useState<AuthContextType['user']>()
   const [token, setToken] = useState<AuthContextType['token']>()
@@ -101,10 +105,18 @@ export const AuthProvider = ({ children }: Props) => {
         token
       }}
     >
-      {/* FIXME: リリース前のみ表示 */}
-      {/* <NavictChan text={`一般公開までもう少し待っててね!`} /> */}
-      {loading && <NavictChan text={`LOADING...`} />}
-      {!loading && children}
+      {/* FIXME: リリース前はproductionでadminしか使えないようにしている */}
+      {!isDevelopment && !isAdmin ? (
+        <NavictChan text={`一般公開までもう少し待っててね!`} />
+      ) : (
+        <></>
+      )}
+      {(isAdmin || isDevelopment) && loading ? (
+        loading && <NavictChan text={`LOADING...`} />
+      ) : (
+        <></>
+      )}
+      {(isAdmin || isDevelopment) && !loading ? children : <></>}
     </SetAuthProvider>
   )
 }
