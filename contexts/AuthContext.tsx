@@ -4,7 +4,6 @@ import { auth } from '$firebase/firebase'
 import { apiClient } from '~/utils/apiClient'
 import type { User } from '$prisma/client'
 import NavictChan from '~/components/NavictChan'
-import { useRouter } from 'next/router'
 
 // TODO:Loginなどのメッセージをログじゃなくてちゃんと作る
 
@@ -35,9 +34,8 @@ const [useAuthCtx, SetAuthProvider] = createCtx<AuthContextType>()
 export const useAuth = useAuthCtx
 
 export const AuthProvider = ({ children }: Props) => {
-  const router = useRouter()
-  const { isAdmin } = router.query
   const isDevelopment = process.env.NODE_ENV === 'development'
+  const [isAdmin, setIsAdmin] = useState<boolean>(false)
   const [loading, setLoading] = useState(true)
   const [user, setUser] = useState<AuthContextType['user']>()
   const [token, setToken] = useState<AuthContextType['token']>()
@@ -94,6 +92,10 @@ export const AuthProvider = ({ children }: Props) => {
     })
     return unsubscribe
   }, [])
+
+  useEffect(() => {
+    setIsAdmin(localStorage.getItem('isAdmin') === 'true')
+  }, [isAdmin])
 
   return (
     <SetAuthProvider
