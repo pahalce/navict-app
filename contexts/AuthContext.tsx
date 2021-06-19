@@ -34,6 +34,8 @@ const [useAuthCtx, SetAuthProvider] = createCtx<AuthContextType>()
 export const useAuth = useAuthCtx
 
 export const AuthProvider = ({ children }: Props) => {
+  const isDevelopment = process.env.NODE_ENV === 'development'
+  const [isAdmin, setIsAdmin] = useState<boolean>(false)
   const [loading, setLoading] = useState(true)
   const [user, setUser] = useState<AuthContextType['user']>()
   const [token, setToken] = useState<AuthContextType['token']>()
@@ -91,6 +93,10 @@ export const AuthProvider = ({ children }: Props) => {
     return unsubscribe
   }, [])
 
+  useEffect(() => {
+    setIsAdmin(localStorage.getItem('isAdmin') === 'true')
+  }, [isAdmin])
+
   return (
     <SetAuthProvider
       value={{
@@ -101,10 +107,18 @@ export const AuthProvider = ({ children }: Props) => {
         token
       }}
     >
-      {/* FIXME: リリース前のみ表示 */}
-      {/* <NavictChan text={`一般公開までもう少し待っててね!`} /> */}
-      {loading && <NavictChan text={`LOADING...`} />}
-      {!loading && children}
+      {/* FIXME: リリース前はproductionでadminしか使えないようにしている */}
+      {!isDevelopment && !isAdmin ? (
+        <NavictChan text={`一般公開までもう少し待っててね!`} />
+      ) : (
+        <></>
+      )}
+      {(isAdmin || isDevelopment) && loading ? (
+        loading && <NavictChan text={`LOADING...`} />
+      ) : (
+        <></>
+      )}
+      {(isAdmin || isDevelopment) && !loading ? children : <></>}
     </SetAuthProvider>
   )
 }
