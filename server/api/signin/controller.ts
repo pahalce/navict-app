@@ -2,6 +2,8 @@ import { defineController } from './$relay'
 import { PrismaClient } from '@prisma/client'
 import { veriyfyUserViaFirebase, createUser } from '$/service/users'
 
+const expiresIn = 60 * 30 // seconds // FIXME: 有効期限どうするかもう一回考える。
+
 const prisma = new PrismaClient()
 export default defineController((fastify) => ({
   post: async ({ body }) => {
@@ -10,7 +12,7 @@ export default defineController((fastify) => ({
 
     // unauthorized user
     if (!verifiedUser) {
-      console.log('unauthorized')
+      console.error('unauthorized')
       return {
         status: 401
       }
@@ -22,10 +24,9 @@ export default defineController((fastify) => ({
 
     // user already exists
     if (user) {
-      console.log('user exists')
       return {
         status: 201,
-        body: { token: fastify.jwt.sign({ id: user.id }), user }
+        body: { token: fastify.jwt.sign({ id: user.id }, { expiresIn }), user }
       }
     }
 
@@ -37,10 +38,12 @@ export default defineController((fastify) => ({
       verifiedUser.uid
     )
 
-    console.log('created new user')
     return {
       status: 201,
-      body: { token: fastify.jwt.sign({ id: newUser.id }), user: newUser }
+      body: {
+        token: fastify.jwt.sign({ id: newUser.id }, { expiresIn }),
+        user: newUser
+      }
     }
   }
 }))

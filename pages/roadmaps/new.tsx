@@ -1,216 +1,77 @@
-import React, { useState } from 'react'
-import ButtonSmall from '~/components/button/ButtonSmall'
-import RoadmapBasicInfo from '~/components/roadmaps/RoadmapBasicInfo'
-import SetGoal from '~/components/roadmaps/SetGoal'
-import StepSection from '~/components/roadmaps/StepSection'
-import { apiClient } from '~/utils/apiClient'
-import { Tag } from '$prisma/client'
-import type {
-  RoadmapInfo,
-  LibraryInfo,
-  StepReqBody,
-  RecommendedLibraryInfo
-} from '$/types/index'
-import type { RoadmapCreateReqBody } from '$/types/index'
-import { useRouter } from 'next/router'
+import RoadmapForm, {
+  RoadmapFormSchema,
+  StepWithLib
+} from '~/components/roadmaps/RoadmapForm'
 import { useAuth } from '~/contexts/AuthContext'
+import { createLibrary } from '~/utils/libraries'
+import { pushSigninWithPrevUrl } from '~/utils/auth'
+import type { Library, Tag } from '$prisma/client'
+import { RoadmapCreateBody } from '~/server/types'
+import { createReqSteps, createReqTags, createRoadmap } from '~/utils/roadmaps'
+import Layout from '~/components/Layout'
+import { HEADER_BTN_TYPES } from '~/components/Header'
+import { SubmitHandler } from 'react-hook-form'
+import { SelectOption } from '~/components/parts/SelectInput'
+import { useRouter } from 'next/router'
+import { useRef, useState } from 'react'
 
-const createRoadmapsPage = () => {
-  const [
-    alreadySelectedLibraryNames,
-    setAlreadySelectedLibraryNames
-  ] = useState<string[]>([])
-
-  const [title, setTitle] = useState<RoadmapCreateReqBody['title']>('')
-  const [description, setDescription] = useState<
-    RoadmapCreateReqBody['description']
-  >(null)
-  const [tags, setTags] = useState([] as Tag[])
-  const [selectedTags, setSelectedTags] = useState<Tag[]>()
-  const [goal, setGoal] = useState<RoadmapInfo['goal']>(null)
-  const [steps, setSteps] = useState<StepReqBody[]>([] as StepReqBody[])
-  const [libraries, setLibraies] = useState<LibraryInfo[]>()
-  const [recommendations, setRecommendations] = useState<
-    RecommendedLibraryInfo[]
-  >([] as RecommendedLibraryInfo[])
-  const [selectedLibrary, setSelectedLibrary] = useState<LibraryInfo | null>(
-    null
-  )
-
-  const router = useRouter()
+const NewRoadmapsPage = () => {
   const auth = useAuth()
-  if (!auth?.user) {
-    console.log('you have to be logged in')
-    router.push('/')
-  }
-  const handleTitleChange = (title: RoadmapCreateReqBody['title']) => {
-    setTitle(title)
-  }
-  const handleDescriptionChange = (
-    description: RoadmapCreateReqBody['description']
-  ) => {
-    setDescription(description)
-  }
-  const handleTagKeywordChange = async (keyword: string) => {
-    const result = await apiClient.tags.search._name(keyword).$get()
-    setTags(result)
-  }
-  const handleCloseSelectedTag = (tag: Tag) => {
-    const newSelectedTags = selectedTags?.filter((selectedTag) => {
-      return !(selectedTag.id === tag.id)
-    })
-    setSelectedTags(newSelectedTags || ([] as Tag[]))
-  }
-  const handleTagSelect = (tag: Tag) => {
-    let newTags
-    if (selectedTags) {
-      newTags = selectedTags.concat()
-      newTags.push(tag)
-    } else {
-      newTags = [tag]
-    }
-    setSelectedTags(newTags)
-  }
-  const handleCreateNewTag = async (name: string) => {
-    const result = await apiClient.tags.$post({
-      body: {
-        name
-      }
-    })
-    setTags([...tags, result])
-  }
-  const getRecommendatedLibraries = async (libraryIds: number[]) => {
-    try {
-      const recommendedLibs = await apiClient.libraries.recommended.$post({
-        body: libraryIds.slice(0, 3) as [number, number, number]
-      })
-      // console.log(libraryIds.slice(0, 3) as [number, number, number])
-      // FIXME: anyにしてるから直す postだとだめかも
-      setRecommendations(recommendedLibs as any)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-  // getRecommendatedLibraries([0, 0, 0])
+  const router = useRouter()
 
-  const handleAddLibrary = async (title: string, link: string) => {
-    try {
-      const lib = await apiClient.libraries.$post({
-        body: { title, link }
-      })
-      if (!lib) {
-        throw Error('failed to post data')
-      }
-      setSelectedLibrary(lib)
-      return lib
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  const handleAddStep = (step: StepReqBody) => {
-    let newSteps: StepReqBody[]
-    if (steps) {
-      newSteps = [...steps, step]
-    } else {
-      newSteps = [step]
-    }
-    setSteps(newSteps)
-    setSelectedLibrary(null)
-  }
-  const handleDeleteStep = (deltedStep: StepReqBody) => {
-    const newSteps = steps.filter((step) => step !== deltedStep)
-    setSteps(newSteps)
-  }
-  const handleLibraryKeywordChange = async (title: string) => {
-    try {
-      const result = await apiClient.libraries.searchByTitle
-        ._title(title)
-        .$get()
-      setLibraies(result)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-  // const handleLibraryUrlChange = async (url: string) => {
-  //   const result = await apiClient.libraries.searchByLink._link(url).$get()
-  //   setLibraies(result)
-  // }
-  const handleLibrarySelect = (library: LibraryInfo) => {
-    setSelectedLibrary(library)
-  }
-  const handleGoalChange = (goal: RoadmapInfo['goal']) => {
-    setGoal(goal)
+  if (!auth.isLoggedIn) {
+    pushSigninWithPrevUrl(router)
   }
 
-  const handleSaveRoadmap = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    try {
-      e.preventDefault()
-      const userId = auth?.user?.id
-      if (typeof userId !== 'number' || !title) {
-        return
-      }
+  // for saving on nav button click
+  const buttonRef = useRef<HTMLButtonElement>(null)
+  const [steps, setSteps] = useState<StepWithLib[]>([] as StepWithLib[])
+  const onCreateLibrary = (title: Library['title'], link?: Library['link']) =>
+    createLibrary(auth.token || '', title, link)
+  const onCreateRoadmap = (data: RoadmapCreateBody) =>
+    createRoadmap(auth.token || '', data)
 
-      const tagNames: Pick<Tag, 'name'>[] =
-        selectedTags?.map((selectedTag) => {
-          const name = selectedTag.name
-          return { name }
-        }) || []
-      const reqBody: RoadmapCreateReqBody = {
-        userId,
-        title,
-        tags: tagNames,
-        description: description,
-        goal,
-        forkedRoadmapId: null, // TODO: forkしたときに変える
-        steps: steps
+  const fireSubmit = () => {
+    buttonRef?.current?.click()
+  }
+  const onSubmit: SubmitHandler<RoadmapFormSchema> = async (data) => {
+    try {
+      if (!auth.user) return
+      // create new roadmap
+      let reqTags = [] as Pick<Tag, 'name'>[]
+      if (data.tagSelect) {
+        reqTags = createReqTags(data.tagSelect as SelectOption[])
       }
-      const roadmap = await apiClient.roadmaps.$post({ body: reqBody })
-      router.push(`/roadmaps/${roadmap.id}`)
-      // router.push(`roadmaps/edit/${resBody.id}`)
-    } catch (error) {
-      console.error(error)
+      const reqSteps = createReqSteps(steps)
+      const createBody: RoadmapCreateBody = {
+        title: data.title,
+        tags: reqTags,
+        description: data.description || null,
+        forkedRoadmapId: null,
+        steps: reqSteps,
+        userId: auth.user?.id,
+        goal: data.goal || null
+      }
+      const result = await onCreateRoadmap(createBody)
+      router.push(`edit/${result.id}`)
+    } catch (err) {
+      console.error(err)
     }
   }
   return (
-    // FIXME: フォームにしないからバリデーション自分で書かないといけない
-    <>
-      <RoadmapBasicInfo
-        title={title}
-        onChangeTitle={handleTitleChange}
-        description={description}
-        onChangeDescription={handleDescriptionChange}
-        tags={tags}
-        selectedTags={selectedTags}
-        onTagSelect={handleTagSelect}
-        onCreateNewTag={handleCreateNewTag}
-        onCloseSelectedTag={handleCloseSelectedTag}
-        onTagKeywordChange={handleTagKeywordChange}
-      />
-      <StepSection
+    <Layout
+      headerType={HEADER_BTN_TYPES.SAVE}
+      onHeaderSaveBtnClick={fireSubmit}
+    >
+      <RoadmapForm
+        buttonRef={buttonRef}
         steps={steps}
-        onAddStep={handleAddStep}
-        onDeleteStep={handleDeleteStep}
-        onOpenForm={getRecommendatedLibraries}
-        recommendations={recommendations}
-        onAddLibrary={handleAddLibrary}
-        libraries={libraries}
-        selectedLibrary={selectedLibrary}
-        onLibrarySelect={handleLibrarySelect}
-        onLibraryKeywordChange={handleLibraryKeywordChange}
+        setSteps={setSteps}
+        onCreateLibrary={onCreateLibrary}
+        onSubmitForm={onSubmit}
       />
-      <SetGoal goal={goal} onGoalChange={handleGoalChange} />
-      <div className="flex flex-col justify-center items-center mt-40 mb-20 ">
-        {!title && <div className="text-$accent2">タイトルは必須です</div>}
-        <ButtonSmall
-          onClick={handleSaveRoadmap}
-          type="submit"
-          text="保存"
-          disabled={!title}
-          className="block mx-auto"
-        />
-      </div>
-    </>
+    </Layout>
   )
 }
 
-export default createRoadmapsPage
+export default NewRoadmapsPage

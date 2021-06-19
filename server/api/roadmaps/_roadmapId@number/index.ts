@@ -1,15 +1,6 @@
-import { RoadmapInfo } from '$/types'
-import type { Roadmap, Step, Tag } from '$prisma/client'
+import { RoadmapInfo, RoadmapUpdateBody } from '$/types'
+import type { Roadmap } from '$prisma/client'
 
-export type UpdateRoadmapReqBody = Partial<
-  Pick<
-    Roadmap,
-    'title' | 'description' | 'forkedRoadmapId' | 'firstStepId' | 'userId'
-  > & {
-    tags: Pick<Tag, 'name'>[]
-    steps: Pick<Step, 'memo' | 'nextStepId' | 'isDone' | 'libraryId'>[]
-  }
->
 export type Methods = {
   /**
    * get a roadmap
@@ -21,16 +12,16 @@ export type Methods = {
 
   /**
    * update a roadmap
-   * PUT /roadmaps/_roadmapId@number
+   * [jnz] PUT /roadmaps/_roadmapId@number
    */
   put: {
-    reqBody: UpdateRoadmapReqBody
+    reqBody: RoadmapUpdateBody
     resBody: Roadmap
   }
 
   /**
    * delete a roadmap
-   * ** DELETE /roadmaps/_roadmapId@number
+   * [jz] DELETE /roadmaps/_roadmapId@number
    */
   delete: {
     status: 204

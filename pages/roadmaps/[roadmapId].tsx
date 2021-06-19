@@ -10,7 +10,7 @@ import UserIcon from '~/components/UserIcon'
 import Trash from '~/components/parts/Trash'
 import Button from '~/components/button/Button'
 import useAspidaSWR from '@aspida/swr'
-import { apiClient } from '~/utils/apiClient'
+import { apiClient, headersAuthz } from '~/utils/apiClient'
 import { useRouter } from 'next/router'
 import { RoadmapInfo, StepInfo } from '~/server/types'
 import { useAuth } from '~/contexts/AuthContext'
@@ -18,6 +18,9 @@ import { comingSoon, formatDate } from '~/utils/utility'
 import StepCard from '~/components/list/StepCard'
 import AchieveModal from '~/components/modals/AchieveModal'
 import { useState } from 'react'
+import { pushSigninWithPrevUrl } from '~/utils/auth'
+import Layout from '~/components/Layout'
+import ShareBtns from '~/components/roadmaps/ShareBtns'
 
 type HeaderProps = {
   roadmap: RoadmapInfo
@@ -171,6 +174,17 @@ type ForkBtnProps = {
   onForkClick: () => void
 }
 const ForkBtn = ({ isMine, onDoneClick, onForkClick }: ForkBtnProps) => {
+  const auth = useAuth()
+  const router = useRouter()
+
+  const handleForkClick = () => {
+    if (auth.isLoggedIn) {
+      onForkClick()
+    } else {
+      pushSigninWithPrevUrl(router)
+    }
+  }
+
   let btn
   if (isMine) {
     btn = (
@@ -185,7 +199,7 @@ const ForkBtn = ({ isMine, onDoneClick, onForkClick }: ForkBtnProps) => {
       <Button
         bgColor={`$accent1`}
         text={`このロードマップを始める！`}
-        onClick={onForkClick}
+        onClick={handleForkClick}
       />
     )
   }
@@ -204,7 +218,7 @@ const RoadmapPage = () => {
   )
   if (error || !roadmap) return <div></div>
   let isMine = false
-  if (auth?.user?.id === roadmap.userId) {
+  if (auth.user?.id === roadmap.userId) {
     isMine = true
   }
 
@@ -215,12 +229,16 @@ const RoadmapPage = () => {
   }
 
   const handleCheckClick = async (stepId: StepInfo['id']) => {
-    await apiClient.steps._stepId(stepId).isDone.patch()
+    await apiClient.steps
+      ._stepId(stepId)
+      .isDone.patch({ config: { ...headersAuthz(auth.token) } })
     revalidate()
   }
 
   const handleDoneClick = async () => {
-    await apiClient.roadmaps._roadmapId(roadmap.id).isDone.patch()
+    await apiClient.roadmaps
+      ._roadmapId(roadmap.id)
+      .isDone.patch({ config: { ...headersAuthz(auth.token) } })
     revalidate()
     setIsOpen(!isOpen)
   }
@@ -229,35 +247,63 @@ const RoadmapPage = () => {
     // FIXME: 今度実装する
     comingSoon()
   }
-  console.log(roadmap)
+
+  const handleTwitterClick = async () => {
+    // FIXME: OGP画像使うまでの仮対応
+    const url = `https://navict-app.vercel.app${router.asPath}`
+    const text = '面白いから見てね！'
+    const hashtags = 'navict'
+    window.open(
+      `http://twitter.com/share?url=${url}&text=${text}&hashtags=${hashtags}`,
+      '_blank'
+    )
+  }
+
+  const handleLikeClick = async () => {
+    if (!auth.user?.id) return
+    if (typeof roadmapId !== 'string') return
+    await apiClient.likes.post({
+      body: { userId: auth.user.id, roadmapId: +roadmapId },
+      config: { ...headersAuthz(auth.token) }
+    })
+  }
+
   return (
-    <div className="relative">
-      <div className={`my-16`}>
-        <Header
-          roadmap={roadmap}
-          isMine={isMine}
-          onDeleteClick={handleDeleteClick}
-        />
+    <Layout>
+      <div className="relative">
+        <div className={`my-16`}>
+          <Header
+            roadmap={roadmap}
+            isMine={isMine}
+            onDeleteClick={handleDeleteClick}
+          />
+        </div>
+        <div className={`py-16 bg-$tint`}>
+          <Steps
+            roadmap={roadmap}
+            isMine={isMine}
+            onCheckClick={handleCheckClick}
+          />
+        </div>
+        <div className={`bg-$tint`}>
+          <Goal text={roadmap.goal || ''} />
+        </div>
+        <div className={`py-24`}>
+          <ForkBtn
+            isMine={isMine}
+            onDoneClick={handleDoneClick}
+            onForkClick={handleForkClick}
+          />
+        </div>
+        <div className="fixed top-1/2 right-20">
+          <ShareBtns
+            onTwitterClick={handleTwitterClick}
+            onLikeClick={handleLikeClick}
+          />
+        </div>
+        <AchieveModal setIsOpen={setIsOpen} isOpen={isOpen} />
       </div>
-      <div className={`py-16 bg-$tint`}>
-        <Steps
-          roadmap={roadmap}
-          isMine={isMine}
-          onCheckClick={handleCheckClick}
-        />
-      </div>
-      <div className={`bg-$tint`}>
-        <Goal text={roadmap.goal || ''} />
-      </div>
-      <div className={`py-24`}>
-        <ForkBtn
-          isMine={isMine}
-          onDoneClick={handleDoneClick}
-          onForkClick={handleForkClick}
-        />
-      </div>
-      <AchieveModal setIsOpen={setIsOpen} isOpen={isOpen} />
-    </div>
+    </Layout>
   )
 }
 export default RoadmapPage

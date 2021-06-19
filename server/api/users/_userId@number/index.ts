@@ -1,18 +1,4 @@
-import type { User } from '$prisma/client'
-import type { UserInfo, UserWithoutPersonal } from '$/types'
-
-type UpdateUserBody = Partial<
-  Pick<
-    User,
-    | 'name'
-    | 'email'
-    | 'bio'
-    | 'img'
-    | 'twitterLink'
-    | 'githubLink'
-    | 'websiteLink'
-  >
->
+import type { UserInfo, UserUpdateBody, UserWithoutPersonal } from '$/types'
 
 export type Methods = {
   /**
@@ -25,14 +11,17 @@ export type Methods = {
 
   /**
    * update a user
-   * ** PUT /users/_userId@number
+   * [jn] PUT /users/_userId@number
    */
   put: {
-    reqBody: UpdateUserBody
+    reqBody: UserUpdateBody
     resBody: UserWithoutPersonal
   }
 
-  // delete a user
+  /**
+   * delete a user
+   * [jn] DELETE /users/_userId@number
+   */
   delete: {
     status: 204
   }

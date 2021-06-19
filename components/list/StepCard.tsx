@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { shortenText } from '~/utils/utility'
+import ThreeDots from '../parts/ThreeDots'
 import Trash from '../parts/Trash'
 
 type StepCardProps = {
@@ -7,16 +8,18 @@ type StepCardProps = {
   title: string
   href: string
   memo: string
-  canDelete?: boolean
+  isOwner?: boolean
   onDeleteClick?: () => void
+  onEditClick?: () => void
 }
 const StepCard = ({
   src,
   title,
   href,
   memo,
-  canDelete = false,
-  onDeleteClick
+  isOwner = false,
+  onDeleteClick,
+  onEditClick
 }: StepCardProps) => {
   return (
     <div className="flex bg-$white rounded-3xl shadow-$rich px-8 py-9">
@@ -30,10 +33,15 @@ const StepCard = ({
         />
       </div>
 
-      <div>
-        <div className={`flex mb-1`}>
-          <p className="text-$t2 text-$primary mr-8">{title}</p>
-          {canDelete ? <Trash onClick={onDeleteClick} /> : <></>}
+      <div className="w-full">
+        <div className={`flex mb-1 w-11/12 pr-6`}>
+          <p className="text-$t2 text-$primary mr-8 overflow-ellipsis whitespace-nowrap overflow-hidden">
+            {title}
+          </p>
+          <div className="mr-2">
+            {isOwner ? <Trash onClick={onDeleteClick} /> : <></>}
+          </div>
+          {isOwner ? <ThreeDots onClick={onEditClick} /> : <></>}
         </div>
         <div>
           <Link href={href}>

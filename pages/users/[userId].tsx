@@ -3,13 +3,14 @@ import React, { useState } from 'react'
 import { useAuth } from '~/contexts/AuthContext'
 import UserIcon from '~/components/UserIcon'
 import useAspidaSWR from '@aspida/swr'
-import { apiClient } from '~/utils/apiClient'
+import { apiClient, headersAuthz } from '~/utils/apiClient'
 import Image from 'next/image'
 import { RoadmapInfo, UserInfo } from '~/server/types'
 import RoadmapCard from '~/components/list/RoadmapCard'
 import { RoadmapCardType } from '~/components/list/RoadmapCard'
 import { Roadmap } from '$prisma/client'
 import { comingSoon } from '~/utils/utility'
+import NavictChan from '~/components/NavictChan'
 
 type SnsLinkProps = {
   type: 'twitter' | 'github' | 'website'
@@ -172,17 +173,21 @@ const Roadmaps = ({
 
   return (
     <div>
-      {roadmaps(index).map((roadmap, i) => (
-        <div key={i} className={`max-w-5xl mx-auto ${i > 0 ? 'mt-11' : ''}`}>
-          <RoadmapCard
-            type={roadmapCardType[index]}
-            // FIXME: Mypageのとき1個目しかisLikedが反映されない。
-            isLiked={isLiked(roadmap)}
-            roadmap={roadmap}
-            onToggleLike={onToggleLike}
-          />
-        </div>
-      ))}
+      {roadmaps(index).map((roadmap, i) => {
+        return (
+          <div
+            key={roadmap.id}
+            className={`max-w-5xl mx-auto ${i > 0 ? 'mt-11' : ''}`}
+          >
+            <RoadmapCard
+              type={roadmapCardType[index]}
+              isLiked={isLiked(roadmap)}
+              roadmap={roadmap}
+              onToggleLike={onToggleLike}
+            />
+          </div>
+        )
+      })}
     </div>
   )
 }
@@ -195,7 +200,7 @@ const UserPage = ({ isInMypage = false }: { isInMypage?: boolean }) => {
   const [index, setIndex] = useState<number>(0)
 
   const auth = useAuth()
-  if (typeof userId === 'string' && +userId === auth?.user?.id) {
+  if (typeof userId === 'string' && +userId === auth.user?.id) {
     router.push('/mypage')
   }
 
@@ -203,7 +208,7 @@ const UserPage = ({ isInMypage = false }: { isInMypage?: boolean }) => {
     apiClient.users._userId(
       (() => {
         // FIXME: 読めないよこんなの。
-        if (isInMypage && auth?.user?.id) {
+        if (isInMypage && auth.user?.id) {
           return auth.user.id
         } else if (typeof userId === 'string') {
           return +userId
@@ -213,15 +218,19 @@ const UserPage = ({ isInMypage = false }: { isInMypage?: boolean }) => {
       })()
     )
   )
-  if (error || !user) return <div>failed to load</div>
+  if (error) return <div>failed to load</div>
+  if (!user) return <NavictChan text={`LOADING...`} />
 
   const handleTabClick = (index: number) => {
     setIndex(index)
   }
 
   const handleToggleLike = (roadmapId: Roadmap['id']) => {
-    if (!auth?.isLoggedIn) return
-    apiClient.likes.post({ body: { userId: auth?.user?.id || 0, roadmapId } })
+    if (!auth.isLoggedIn) return
+    apiClient.likes.post({
+      body: { userId: auth.user?.id || 0, roadmapId },
+      config: { ...headersAuthz(auth.token) }
+    })
   }
 
   return (
