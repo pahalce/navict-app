@@ -135,7 +135,12 @@ export const searchRoadmapInfos = async (
     if (!roadmapInfo) continue
     roadmapInfos.push(roadmapInfo)
   }
-  return roadmapInfos
+  const roadmapInfoSet: RoadmapInfo[] = []
+  roadmapInfos.forEach((r) => {
+    if (roadmapInfoSet.find((s) => s.id === r.id)) return
+    roadmapInfoSet.push(r)
+  })
+  return roadmapInfoSet
 }
 
 export const getRoadmapById = (id: Roadmap['id']) =>
