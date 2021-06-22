@@ -271,7 +271,6 @@ const RoadmapPage = () => {
   }
 
   const handleForkClick = async () => {
-    // FIXME: 今度実装する
     if (!auth.isLoggedIn) {
       pushSigninWithPrevUrl(router)
     } else {
