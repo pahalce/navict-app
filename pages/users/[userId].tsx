@@ -49,11 +49,8 @@ const Profile = ({ isInMypage, user }: ProfileProps) => {
 
       <div className={`flex-grow`}>
         <p className={`text-$t2`}>{user.name}</p>
-        <p
-          dangerouslySetInnerHTML={{ __html: user.bio || '' }}
-          className={`text-$t5 mb-2`}
-        >
-          {/* {user.bio} */}
+        <p className={`text-$t5 mb-2 whitespace-pre-wrap break-words`}>
+          {user.bio}
         </p>
         {/* sns links */}
         <div className={`flex`}>
