@@ -99,7 +99,7 @@ const users = async () => {
       name: 'わたなべつよし',
       email: 'tuyosi.628@dummy.com',
       bio:
-        'なまこエンジニアです。ロンドン大学1年<br>仲良くしてください。<br>23ちゃい',
+        'なまこエンジニアです。ロンドン大学1年\n仲良くしてください。\n23ちゃい',
       img:
         'https://pbs.twimg.com/profile_images/1377089205516431361/UgFbDgAH_400x400.jpg',
       twitterLink: 'https://twitter.com/dubianhaozhi',
@@ -114,7 +114,8 @@ const users = async () => {
         'https://pbs.twimg.com/profile_images/1294959391192432640/RehTKVAR_400x400.jpg',
       twitterLink: 'https://twitter.com/peacepacey',
       githubLink: 'https://github.com/pahalce',
-      firebaseUid: 'DSeGUUBb1HTUpgCNelnhwgHDCzW2'
+      firebaseUid: 'TTPB0bvr59N380aSodFr9dejjDl1',
+      bio: 'よろしくおねがいします',
     },
     {
       // id: 3
@@ -129,7 +130,7 @@ const users = async () => {
       // id: 4
       name: 'いのうえともひろ',
       email: 'tomoino925@dummy.com',
-      bio: 'エンジニアをやっています。<br>多趣味です。',
+      bio: 'エンジニアをやっています。\n多趣味です。',
       img:
         'https://pbs.twimg.com/profile_images/1295946409175212032/URYBm_Cz_400x400.jpg',
       twitterLink: 'https://twitter.com/tomoino925',
