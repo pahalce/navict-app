@@ -12,11 +12,7 @@ const MypagePage = () => {
     pushSigninWithPrevUrl(router)
   }
 
-  return (
-    <Layout>
-      <UserPage isInMypage={true} />
-    </Layout>
-  )
+  return <UserPage isInMypage={true} />
 }
 
 export default MypagePage

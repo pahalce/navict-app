@@ -11,6 +11,7 @@ import { RoadmapCardType } from '~/components/list/RoadmapCard'
 import { Roadmap } from '$prisma/client'
 import { comingSoon } from '~/utils/utility'
 import NavictChan from '~/components/NavictChan'
+import Layout from '~/components/Layout'
 
 type SnsLinkProps = {
   type: 'twitter' | 'github' | 'website'
@@ -51,7 +52,9 @@ const Profile = ({ isInMypage, user }: ProfileProps) => {
         <p
           dangerouslySetInnerHTML={{ __html: user.bio || '' }}
           className={`text-$t5 mb-2`}
-        ></p>
+        >
+          {/* {user.bio} */}
+        </p>
         {/* sns links */}
         <div className={`flex`}>
           <div className={`mr-5`}>
@@ -234,23 +237,25 @@ const UserPage = ({ isInMypage = false }: { isInMypage?: boolean }) => {
   }
 
   return (
-    <div className={`pt-20`}>
-      <div className={`mb-20`}>
-        <Profile isInMypage={isInMypage} user={user} />
+    <Layout>
+      <div className={`pt-20`}>
+        <div className={`mb-20`}>
+          <Profile isInMypage={isInMypage} user={user} />
+        </div>
+        <div className={`mb-10`}>
+          <Tabs index={index} onClick={handleTabClick} />
+        </div>
+        <div className={`pt-20 pb-24 bg-$tint`}>
+          <Roadmaps
+            index={index}
+            doingRoadmaps={user.doingRoadmaps}
+            doneRoadmaps={user.doneRoadmaps}
+            likeRoadmaps={user.likeRoadmaps}
+            onToggleLike={handleToggleLike}
+          />
+        </div>
       </div>
-      <div className={`mb-10`}>
-        <Tabs index={index} onClick={handleTabClick} />
-      </div>
-      <div className={`pt-20 pb-24 bg-$tint`}>
-        <Roadmaps
-          index={index}
-          doingRoadmaps={user.doingRoadmaps}
-          doneRoadmaps={user.doneRoadmaps}
-          likeRoadmaps={user.likeRoadmaps}
-          onToggleLike={handleToggleLike}
-        />
-      </div>
-    </div>
+    </Layout>
   )
 }
 
