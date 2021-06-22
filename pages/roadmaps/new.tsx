@@ -80,7 +80,7 @@ const NewRoadmapsPage = () => {
         goal: data.goal || null
       }
       const result = await onCreateRoadmap(createBody)
-      router.push(`edit/${result.id}`)
+      router.push(`${result.id}`)
     } catch (err) {
       console.error(err)
     }
