@@ -42,8 +42,8 @@ const SearchPage = () => {
             <p className={`text-$primary text-$t1 mb-10`}>{`検索結果: ${
               roadmaps?.length || 0
             }件`}</p>
-            {roadmaps?.map((roadmap, i) => (
-              <div key={i} className={`mb-11`}>
+            {roadmaps?.map((roadmap) => (
+              <div key={roadmap.id} className={`mb-11`}>
                 <RoadmapCard
                   type={RoadmapCardType.LIKE}
                   roadmap={roadmap}
