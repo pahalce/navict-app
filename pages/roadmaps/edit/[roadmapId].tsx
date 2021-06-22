@@ -58,6 +58,7 @@ const EditRoadmap = () => {
         goal: changedGoal ? data.goal : undefined
       }
       await onUpdateRoadmap(roadmap.id, updateBody)
+      router.push(`/roadmaps/${roadmap.id}`)
     } catch (err) {
       console.error(err)
     }

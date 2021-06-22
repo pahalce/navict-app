@@ -12,22 +12,28 @@ import Button from '~/components/button/Button'
 import useAspidaSWR from '@aspida/swr'
 import { apiClient, headersAuthz } from '~/utils/apiClient'
 import { useRouter } from 'next/router'
-import { RoadmapInfo, StepInfo } from '~/server/types'
+import { RoadmapInfo, StepInfo, UserWithoutPersonal } from '~/server/types'
 import { useAuth } from '~/contexts/AuthContext'
 import { comingSoon, formatDate } from '~/utils/utility'
 import StepCard from '~/components/list/StepCard'
 import AchieveModal from '~/components/modals/AchieveModal'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { pushSigninWithPrevUrl } from '~/utils/auth'
 import Layout from '~/components/Layout'
 import ShareBtns from '~/components/roadmaps/ShareBtns'
+import { getRoadmap } from '~/utils/roadmaps'
 
+type ForkInfo = {
+  title: RoadmapInfo['title']
+  author: UserWithoutPersonal['name']
+}
 type HeaderProps = {
   roadmap: RoadmapInfo
   isMine: boolean
   onDeleteClick: () => void
+  forkInfo?: ForkInfo
 }
-const Header = ({ roadmap, isMine, onDeleteClick }: HeaderProps) => {
+const Header = ({ roadmap, isMine, onDeleteClick, forkInfo }: HeaderProps) => {
   return (
     <div className={`max-w-3xl mx-auto`}>
       <div className={`flex mb-16`}>
@@ -60,6 +66,12 @@ const Header = ({ roadmap, isMine, onDeleteClick }: HeaderProps) => {
               likedCount={roadmap.likedCount}
             />
           </div>
+          {forkInfo && (
+            <p className="mt-6 text-$T6 text-$indigo">
+              copied from{' '}
+              <span className="text-$t5">{`${forkInfo.title}  (${forkInfo.author})`}</span>
+            </p>
+          )}
         </div>
 
         <div className={`w-28`}>
@@ -70,6 +82,7 @@ const Header = ({ roadmap, isMine, onDeleteClick }: HeaderProps) => {
           ) : (
             <p className={`h-8`}></p>
           )}
+
           <AnimatedCircularProgressBar
             finalValue={roadmap.donePercent}
             text={`${roadmap.donePercent}%`}
@@ -208,6 +221,7 @@ const ForkBtn = ({ isMine, onDoneClick, onForkClick }: ForkBtnProps) => {
 
 const RoadmapPage = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [forkInfo, setForkInfo] = useState<ForkInfo>()
   const auth = useAuth()
   const router = useRouter()
   const { roadmapId } = router.query
@@ -216,6 +230,19 @@ const RoadmapPage = () => {
       typeof roadmapId === 'string' ? +roadmapId : 0
     )
   )
+
+  useEffect(() => {
+    if (!roadmap?.forkedRoadmapId) {
+      return
+    }
+    getRoadmap(roadmap.forkedRoadmapId).then((originalRoadmap) => {
+      setForkInfo({
+        author: originalRoadmap.user.name,
+        title: originalRoadmap.title
+      })
+    })
+  }, [roadmap])
+
   if (error || !roadmap) return <div></div>
   let isMine = false
   if (auth.user?.id === roadmap.userId) {
@@ -244,8 +271,11 @@ const RoadmapPage = () => {
   }
 
   const handleForkClick = async () => {
-    // FIXME: 今度実装する
-    comingSoon()
+    if (!auth.isLoggedIn) {
+      pushSigninWithPrevUrl(router)
+    } else {
+      router.push(`/roadmaps/new?copiedFrom=${roadmap.id}`)
+    }
   }
 
   const handleTwitterClick = async () => {
@@ -276,6 +306,7 @@ const RoadmapPage = () => {
             roadmap={roadmap}
             isMine={isMine}
             onDeleteClick={handleDeleteClick}
+            forkInfo={forkInfo}
           />
         </div>
         <div className={`py-16 bg-$tint`}>
