@@ -12,7 +12,7 @@ import { Roadmap } from '$prisma/client'
 import { comingSoon } from '~/utils/utility'
 import NavictChan from '~/components/NavictChan'
 import Layout from '~/components/Layout'
-
+import ThreeDots from '$components/parts/ThreeDots'
 type SnsLinkProps = {
   type: 'twitter' | 'github' | 'website'
   link: string
@@ -98,6 +98,7 @@ const Profile = ({ isInMypage, user }: ProfileProps) => {
 
       {isInMypage ? (
         <div className={`absolute top-0 right-1`}>
+          <ThreeDots></ThreeDots>
           <Image
             src={`/three-dots.svg`}
             width={21}
