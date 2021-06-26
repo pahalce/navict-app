@@ -16,6 +16,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 import { apiClient } from '~/utils/apiClient'
 import NavictChan from '~/components/NavictChan'
+import type { DropResult } from 'react-beautiful-dnd'
 
 const NewRoadmapsPage = () => {
   const auth = useAuth()
@@ -57,6 +58,14 @@ const NewRoadmapsPage = () => {
     createLibrary(auth.token || '', title, link)
   const onCreateRoadmap = (data: RoadmapCreateBody) =>
     createRoadmap(auth.token || '', data)
+
+  const handleStepDragEnd = (result: DropResult) => {
+    if (!result.destination) return
+    const items = [...steps]
+    const [reorderedItem] = items.splice(result.source.index, 1)
+    items.splice(result.destination.index, 0, reorderedItem)
+    setSteps(items)
+  }
 
   const fireSubmit = () => {
     buttonRef?.current?.click()
@@ -100,6 +109,7 @@ const NewRoadmapsPage = () => {
             onCreateLibrary={onCreateLibrary}
             onSubmitForm={onSubmit}
             defaultRoadmap={forkedRoadmap}
+            onStepDragEnd={handleStepDragEnd}
           />
         </Layout>
       )}
