@@ -24,8 +24,7 @@ import {
 import ButtonSmall from '~/components/button/ButtonSmall'
 import RHFInput from '~/components/parts/RHFInput'
 import RHFTextarea from '~/components/parts/RHFTextarea'
-import BarTop from '~/components/parts/BarTop'
-import BarBottom from '~/components/parts/BarBottom'
+import BarVertex from '$components/parts/BarVertex'
 import StepCard from '~/components/list/StepCard'
 import BarMiddle from '~/components/parts/BarMiddle'
 import StepForm from '~/components/roadmaps/step/StepForm'
@@ -43,6 +42,8 @@ import UpdateStepFormModal from '../modals/UpdateStepFormModal'
 import { useAuth } from '~/contexts/AuthContext'
 import { useRouter } from 'next/router'
 import { pushSigninWithPrevUrl } from '~/utils/auth'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import type { DropResult } from 'react-beautiful-dnd'
 
 export type StepWithLib = Pick<
   Step,
@@ -66,6 +67,7 @@ type RoadmapProps = {
   ) => Promise<Library>
   onSubmitForm: SubmitHandler<RoadmapFormSchema>
   buttonRef: RefObject<HTMLButtonElement>
+  onStepDragEnd: (result: DropResult) => void
 }
 
 const RoadmapForm = ({
@@ -74,7 +76,8 @@ const RoadmapForm = ({
   setSteps,
   onCreateLibrary,
   onSubmitForm,
-  buttonRef
+  buttonRef,
+  onStepDragEnd
 }: RoadmapProps) => {
   const auth = useAuth()
   if (!auth || !auth.token) return <div>not logged in</div>
@@ -94,6 +97,7 @@ const RoadmapForm = ({
   const [updateStepIndex, setUpdateStepIndex] = useState<number | undefined>(
     undefined
   )
+
   const {
     register,
     handleSubmit,
@@ -187,6 +191,7 @@ const RoadmapForm = ({
     setUpdateStepIndex(index)
     setIsUpdateStepFormOpen(true)
   }
+
   const updateStep = (index: number, step: StepWithLib) => {
     const newSteps = [...steps]
     newSteps[index] = { ...step }
@@ -223,21 +228,49 @@ const RoadmapForm = ({
             updateStep={updateStep}
           />
         )}
-        <BarTop />
-        {steps.map((step, index) => (
-          <div key={index} className="w-full max-w-screen-lg">
-            <StepCard
-              href={step.library.link || ''}
-              src={step.library.img || ''}
-              memo={step.memo || ''}
-              title={step.library.title}
-              isOwner
-              onDeleteClick={() => deleteStep(index)}
-              onEditClick={() => openUpdateStepModal(index)}
-            />
-            <BarMiddle />
-          </div>
-        ))}
+        <BarVertex />
+        <DragDropContext onDragEnd={onStepDragEnd}>
+          <Droppable droppableId="steps">
+            {(provided) => (
+              <ul {...provided.droppableProps} ref={provided.innerRef}>
+                {steps.map((step, index) => {
+                  return (
+                    <>
+                      <Draggable
+                        key={step.libraryId} // TODO: libraryIdだとkeyが一意にならなくてバグるかも、バグったら対応する
+                        draggableId={String(step.libraryId)}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <div
+                            className="w-full max-w-screen-lg"
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                          >
+                            <BarMiddle />
+                            <StepCard
+                              href={step.library.link || ''}
+                              src={step.library.img || ''}
+                              memo={step.memo || ''}
+                              title={step.library.title}
+                              isOwner
+                              onDeleteClick={() => deleteStep(index)}
+                              onEditClick={() => openUpdateStepModal(index)}
+                            />
+                            <BarMiddle />
+                          </div>
+                        )}
+                      </Draggable>
+                    </>
+                  )
+                })}
+                {provided.placeholder}
+              </ul>
+            )}
+          </Droppable>
+        </DragDropContext>
+        <BarMiddle />
         <Opener
           className="shadow-$rich"
           onClick={toggleShowForm}
@@ -262,7 +295,8 @@ const RoadmapForm = ({
             onSearchLibraries={searchLibraries}
           />
         </Opener>
-        <BarBottom />
+        <BarMiddle />
+        <BarVertex />
       </div>
       {/* goal section */}
       <div className="flex flex-col items-center w-full bg-$tint pb-8">
