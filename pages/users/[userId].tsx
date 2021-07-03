@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { useAuth } from '~/contexts/AuthContext'
-import UserIcon from '~/components/UserIcon'
+import UserIcon from '~/components/users/UserIcon'
 import useAspidaSWR from '@aspida/swr'
 import { apiClient, headersAuthz } from '~/utils/apiClient'
 import Image from 'next/image'
