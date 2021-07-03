@@ -223,21 +223,49 @@ const RoadmapForm = ({
             updateStep={updateStep}
           />
         )}
-        <BarTop />
-        {steps.map((step, index) => (
-          <div key={index} className="w-full max-w-screen-lg">
-            <StepCard
-              href={step.library.link || ''}
-              src={step.library.img || ''}
-              memo={step.memo || ''}
-              title={step.library.title}
-              isOwner
-              onDeleteClick={() => deleteStep(index)}
-              onEditClick={() => openUpdateStepModal(index)}
-            />
-            <BarMiddle />
-          </div>
-        ))}
+        <BarVertex />
+        <DragDropContext onDragEnd={onStepDragEnd}>
+          <Droppable droppableId="steps">
+            {(provided) => (
+              <ul {...provided.droppableProps} ref={provided.innerRef}>
+                {steps.map((step, index) => {
+                  return (
+                    <div key={step.libraryId}>
+                      <Draggable
+                        draggableId={String(step.libraryId)}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <div
+                            className="w-full max-w-screen-lg"
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                          >
+                            <BarMiddle />
+                            <StepCard
+                              href={step.library.link || ''}
+                              src={step.library.img || ''}
+                              memo={step.memo || ''}
+                              title={step.library.title}
+                              isOwner
+                              onDeleteClick={() => deleteStep(index)}
+                              onEditClick={() => openUpdateStepModal(index)}
+                            />
+                            <BarMiddle />
+                          </div>
+                        )}
+                      </Draggable>
+                    </div>
+                  )
+                })}
+                {provided.placeholder}
+              </ul>
+            )}
+          </Droppable>
+        </DragDropContext>
+        <BarMiddle />
+>>>>>>> Stashed changes
         <Opener
           className="shadow-$rich"
           onClick={toggleShowForm}
