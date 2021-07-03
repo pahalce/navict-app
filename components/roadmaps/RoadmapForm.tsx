@@ -237,7 +237,7 @@ const RoadmapForm = ({
                   return (
                     <>
                       <Draggable
-                        key={step.libraryId}
+                        key={step.libraryId} // TODO: libraryIdだとkeyが一意にならなくてバグるかも、バグったら対応する
                         draggableId={String(step.libraryId)}
                         index={index}
                       >
