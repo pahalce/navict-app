@@ -22,18 +22,19 @@ const SnsLink = ({ type, link }: SnsLinkProps) => {
   if (!link) return <></>
   const srcObj = {
     twitter: '/brandIcon/twitterIconBlue.svg',
-    github: '/brandIcon/twitterIconBlue.svg', // FIXME: github用のicon作ったら突っ込む
+    github: '/brandIcon/githubIcon.svg',
     website: '/icon/webIcon.svg'
   }
   return (
-    <div className={`flex items-center`}>
-      <div className={`mr-2`}>
-        <a href={link} target="_blank" rel="noreferrer">
-          <Image src={srcObj[type]} alt="sns icon" width="24" height="24" />
-        </a>
-      </div>
-      <div className={`text-$indigo text-$T6`}>{link}</div>
-    </div>
+    <a
+      href={link}
+      target="_blank"
+      rel="noreferrer"
+      className="flex items-center"
+    >
+      <Image src={srcObj[type]} alt="sns icon" width="24" height="24" />
+      <div className={`text-$indigo text-$T6 ml-2`}>{link}</div>
+    </a>
   )
 }
 
