@@ -1,9 +1,8 @@
 import Link from 'next/link'
 import StepCardWithCheck from '~/components/list/StepCardWithCheck'
 import AnimatedCircularProgressBar from '~/components/parts/AnimatedCircularProgressBar'
-import BarTop from '~/components/parts/BarTop'
 import BarMiddle from '~/components/parts/BarMiddle'
-import BarBottom from '~/components/parts/BarBottom'
+import BarVertex from '~/components/parts/BarVertex'
 import RoadmapStatus from '~/components/parts/RoadmapStatus'
 import Tag from '~/components/parts/Tag'
 import UserIcon from '~/components/users/UserIcon'
@@ -114,7 +113,7 @@ const Steps = ({ roadmap, isMine, onCheckClick }: StepsProps) => {
   if (isMine) {
     stepCards = roadmap.steps.map((step, i) => (
       <div key={i}>
-        {i === 0 ? <></> : <BarMiddle />}
+        <BarMiddle />
         <StepCardWithCheck
           src={step.library.img || ''}
           title={step.library.title}
@@ -123,26 +122,28 @@ const Steps = ({ roadmap, isMine, onCheckClick }: StepsProps) => {
           initialIsChecked={step.isDone}
           onCheckClick={() => onCheckClick(step.id)}
         />
+        <BarMiddle />
       </div>
     ))
   } else {
     stepCards = roadmap.steps.map((step, i) => (
       <div key={i}>
-        {i === 0 ? <></> : <BarMiddle />}
+        <BarMiddle />
         <StepCard
           src={step.library.img || ''}
           title={step.library.title}
           href={step.library.link || ''}
           memo={step.memo || ''}
         />
+        <BarMiddle />
       </div>
     ))
   }
   return (
     <div className={`max-w-3xl mx-auto`}>
-      <BarTop />
+      <BarVertex />
       {stepCards}
-      <BarBottom />
+      <BarVertex />
     </div>
   )
 }
