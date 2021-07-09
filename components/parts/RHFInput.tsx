@@ -21,7 +21,7 @@ const RHFInput = ({
 }: Props) => {
   return (
     <input
-      className={`placeholder-$shade1 text-$primary ${className}`}
+      className={`placeholder-$primary2 text-$primary ${className}`}
       placeholder={placeholder}
       defaultValue={defaultValue}
       {...register(name, { required })}

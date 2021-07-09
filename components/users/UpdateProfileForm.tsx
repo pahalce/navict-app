@@ -7,6 +7,7 @@ import UserIcon from './UserIcon'
 import ButtonSmall from '../button/ButtonSmall'
 import { useEffect, useState } from 'react'
 import { uploadProfileImage } from '~/utils/users'
+import LinkIcon from '../parts/LinkIcon'
 
 export type ProfileFormSchema = {
   img: User['img']
@@ -110,42 +111,62 @@ const UpdateProfileForm = ({ onSaveButtonClick }: UpdateProfileFormProps) => {
           onChange={onChangeImg}
           type="file"
           accept="image/*"
-          className="opacity-0"
+          hidden
         />
-        <p className="text-$t4">ユーザー名</p>
+        <p className="text-$t4 mb-2 mt-5">ユーザー名</p>
         <RHFInput
+          className="w-full py-3 px-5 bg-$shade3 border border-$shade1 rounded-xl text-$t5"
           name="name"
           defaultValue={auth.user?.name}
           register={(register as unknown) as UseFormRegister<FieldValues>}
         />
-        <p className="text-$t4">プロフィール</p>
+        <p className="text-$t4 mb-2 mt-8">プロフィール</p>
         <RHFTextarea
+          className="w-full h-24 py-3 px-5 bg-$shade3 border border-$shade1 rounded-xl text-$t5"
           register={(register as unknown) as UseFormRegister<FieldValues>}
           name="bio"
           defaultValue={auth.user?.bio || undefined}
         />
         <div className="flex flex-col">
-          <p className="text-$t4">SNS</p>
-          <RHFInput
-            name="twitterLink"
-            defaultValue={auth.user?.twitterLink || undefined}
-            placeholder="https://twitter.com"
-            register={(register as unknown) as UseFormRegister<FieldValues>}
-          />
-          <RHFInput
-            name="githubLink"
-            defaultValue={auth.user?.githubLink || undefined}
-            placeholder="https://github.com"
-            register={(register as unknown) as UseFormRegister<FieldValues>}
-          />
-          <RHFInput
-            name="websiteLink"
-            defaultValue={auth.user?.websiteLink || undefined}
-            placeholder="URLを入力"
-            register={(register as unknown) as UseFormRegister<FieldValues>}
-          />
+          <p className="text-$t4 mb-2 mt-8">SNS</p>
+          <div className="flex items-center mb-6">
+            <div className="w-14 mr-2">
+              <LinkIcon type="twitter" text="twitter" width={20} height={20} />
+            </div>
+            <RHFInput
+              className="w-full py-3 px-5 bg-$shade3 border border-$shade1 rounded-xl text-$t5"
+              name="twitterLink"
+              defaultValue={auth.user?.twitterLink || undefined}
+              placeholder="https://twitter.com"
+              register={(register as unknown) as UseFormRegister<FieldValues>}
+            />
+          </div>
+          <div className="flex items-center mb-6">
+            <div className="w-14 mr-2">
+              <LinkIcon type="github" text="github" width={20} height={20} />
+            </div>
+            <RHFInput
+              className="w-full py-3 px-5 bg-$shade3 border border-$shade1 rounded-xl text-$t5"
+              name="githubLink"
+              defaultValue={auth.user?.githubLink || undefined}
+              placeholder="https://github.com"
+              register={(register as unknown) as UseFormRegister<FieldValues>}
+            />
+          </div>
+          <div className="flex items-center mb-8">
+            <div className="w-14 mr-2">
+              <LinkIcon type="web" text="web" width={20} height={20} />
+            </div>
+            <RHFInput
+              className="w-full py-3 px-5 bg-$shade3 border border-$shade1 rounded-xl text-$t5"
+              name="websiteLink"
+              defaultValue={auth.user?.websiteLink || undefined}
+              placeholder="URLを入力"
+              register={(register as unknown) as UseFormRegister<FieldValues>}
+            />
+          </div>
         </div>
-        <div className="flex justify-center">
+        <div className="flex justify-center mb-20">
           <ButtonSmall text="保存" type="submit" />
         </div>
       </form>
