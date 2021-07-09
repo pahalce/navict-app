@@ -5,6 +5,7 @@ import { FieldValues, UseFormRegister, ValidationRule } from 'react-hook-form'
 type Props = {
   register: UseFormRegister<FieldValues>
   name: string
+  defaultValue?: string
   placeholder?: string
   required?: string | ValidationRule<boolean>
   className?: string
@@ -13,6 +14,7 @@ type Props = {
 const RHFInput = ({
   register,
   name,
+  defaultValue,
   placeholder,
   required,
   className
@@ -21,6 +23,7 @@ const RHFInput = ({
     <input
       className={`placeholder-$shade1 text-$primary ${className}`}
       placeholder={placeholder}
+      defaultValue={defaultValue}
       {...register(name, { required })}
     />
   )
