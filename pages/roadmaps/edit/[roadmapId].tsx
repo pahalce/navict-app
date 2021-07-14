@@ -16,6 +16,7 @@ import { SubmitHandler } from 'react-hook-form'
 import { SelectOption } from '~/components/parts/SelectInput'
 import { useRef, useState } from 'react'
 import { HEADER_BTN_TYPES } from '~/components/Header'
+import type { DropResult } from 'react-beautiful-dnd'
 
 const EditRoadmap = () => {
   const router = useRouter()
@@ -38,6 +39,14 @@ const EditRoadmap = () => {
 
   if (userError) return <div>failed to load</div>
   if (!roadmap) return <NavictChan text="LOADING..." />
+
+  const handleStepDragEnd = (result: DropResult) => {
+    if (!result.destination) return
+    const items = [...steps]
+    const [reorderedItem] = items.splice(result.source.index, 1)
+    items.splice(result.destination.index, 0, reorderedItem)
+    setSteps(items)
+  }
 
   const fireSubmit = () => {
     buttonRef?.current?.click()
@@ -76,6 +85,7 @@ const EditRoadmap = () => {
         setSteps={setSteps}
         onCreateLibrary={onCreateLibrary}
         onSubmitForm={onSubmit}
+        onStepDragEnd={handleStepDragEnd}
       />
     </Layout>
   )
