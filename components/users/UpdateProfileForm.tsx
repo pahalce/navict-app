@@ -98,7 +98,7 @@ const UpdateProfileForm = ({ onSaveButtonClick }: UpdateProfileFormProps) => {
   }, [])
 
   return (
-    <div className="w-full px-20">
+    <div className="w-full px-12">
       <div className="w-$max-content mx-auto">
         <UserIcon src={url ? url || '' : auth.user?.img || ''} size={20} />
         <p onClick={editImg} className="text-$indigo text-$t4 cursor-pointer">
@@ -115,14 +115,14 @@ const UpdateProfileForm = ({ onSaveButtonClick }: UpdateProfileFormProps) => {
         />
         <p className="text-$t4 mb-2 mt-5">ユーザー名</p>
         <RHFInput
-          className="w-full py-3 px-5 bg-$shade3 border border-$shade1 rounded-xl text-$t5"
+          className="w-full py-3 px-5 bg-$shade3 border border-$shade1 rounded-md text-$t5"
           name="name"
           defaultValue={auth.user?.name}
           register={(register as unknown) as UseFormRegister<FieldValues>}
         />
         <p className="text-$t4 mb-2 mt-8">プロフィール</p>
         <RHFTextarea
-          className="w-full h-24 py-3 px-5 bg-$shade3 border border-$shade1 rounded-xl text-$t5"
+          className="w-full h-24 py-3 px-5 bg-$shade3 border border-$shade1 rounded-md text-$t5"
           register={(register as unknown) as UseFormRegister<FieldValues>}
           name="bio"
           defaultValue={auth.user?.bio || undefined}
@@ -134,7 +134,7 @@ const UpdateProfileForm = ({ onSaveButtonClick }: UpdateProfileFormProps) => {
               <LinkIcon type="twitter" text="twitter" width={20} height={20} />
             </div>
             <RHFInput
-              className="w-full py-3 px-5 bg-$shade3 border border-$shade1 rounded-xl text-$t5"
+              className="w-full py-3 px-5 bg-$shade3 border border-$shade1 rounded-md text-$t5"
               name="twitterLink"
               defaultValue={auth.user?.twitterLink || undefined}
               placeholder="https://twitter.com"
@@ -146,7 +146,7 @@ const UpdateProfileForm = ({ onSaveButtonClick }: UpdateProfileFormProps) => {
               <LinkIcon type="github" text="github" width={20} height={20} />
             </div>
             <RHFInput
-              className="w-full py-3 px-5 bg-$shade3 border border-$shade1 rounded-xl text-$t5"
+              className="w-full py-3 px-5 bg-$shade3 border border-$shade1 rounded-md text-$t5"
               name="githubLink"
               defaultValue={auth.user?.githubLink || undefined}
               placeholder="https://github.com"
@@ -158,7 +158,7 @@ const UpdateProfileForm = ({ onSaveButtonClick }: UpdateProfileFormProps) => {
               <LinkIcon type="web" text="web" width={20} height={20} />
             </div>
             <RHFInput
-              className="w-full py-3 px-5 bg-$shade3 border border-$shade1 rounded-xl text-$t5"
+              className="w-full py-3 px-5 bg-$shade3 border border-$shade1 rounded-md text-$t5"
               name="websiteLink"
               defaultValue={auth.user?.websiteLink || undefined}
               placeholder="URLを入力"
