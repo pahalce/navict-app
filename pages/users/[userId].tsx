@@ -172,12 +172,12 @@ const MyProfile = ({
         >
           <ThreeDots width={21} height={5} />
         </div>
-        <UpdateProfileModal
-          isOpen={isProfileModalOpen}
-          setIsOpen={setIsProfileModalOpen}
-          onUpdateProfile={onUpdateProfile}
-        />
       </div>
+      <UpdateProfileModal
+        isOpen={isProfileModalOpen}
+        setIsOpen={setIsProfileModalOpen}
+        onUpdateProfile={onUpdateProfile}
+      />
     </div>
   )
 }

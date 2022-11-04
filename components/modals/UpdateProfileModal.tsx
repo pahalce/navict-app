@@ -23,15 +23,15 @@ const UpdateProfileModal = ({
     <Dialog
       open={isOpen}
       onClose={() => setIsOpen(false)}
-      className="fixed z-10 w-8/12 max-w-4xl top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-$white rounded-2xl flex flex-col justify-center items-center shadow-$rich px-10 py-12"
+      className="fixed z-10 w-9/12 max-w-6xl top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-$white rounded-2xl flex flex-col justify-center items-center shadow-$rich py-4"
     >
-      <Dialog.Overlay />
+      <Dialog.Overlay className="bg-$primary" />
       <div
-        className="flex w-full scrollbar-hide overflow-y-scroll"
+        className="flex w-full scrollbar-hide overflow-y-scroll mt-14"
         style={{ maxHeight: '80vh' }}
       >
         <UpdateProfileForm onSaveButtonClick={handleSubmit} />
-        <div className="cursor-pointer ml-auto absolute top-8 right-8">
+        <div className="cursor-pointer ml-auto absolute top-10 right-10">
           <Cross onClick={() => setIsOpen(false)} />
         </div>
       </div>
