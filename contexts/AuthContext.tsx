@@ -122,18 +122,7 @@ export const AuthProvider = ({ children }: Props) => {
         token
       }}
     >
-      {/* FIXME: リリース前はproductionでadminしか使えないようにしている */}
-      {!isDevelopment && !isAdmin ? (
-        <NavictChan text={`一般公開までもう少し待っててね!`} />
-      ) : (
-        <></>
-      )}
-      {(isAdmin || isDevelopment) && loading ? (
-        loading && <NavictChan text={`LOADING...`} />
-      ) : (
-        <></>
-      )}
-      {(isAdmin || isDevelopment) && !loading ? children : <></>}
+      {loading ? <NavictChan text={`LOADING...`} /> : children}
     </SetAuthProvider>
   )
 }
