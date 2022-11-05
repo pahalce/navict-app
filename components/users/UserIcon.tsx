@@ -13,7 +13,16 @@ type Props = {
 const UserIcon = ({ userId, src, size = 12, className }: Props) => {
   let href
   let img
-  const sizeStyles = `w-${size} h-${size}`
+  let sizeStyles
+  if (size == 12) {
+    sizeStyles = `w-12 h-12` 
+  }
+  else if (size == 24) {
+    sizeStyles = `w-24 h-24`
+  }
+  else {
+    sizeStyles = `w-${size} h-${size}`
+  }
   if (userId) {
     href = userId ? `/users/${userId}` : '/mypage'
     img = (
