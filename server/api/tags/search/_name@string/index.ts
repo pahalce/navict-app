@@ -1,4 +1,4 @@
-import type { Tag } from '$prisma/client'
+import { TagInfo } from '$/types'
 
 export type Methods = {
   /**
@@ -6,6 +6,6 @@ export type Methods = {
    * GET /tags/search/_name@string
    */
   get: {
-    resBody: Tag[]
+    resBody: TagInfo[]
   }
 }

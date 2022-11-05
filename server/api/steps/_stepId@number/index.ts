@@ -1,20 +1,19 @@
+import { StepUpdateBody } from '$/types'
 import type { Step } from '$prisma/client'
 
 export type Methods = {
   /**
    * update a step
-   * ** PUT /steps/_stepId@number
+   * [jz] PUT /steps/_stepId@number
    */
   put: {
-    reqBody: Partial<
-      Pick<Step, 'memo' | 'nextStepId' | 'roadmapId' | 'libraryId'>
-    >
+    reqBody: StepUpdateBody
     resBody: Step
   }
 
   /**
    * delete a step
-   * ** DELETE /steps/_stepId@number
+   * [jz] DELETE /steps/_stepId@number
    */
   delete: {
     status: 204

@@ -1,8 +1,9 @@
+// FIXME: firstStepIdが自分のものかチェックする(後回しで大丈夫)
+
 import { PrismaClient } from '@prisma/client'
 import type { Roadmap, Step, Tag, User } from '$prisma/client'
-import type { RoadmapInfo, StepInfo } from '$/types'
+import type { RoadmapInfo, RoadmapUpdateBody, StepInfo } from '$/types'
 import { partialRoadmapInfoInclude } from '$/prisma/options'
-import type { UpdateRoadmapReqBody } from '$/api/roadmaps/_roadmapId@number/index'
 
 type partialRoadmapInfo = Omit<
   RoadmapInfo,
@@ -11,7 +12,7 @@ type partialRoadmapInfo = Omit<
 
 const prisma = new PrismaClient()
 
-// FIXME: ここの実装適当すぎるからバグったら直す。
+// FIXME: prisma.$transaction() 使えるようにリファクタする
 export const createRoadmap = async (
   title: Roadmap['title'],
   description: Roadmap['description'],
@@ -21,22 +22,9 @@ export const createRoadmap = async (
   tags: Pick<Tag, 'name'>[],
   steps: Pick<Step, 'memo' | 'isDone' | 'libraryId'>[]
 ) => {
-  /**
-   * FIXME:
-   * "\nInvalid `prisma.roadmap.create()` invocation:\n\n\n  Unique constraint failed on the fields: (`id`)"
-   * 上記のエラーが出たのでしたのような実装になってる。
-   * 直したい。
-   */
-  const lastRoadmap = (
-    await prisma.roadmap.findMany({
-      orderBy: {
-        id: 'desc'
-      }
-    })
-  ).slice(0)[0]
+  // roadmap
   const roadmap = await prisma.roadmap.create({
     data: {
-      id: lastRoadmap.id + 1,
       title,
       description,
       forkedRoadmapId,
@@ -45,49 +33,50 @@ export const createRoadmap = async (
     }
   })
 
-  // FIXME: エラーでる…直して…。
-  // await prisma.roadmap.update({
-  //   where: {
-  //     id: roadmap.id
-  //   },
-  //   data: {
-  //     tags: {
-  //       connect: tags.map((t) => ({ name: t.name }))
-  //     }
-  //   }
-  // })
-
-  let lastStep = (
-    await prisma.step.findMany({
-      orderBy: {
-        id: 'desc'
-      }
+  // tags
+  // tagが既に無ければ作成
+  for (const tag of tags) {
+    await prisma.tag.upsert({
+      where: { name: tag.name },
+      update: {},
+      create: { name: tag.name }
     })
-  ).slice(0)[0]
+  }
+  // roadmapとtagを紐付け
+  await prisma.roadmap.update({
+    where: {
+      id: roadmap.id
+    },
+    data: {
+      tags: {
+        connect: tags
+      }
+    }
+  })
+
+  // steps
+  let nextStep: Step
   let nextStepId = null
   for (let i = 0; i < steps.length; i++) {
     const reqStep = steps[steps.length - i - 1]
-    lastStep = await prisma.step.create({
+    nextStep = await prisma.step.create({
       data: {
-        id: lastStep.id + 1,
         memo: reqStep.memo,
-        nextStepId: nextStepId,
+        nextStepId,
         isDone: reqStep.isDone,
         roadmapId: roadmap.id,
         libraryId: reqStep.libraryId
       }
     })
+    nextStepId = nextStep.id
     if (i === steps.length - 1) {
       // 最初のstep
       await prisma.roadmap.update({
         where: { id: roadmap.id },
         data: {
-          firstStepId: lastStep.id
+          firstStepId: nextStep.id
         }
       })
-    } else {
-      // それ以外のstep
-      nextStepId = lastStep.id
     }
   }
 
@@ -146,61 +135,119 @@ export const searchRoadmapInfos = async (
     if (!roadmapInfo) continue
     roadmapInfos.push(roadmapInfo)
   }
-  return roadmapInfos
+  const roadmapInfoSet: RoadmapInfo[] = []
+  roadmapInfos.forEach((r) => {
+    if (roadmapInfoSet.find((s) => s.id === r.id)) return
+    roadmapInfoSet.push(r)
+  })
+  return roadmapInfoSet
 }
 
 export const getRoadmapById = (id: Roadmap['id']) =>
   prisma.roadmap.findUnique({ where: { id } })
 
-// FIXME: ここの実装適当すぎるからバグったら直す。
+// FIXME: 処理がcreateRoadmap()とかなり重複してるので、関数化して切り出す。
+// FIXME: prisma.$transaction() 使えるようにリファクタする
 export const updateRoadmap = async (
   id: Roadmap['id'],
-  body: UpdateRoadmapReqBody
+  body: RoadmapUpdateBody
 ) => {
+  // roadmap
   const roadmap = await prisma.roadmap.update({
     where: { id },
     data: {
       title: body.title,
       description: body.description,
       forkedRoadmapId: body.forkedRoadmapId,
-      firstStepId: body.firstStepId,
-      userId: body.userId
+      userId: body.userId,
+      goal: body.goal
     }
   })
 
-  await prisma.roadmap.update({
-    where: {
-      id: roadmap.id
-    },
-    data: {
-      tags: {
-        connect: body.tags?.map((t) => ({ name: t.name }))
+  // tags
+  if (body.tags) {
+    // tagが既に無ければ作成
+    for (const tag of body.tags || []) {
+      await prisma.tag.upsert({
+        where: { name: tag.name },
+        update: {},
+        create: { name: tag.name }
+      })
+    }
+    // tagの紐付けを一旦解除
+    await prisma.roadmap.update({
+      where: { id: roadmap.id },
+      data: {
+        tags: {
+          set: []
+        }
+      }
+    })
+    // roadmapとtagを紐付け
+    await prisma.roadmap.update({
+      where: {
+        id: roadmap.id
+      },
+      data: {
+        tags: {
+          connect: body.tags.map((t) => ({ name: t.name }))
+        }
+      }
+    })
+  }
+
+  // steps
+  if (body.steps) {
+    // 紐づくstepsを全削除して全追加して更新する
+    // FIXME: stepのいいねとかを導入するときに、この実装だとバグるので注意。
+    await prisma.step.deleteMany({
+      where: {
+        roadmapId: roadmap.id
+      }
+    })
+
+    let nextStep: Step
+    let nextStepId = null
+    for (let i = 0; i < body.steps.length; i++) {
+      const reqStep = body.steps[body.steps.length - i - 1]
+      nextStep = await prisma.step.create({
+        data: {
+          memo: reqStep.memo,
+          nextStepId,
+          isDone: reqStep.isDone,
+          roadmapId: roadmap.id,
+          libraryId: reqStep.libraryId
+        }
+      })
+      nextStepId = nextStep.id
+      if (i === body.steps.length - 1) {
+        // 最初のstep
+        await prisma.roadmap.update({
+          where: { id: roadmap.id },
+          data: {
+            firstStepId: nextStep.id
+          }
+        })
       }
     }
-  })
+  }
 
-  // FIXME: stepのいいねとかを導入するときに、この実装だとバグる。
-  await prisma.step.deleteMany({
-    where: {
-      roadmapId: roadmap.id
-    }
-  })
-  await prisma.step.createMany({
-    data: body.steps
-      ? body.steps?.map((s) => ({
-          memo: s.memo,
-          nextStepId: s.nextStepId,
-          isDone: s.isDone,
-          roadmapId: roadmap.id,
-          libraryId: s.libraryId
-        }))
-      : []
-  })
   return roadmap
 }
 
-export const deleteRoadmap = (id: Roadmap['id']) =>
-  prisma.roadmap.delete({ where: { id } })
+export const deleteRoadmap = async (id: Roadmap['id']) => {
+  await prisma.$transaction([
+    prisma.roadmap.update({
+      where: { id },
+      data: {
+        tags: { set: [] },
+        steps: { deleteMany: {} },
+        likes: { deleteMany: {} }
+      }
+    }),
+    prisma.roadmap.delete({ where: { id } })
+  ])
+}
 
 export const changeFirstStepId = (
   id: Roadmap['id'],
@@ -209,9 +256,10 @@ export const changeFirstStepId = (
 
 export const toggleIsDone = async (id: Roadmap['id']) => {
   const roadmap = await prisma.roadmap.findUnique({ where: { id } })
+  if (!roadmap) return
   await prisma.roadmap.update({
-    where: { id },
-    data: { isDone: !roadmap?.isDone }
+    where: { id: roadmap.id },
+    data: { isDone: !roadmap.isDone }
   })
 }
 
@@ -236,6 +284,11 @@ export const getRoadmapInfoById = async (id: Roadmap['id']) => {
   )
   if (!partialRoadmapInfo) return null
   return sortSteps(await makeRoadmapInfo(partialRoadmapInfo))
+}
+
+export const getUserIdByRoadmapId = async (id: Roadmap['id']) => {
+  const roadmap = await prisma.roadmap.findUnique({ where: { id } })
+  return roadmap?.userId
 }
 
 // FIXME: $/service/navictRecommender.tsのsortStepsとかぶってるのでリファクタする

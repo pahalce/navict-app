@@ -6,10 +6,7 @@ type NavictChanProps = {
 }
 const NavictChan = ({ text }: NavictChanProps) => {
   return (
-    <div
-      className={`flex justify-center items-center w-screen h-screen`}
-      style={{ width: '100vw', height: '100vh' }}
-    >
+    <div className={`flex justify-center items-center w-screen h-screen`}>
       <div className={`text-center`}>
         <Image
           src={`/navict_chan.gif`}

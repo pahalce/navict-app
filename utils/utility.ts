@@ -11,12 +11,17 @@ export const formatDate = (date: Date) => {
   }/${t.getDate()}  ${t.getHours()}:${t.getSeconds()}`
 }
 
-export const systemColorToColorCode = (systemColor: string): string => {
-  return theme.colors[systemColor] || ''
+const colors = { ...theme.colors } as const
+export const systemColorToColorCode = (
+  systemColor: keyof typeof colors
+): string => {
+  return theme.colors[systemColor]
 }
 
-export const getSystemColorFromPercentage = (percentage: number): string => {
-  let systemColor = '$accent1'
+export const getSystemColorFromPercentage = (
+  percentage: number
+): '$accent1' | '$accent2' | '$accent3' => {
+  let systemColor: '$accent1' | '$accent2' | '$accent3' = '$accent1'
   if (percentage > 33) {
     systemColor = '$accent2'
   } else if (percentage > 66) {
@@ -26,6 +31,6 @@ export const getSystemColorFromPercentage = (percentage: number): string => {
 }
 
 export const shortenText = (text: string, count: number) =>
-  `${text.slice(0, count)} ...`
+  text.length > count ? `${text.slice(0, count)} ...` : text
 
 export const comingSoon = () => alert('coming soon ...')

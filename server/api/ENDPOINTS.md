@@ -1,106 +1,111 @@
 # エンドポイント一覧
 
-TODO: 自動生成されるようにする
+TODO:
+
+- [ ] 自動生成されるようにする
+- [ ] j, n, z ってわかりづらい… もっとわかりやすくしたい…
+- [ ] n, z は hooks じゃなくて service で制御した方がいいかも
 
 ```txt
- *: jwtのチェックをする必要がある
-**: 上記 + jwt内のuserIdを使用する必要がある
+j: jwtのチェックをする
+n: req内のuserIdがjwtのuser.idと等しいかチェックする
+z: リソースの所有者がjwtのuser.idかチェックする
 ```
 
 ## users
 
 ```txt
 signin
-   POST   /signin
+POST /signin
 
 get a user
-   GET    /users/_userId@number
+GET /users/_userId@number
 
 update a user
-** PUT    /users/_userId@number
+[jn] PUT /users/_userId@number
 
 delete a user
-** DELETE /users/_userId@number
+[jn] DELETE /users/_userId@number
 ```
 
 ## tags
 
 ```txt
 create a tag
- * POST /tags
+[j] POST /tags
 
 search tags by name
-   GET  /tags/search/_name@string
+GET /tags/search/_name@string
 ```
 
 ## roadmaps
 
 ```txt
 create a roadmap
-** POST   /roadmaps
+[jn] POST /roadmaps
 
 get a roadmap
-   GET    /roadmaps/_roadmapId@number
+GET /roadmaps/_roadmapId@number
 
 get popular roadmaps
-   GET    /roadmaps/popular
+GET /roadmaps/popular
 
 search roadmaps by keyword
-   GET    /roadmaps/search/_keyword@string
+GET /roadmaps/search/_keyword@string
 
 update a roadmap
-** PUT    /roadmaps/_roadmapId@number
+[jnz] PUT /roadmaps/_roadmapId@number
 
 toggle isDone
-** PATCH  /roadmaps/_roadmapId@number/isDone
+[jz] PATCH /roadmaps/_roadmapId@number/isDone
 
 delete a roadmap
-** DELETE /roadmaps/_roadmapId@number
+[jz] DELETE /roadmaps/_roadmapId@number
 ```
 
 ## likes
 
 ```txt
 toggle a like
-** POST /likes
+[jn] POST /likes
 ```
 
 ## steps
 
 ```txt
 create a step
-** POST   /steps
+[jz] POST /steps
 
 update a step
-** PUT    /steps/_stepId@number
+[jz] PUT /steps/_stepId@number
 
 change a step's memo
-** PATCH /steps/_stepId@number/memo/_memo@string
+[jz] PATCH /steps/_stepId@number/memo/_memo@string
 
 change a step's nextStepId
-** PATCH  /steps/_stepId@number/nextStepId/_nextStepId@number
+[jz] PATCH /steps/_stepId@number/nextStepId/_nextStepId@number
 
 toggle isDone
-** PATCH  /steps/_stepId@number/isDone
+[jz] PATCH /steps/_stepId@number/isDone
 
 delete a step
-** DELETE /steps/_stepId@number
+[jz] DELETE /steps/_stepId@number
 ```
 
 ## libraries
 
 ```txt
 create a library
- * POST /libraries
+[j] POST /libraries
 
 get recommended libraries
-   POST /libriries/recommended
+POST /libriries/recommended
 
 search libraries by title
-   GET  /libraries/searchByTitle/_title@string
+GET /libraries/searchByTitle/_title@string
 
 search libraries by link
-   GET  /libraries/searchByLink/_link@string
+GET /libraries/searchByLink/_link@string
 ```
 
 ## navictRecommender
@@ -109,5 +114,5 @@ only for [navict-recommender](https://github.com/Piko-Piko-Pon-Taro/navict-recom
 
 ```txt
 get all roadmaps' libraryIds
-   GET /navictRecommender/roadmaps/libraryIds
+GET /navictRecommender/roadmaps/libraryIds
 ```
