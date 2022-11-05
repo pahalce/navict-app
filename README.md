@@ -2,6 +2,8 @@
 
 This is Navict app.
 
+[ホスト先 URL](https://navict.vercel.app/)
+
 # develpment 環境を立ち上げる
 
 ## .env ファイルを作る
@@ -153,7 +155,7 @@ $ git push origin main
 
 ### デプロイ設定
 
-- [ホスト先 URL](navict-app.vercel.app)
+- [ホスト先 URL](https://navict.vercel.app/)
 - PROJECT NAME: navict-client
 - BUILD COMMAND: yarn build:client
 - INSTALL COMMAND: yarn install --cwd server && yarn install
