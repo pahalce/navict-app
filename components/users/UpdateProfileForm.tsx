@@ -100,7 +100,10 @@ const UpdateProfileForm = ({ onSaveButtonClick }: UpdateProfileFormProps) => {
   return (
     <div className="w-full px-12">
       <div className="w-$max-content mx-auto">
-        <UserIcon src={url ? url || '' : auth.user?.img || ''} size={20} />
+        <UserIcon
+          src={url ? url || '' : auth.user?.img || ''}
+          sizeClasses={'w-20 h-20'}
+        />
         <p onClick={editImg} className="text-$indigo text-$t4 cursor-pointer">
           写真を変更
         </p>

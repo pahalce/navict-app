@@ -6,23 +6,18 @@ const navictIcon =
 type Props = {
   src: string
   userId?: number
-  size?: number
+  sizeClasses?: string
   className?: string
 }
 
-const UserIcon = ({ userId, src, size = 12, className }: Props) => {
+const UserIcon = ({
+  userId,
+  src,
+  sizeClasses = 'w-12 h-12',
+  className
+}: Props) => {
   let href
   let img
-  let sizeStyles
-  if (size == 12) {
-    sizeStyles = `w-12 h-12` 
-  }
-  else if (size == 24) {
-    sizeStyles = `w-24 h-24`
-  }
-  else {
-    sizeStyles = `w-${size} h-${size}`
-  }
   if (userId) {
     href = userId ? `/users/${userId}` : '/mypage'
     img = (
@@ -44,7 +39,7 @@ const UserIcon = ({ userId, src, size = 12, className }: Props) => {
     )
   }
   return (
-    <div className={`rounded-full overflow-hidden ${sizeStyles} ${className}`}>
+    <div className={`rounded-full overflow-hidden ${sizeClasses} ${className}`}>
       {img}
     </div>
   )
