@@ -6,16 +6,11 @@ const navictIcon =
 type Props = {
   src: string
   userId?: number
-  sizeClasses?: string
+  size?: number
   className?: string
 }
 
-const UserIcon = ({
-  userId,
-  src,
-  sizeClasses = 'w-12 h-12',
-  className
-}: Props) => {
+const UserIcon = ({ userId, src, size = 12, className }: Props) => {
   let href
   let img
   if (userId) {
@@ -25,7 +20,7 @@ const UserIcon = ({
         <img
           src={src || navictIcon}
           alt=""
-          className="flex justify-center items-center w-full h-full"
+          className="flex justify-center items-center object-cover"
         />
       </Link>
     )
@@ -34,12 +29,14 @@ const UserIcon = ({
       <img
         src={src || navictIcon}
         alt=""
-        className="flex justify-center items-center w-full h-full"
+        className="flex justify-center items-center object-cover"
       />
     )
   }
   return (
-    <div className={`rounded-full overflow-hidden ${sizeClasses} ${className}`}>
+    <div
+      className={`rounded-full overflow-hidden w-${size} h-${size} ${className}`}
+    >
       {img}
     </div>
   )

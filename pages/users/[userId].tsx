@@ -45,11 +45,7 @@ const OtherProfile = ({ user }: OtherProfileProps) => {
   return (
     <div className={`flex relative max-w-5xl mx-auto`}>
       <div className={`mr-6`}>
-        <UserIcon
-          userId={user.id}
-          src={user.img || ''}
-          sizeClasses={'w-24 h-24'}
-        ></UserIcon>
+        <UserIcon userId={user.id} src={user.img || ''} size={24}></UserIcon>
       </div>
       <div className={`flex-grow`}>
         <p className={`text-$t2`}>{user.name}</p>
@@ -117,11 +113,7 @@ const MyProfile = ({
   return (
     <div className={`flex relative max-w-5xl mx-auto`}>
       <div className={`mr-6`}>
-        <UserIcon
-          userId={user.id}
-          src={user.img || ''}
-          sizeClasses={'w-24 h-24'}
-        ></UserIcon>
+        <UserIcon userId={user.id} src={user.img || ''} size={24}></UserIcon>
       </div>
       <div className={`flex-grow`}>
         <p className={`text-$t2`}>{user.name}</p>

@@ -92,7 +92,7 @@ const Header = ({ roadmap, isMine, onDeleteClick, forkInfo }: HeaderProps) => {
 
       <div className={`flex py-8 px-10 border-2 border-$shade2 rounded-lg`}>
         <div className={`mr-10`}>
-          <UserIcon src={roadmap.user.img || ''} sizeClasses={'w-14 h-14'} />
+          <UserIcon src={roadmap.user.img || ''} size={14} />
         </div>
         <div>
           <p className={`text-$t4 text-$indigo mb-3`}>{roadmap.user.name}</p>
