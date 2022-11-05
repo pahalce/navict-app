@@ -108,7 +108,7 @@ const RoadmapCard = ({
           <UserIcon
             userId={roadmap.user.id}
             src={roadmap.user.img || ''}
-            size={12}
+            sizeClasses={'w-12 h-12'}
             className={`cursor-pointer`}
           />
         </div>
