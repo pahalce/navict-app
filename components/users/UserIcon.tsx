@@ -13,6 +13,18 @@ type Props = {
 const UserIcon = ({ userId, src, size = 12, className }: Props) => {
   let href
   let img
+  let sizeStyle
+  if (size == 12) {
+    sizeStyle = { width: '3rem', height: '3rem' }
+  } else if (size == 14) {
+    sizeStyle = { width: '3.5rem', height: '3.5rem' }
+  } else if (size == 20) {
+    sizeStyle = { width: '5rem', height: '5rem' }
+  } else if (size == 24) {
+    sizeStyle = { width: '6rem', height: '6rem' }
+  } else {
+    sizeStyle = { width: '3rem', height: '3rem' }
+  }
   if (userId) {
     href = userId ? `/users/${userId}` : '/mypage'
     img = (
@@ -35,7 +47,8 @@ const UserIcon = ({ userId, src, size = 12, className }: Props) => {
   }
   return (
     <div
-      className={`rounded-full overflow-hidden w-${size} h-${size} ${className}`}
+      style={sizeStyle}
+      className={`rounded-full overflow-hidden ${className}`}
     >
       {img}
     </div>
